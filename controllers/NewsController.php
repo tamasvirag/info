@@ -54,7 +54,9 @@ class NewsController extends BaseController
     {
         $model = new News();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            $model->status_id = News::STATUS_NEW;
+            $model->save();
+            return $this->redirect(['update','id'=>$model->id]);
         } else {
             $searchModel = new DistrictSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

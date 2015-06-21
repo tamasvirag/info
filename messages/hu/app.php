@@ -80,6 +80,7 @@ return [
     'House Price real' => 'Kertes ktg. Ft/db',
     'ID' => 'ID',
     'Invoice Date' => 'Számlázás dátuma',
+    'Invoices' => 'Számlák',
     'Invoicing' => 'Számlázás',
     'Invoicing button' => 'Számlázás',
     'Invoicing cash' => 'Számlázás - készpénzes',

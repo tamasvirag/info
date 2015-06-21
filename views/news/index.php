@@ -256,15 +256,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return HTML::a( HTML::encode( Yii::t('app','create_from_this') ),['createfrom', 'id'=>$model->id] );
                 }
             ],
-            [
-                'attribute' => Yii::t('app','invoice_normal'),
-                'format'    => 'raw',
-                'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','invoice_normal') ),['invoicepdf', 'id'=>$model->id, 'type'=>'normal'] ).'<br>'.
-                            HTML::a( HTML::encode( Yii::t('app','invoice_copy') ),['invoicepdf', 'id'=>$model->id, 'type'=>'copy'] ).'<br>'.
-                            HTML::a( HTML::encode( Yii::t('app','invoice_storno') ),['invoicepdf', 'id'=>$model->id, 'type'=>'storno'] );
-                }
-            ],
 
             ['class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}'],
         ],

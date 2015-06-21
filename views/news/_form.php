@@ -66,7 +66,10 @@ use kartik\select2\Select2;
                 ]); ?>
         </div>
         <div class="col-md-2">
+            <?=\Yii::t('app','Status ID')?>:<br><?=$model->statusLabel?>
+        <!--
             <?= $form->field($model, 'status_id')->dropDownList( ArrayHelper::map( Status::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
+        -->
         </div>
         <div class="col-md-2">
             <?=\Yii::t('app','Invoice Date')?>:<br><?=$model->invoice_date?$model->invoice_date:"-"?>

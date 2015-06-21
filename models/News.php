@@ -22,7 +22,7 @@ class News extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name','payment_method_id', 'user_id', 'status_id', 'client_id'],'required'],
+            [['name','payment_method_id', 'user_id', 'client_id'],'required'],
             [['client_id', 'status_id', 'payment_method_id' ,'user_id'], 'integer'],
             [['description'], 'string'],
             [['distribution_date', 'invoice_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],

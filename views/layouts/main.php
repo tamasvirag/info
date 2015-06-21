@@ -46,7 +46,8 @@ AppAsset::register($this);
                                             ['label' => Yii::t('app', 'Add new'), 'url' => Url::to(['news/create'])],
                                             ['label' => Yii::t('app', 'Listing'), 'url' => Url::to(['news/index'])],
                                             ['label' => Yii::t('app', 'Invoicing cash'), 'url' => Url::to(['invoice/cash'])],
-                                            ['label' => Yii::t('app', 'Invoicing transfer'), 'url' => Url::to(['invoice/transfer'])]
+                                            ['label' => Yii::t('app', 'Invoicing transfer'), 'url' => Url::to(['invoice/transfer'])],
+                                            ['label' => Yii::t('app', 'Invoices'), 'url' => Url::to(['invoice/index'])]
                                         ]
                             
                         ],

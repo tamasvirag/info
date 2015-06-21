@@ -13,7 +13,7 @@ class m150222_101602_alter_district_parent extends Migration
 
     public function down()
     {
-        $this->dropColumn();
+        $this->dropColumn('district', 'parent_id');
         $this->addForeignKey( 'fk_district_parent_id' );
     }
 }

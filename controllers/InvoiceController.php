@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Client;
 use app\models\Invoice;
+use app\models\InvoiceSearch;
 use app\models\InvoiceItem;
 use app\models\News;
 use app\models\NewsSearch;
@@ -23,17 +24,32 @@ use yii\db\Query;
 
 class InvoiceController extends BaseController
 {
+    public function actionIndex()
+    {        
+        $searchModel = new InvoiceSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionTransfer()
+    {
+    }
+    
     public function actionCash()
     {
         $searchModel = new NewsSearch();
         $today = date('d', time());
         $period_to = date("Y-m-d");
         if ( $today <= 3 ) {
-            $searchModel->created_from = strtotime('first day of last month');
+            $searchModel->distribution_date_from = date( "Y-m-d", strtotime('first day of last month') );
             $period_from = date( "Y-m-d", strtotime('first day of last month') );
         }
         else {
-            $searchModel->created_from = strtotime('first day of this month');
+            $searchModel->distribution_date_from = date( "Y-m-d", strtotime('first day of this month') );
             $period_from = date( "Y-m-d", strtotime('first day of this month') );
         }
         $searchModel->payment_method_id = PaymentMethod::CASH;
@@ -65,6 +81,8 @@ class InvoiceController extends BaseController
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
             
             $invoice->payment_method_id     = PaymentMethod::CASH;
+            $invoice->client_id             = $data_set['client']->id;
+            $invoice->user_id               = Yii::$app->user->id;
             $invoice->setNextInvoiceNumber(Invoice::TYPE_CASH);
 
             // round to 5 Ft CASH
@@ -126,11 +144,11 @@ class InvoiceController extends BaseController
     public function actionPdf($id)
     {
         if (($invoice = Invoice::findOne($id)) === null) {
-            Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invalid invoice id.') );
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invalid invoice id') );
             return $this->render('pdf-error');
         }
         if ( $invoice->printed ) {
-            Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invoice is already printed.') );
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invoice is already printed') );
             return $this->render('pdf-error');
         }
         

@@ -49,7 +49,7 @@ class Invoice extends \yii\db\ActiveRecord
         return [
             [['invoice_date', 'invoice_data', 'storno_invoice_data'], 'string'],
             [['invoice_deadline_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
-            [['copy_count', 'payment_method_id', 'user_id', 'office_id'], 'integer'],
+            [['copy_count', 'payment_method_id', 'user_id', 'office_id', 'client_id'], 'integer'],
             [['invoice_number', 'storno_invoice_number', 'storno_invoice_date'], 'string', 'max' => 255]
         ];
     }
@@ -80,22 +80,29 @@ class Invoice extends \yii\db\ActiveRecord
             'payment_method_id' => Yii::t('app', 'Payment Method ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'office_id' => Yii::t('app', 'Office ID'),
+            'client_id' => Yii::t('app', 'Client ID'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+
     public function getOffice()
     {
         return $this->hasOne(Office::className(), ['id' => 'office_id']);
     }
+    
+    public function getOfficeLabel()
+    {
+        if ( isset( $this->office ) ) {
+            return $this->office->name;
+        }
+        else {
+            return "";
+        }
+    }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+
     public function getPaymentMethod()
     {
         return $this->hasOne(PaymentMethod::className(), ['id' => 'payment_method_id']);
@@ -111,17 +118,39 @@ class Invoice extends \yii\db\ActiveRecord
         }
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+    
+    public function getUserLabel()
+    {
+        if ( isset( $this->user ) ) {
+            return $this->user->full_name;
+        }
+        else {
+            return "";
+        }
+    }
+    
+    
+    public function getClient()
+    {
+        return $this->hasOne(User::className(), ['id' => 'client_id']);
+    }
+    
+    public function getClientLabel()
+    {
+        if ( isset( $this->client ) ) {
+            return $this->client->name;
+        }
+        else {
+            return "";
+        }
+    }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+
     public function getInvoiceItems()
     {
         return $this->hasMany(InvoiceItem::className(), ['invoice_id' => 'id']);
