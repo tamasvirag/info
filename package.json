@@ -1,0 +1,27 @@
+{
+  "name": "BasicTemplate",
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp-sass": "^2.0.0",
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^2.2.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "postinstall": "gulp postinstall"
+  },
+  "description": "Yii 2 Basic Application Template ================================",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "author": "",
+  "license": "ISC"
+}

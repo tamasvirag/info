@@ -1,0 +1,56 @@
+body {
+  font-family: DejaVuSans; }
+
+h1 {
+  font-size: 20px; }
+
+p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px; }
+  p.small {
+    font-size: 10px; }
+  p.title {
+    font-weight: bold;
+    font-size: 14px; }
+
+table {
+  width: 100%; }
+
+table tr td {
+  padding: 10px; }
+  table tr td.sign {
+    border-top: 1px solid #bbb; }
+
+.table {
+  width: 100%; }
+  .table thead th {
+    padding: 10px 10px;
+    border-bottom: 1px solid #bbb;
+    font-weight: normal; }
+  .table tbody tr.heading {
+    font-size: 11px;
+    font-weight: bold; }
+    .table tbody tr.heading td, .table tbody tr.heading th {
+      padding: 5px 10px; }
+      .table tbody tr.heading td.title, .table tbody tr.heading th.title {
+        text-align: left; }
+      .table tbody tr.heading td.total-price, .table tbody tr.heading th.total-price {
+        text-align: right; }
+  .table tbody tr td {
+    padding: 10px 10px; }
+    .table tbody tr td.title {
+      text-align: left; }
+    .table tbody tr td.last {
+      text-align: right; }
+    .table tbody tr td.small-header {
+      text-align: left;
+      background: #c0c0c0;
+      color: #ffffff;
+      padding-top: 20px;
+      padding-bottom: 10px;
+      line-height: 20px; }
+  .table tfoot tr td {
+    padding: 10px 10px;
+    border-bottom: 1px solid #bbb;
+    border-top: 1px solid #bbb; }

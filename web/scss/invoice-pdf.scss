@@ -1,0 +1,88 @@
+$border-color: #bbb;
+
+body {
+    font-family: DejaVuSans;
+}
+h1 {
+    font-size: 20px;
+}
+p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    &.small {
+        font-size: 10px;
+    }
+    &.title {
+        font-weight: bold;
+        font-size: 14px;
+    }
+}
+
+table {
+    width: 100%;
+}
+
+table {
+    tr td {
+        padding: 10px;
+        &.sign {
+            border-top: 1px solid $border-color;
+        }
+    }
+}
+
+.table {
+	width: 100%;
+	thead {
+		th {
+			padding: 10px 10px;
+			border-bottom: 1px solid $border-color;
+			font-weight: normal;
+		}
+	}
+	tbody {
+		tr {
+			&.heading {
+				font-size: 11px;
+				font-weight: bold;
+				td, th {
+					padding: 5px 10px;
+					&.title {
+						text-align: left;
+					}
+					&.total-price {
+						text-align: right;
+					}
+				}
+			}
+			td {
+				padding: 10px 10px;
+//				text-align: center;
+				&.title {
+					text-align: left;
+				}
+				&.last {
+					text-align: right;
+				}
+				&.small-header {
+					text-align: left;
+					background: #c0c0c0;
+					color: #ffffff;
+					padding-top: 20px;
+					padding-bottom: 10px;
+					line-height: 20px;
+				}
+			}
+		}
+	}
+	tfoot {
+    	tr {
+        	td {
+        	    padding: 10px 10px;
+        	    border-bottom: 1px solid $border-color;
+            	border-top: 1px solid $border-color;
+			}
+	   }
+	}
+}
