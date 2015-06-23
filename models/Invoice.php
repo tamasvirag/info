@@ -49,7 +49,7 @@ class Invoice extends \yii\db\ActiveRecord
         return [
             [['invoice_date', 'invoice_data', 'storno_invoice_data'], 'string'],
             [['invoice_deadline_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
-            [['copy_count', 'payment_method_id', 'user_id', 'office_id', 'client_id'], 'integer'],
+            [['copy_count', 'payment_method_id', 'user_id', 'office_id', 'client_id', 'price_summa', 'tax_summa', 'all_summa'], 'integer'],
             [['invoice_number', 'storno_invoice_number', 'storno_invoice_date'], 'string', 'max' => 255]
         ];
     }
@@ -81,6 +81,9 @@ class Invoice extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'office_id' => Yii::t('app', 'Office ID'),
             'client_id' => Yii::t('app', 'Client ID'),
+            'price_summa' => Yii::t('app', 'Price'),
+            'tax_summa' => Yii::t('app', 'Tax'),
+            'all_summa' => Yii::t('app', 'All'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
         ];
@@ -137,7 +140,7 @@ class Invoice extends \yii\db\ActiveRecord
     
     public function getClient()
     {
-        return $this->hasOne(User::className(), ['id' => 'client_id']);
+        return $this->hasOne(Client::className(), ['id' => 'client_id']);
     }
     
     public function getClientLabel()

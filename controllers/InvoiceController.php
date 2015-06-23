@@ -82,6 +82,9 @@ class InvoiceController extends BaseController
             
             $invoice->payment_method_id     = PaymentMethod::CASH;
             $invoice->client_id             = $data_set['client']->id;
+            $invoice->price_summa           = $data_set['price_summa'];
+            $invoice->tax_summa             = $data_set['tax_summa'];
+            $invoice->all_summa             = $data_set['all_summa'];
             $invoice->user_id               = Yii::$app->user->id;
             $invoice->setNextInvoiceNumber(Invoice::TYPE_CASH);
 
@@ -95,7 +98,7 @@ class InvoiceController extends BaseController
                 $invoiceItem = new InvoiceItem;
                 $invoiceItem->invoice_id    = $invoice->id;
                 $invoiceItem->item_id       = $news_id;
-                $invoiceItem->item_table    = 'news';
+                $invoiceItem->item_class    = 'News';
                 $invoiceItem->save();
                 
                 $news = News::findOne($news_id);
@@ -250,6 +253,14 @@ class InvoiceController extends BaseController
         $headers->add('Content-Type', 'application/pdf');
         
         return $pdf->render();
+    }
+    
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+        
     }
 
     protected function findModel($id)

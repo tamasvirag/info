@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\News;
 
 /**
  * This is the model class for table "invoice_item".
@@ -10,7 +11,7 @@ use Yii;
  * @property integer $id
  * @property integer $invoice_id
  * @property integer $item_id
- * @property string $item_table
+ * @property string $item_class
  *
  * @property Invoice $invoice
  */
@@ -31,7 +32,7 @@ class InvoiceItem extends \yii\db\ActiveRecord
     {
         return [
             [['invoice_id', 'item_id'], 'integer'],
-            [['item_table'], 'string', 'max' => 255]
+            [['item_class'], 'string', 'max' => 255]
         ];
     }
 
@@ -44,10 +45,20 @@ class InvoiceItem extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'invoice_id' => Yii::t('app', 'Invoice ID'),
             'item_id' => Yii::t('app', 'Item ID'),
-            'item_table' => Yii::t('app', 'Item Table'),
+            'item_class' => Yii::t('app', 'Item Class'),
         ];
     }
 
+    public function getModel()
+    {
+        if ( isset($this->id) && isset($this->item_class) ) {
+            return call_user_func_array(__NAMESPACE__."\\".$this->item_class."::findOne", [$this->item_id] );
+        }
+        else {
+            return null;
+        }
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */

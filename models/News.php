@@ -266,4 +266,8 @@ class News extends \yii\db\ActiveRecord
         $connection = Yii::$app->db;
         $connection->createCommand()->delete( 'news_district', 'news_id = '.$this->id )->execute();
     }
+    
+    public function getLabel() {
+        return $this->name;
+    }
 }

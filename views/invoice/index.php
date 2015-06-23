@@ -25,12 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="Invoice-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Invoice',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     
     <?php $form = ActiveForm::begin([
                                         'options'=>['id'=>'search-invoice'],
@@ -48,10 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ],
                                         ]); ?></div>
             
-            
-        </div>
-        <div class="row">
-            
             <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div>
             <div class="col-md-2">
                 <?= $form->field($searchModel, 'user_id')->widget( Select2::classname(), [
@@ -63,6 +53,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
             </div>
+        </div>
+        <div class="row">
+            
+            
             
             <div class="col-md-3"><?= $form->field($searchModel, 'invoice_date_from')->widget(
                                                 DateRangePicker::classname(), [
@@ -72,6 +66,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         'nameTo' => StringHelper::basename($searchModel::className()).'[invoice_date_to]',
                                                         'attributeTo' => 'invoice_date_to',
                                                         'valueTo' => $searchModel->invoice_date_to,
+                                                        'language' => 'hu',
+                                                        'clientOptions' => [
+                                                            'autoclose' => true,
+                                                            'format' => 'yyyy-mm-dd'
+                                                            ]
+                                                    ]
+                                                    ); ?>    
+            </div>
+            <div class="col-md-3"><?= $form->field($searchModel, 'invoice_deadline_date_from')->widget(
+                                                DateRangePicker::classname(), [
+                                                        'model' => $searchModel,
+                                                        'name' => 'invoice_deadline_date_from',
+                                                        'value' => $searchModel->invoice_deadline_date_from,
+                                                        'nameTo' => StringHelper::basename($searchModel::className()).'[invoice_deadline_date_to]',
+                                                        'attributeTo' => 'invoice_deadline_date_to',
+                                                        'valueTo' => $searchModel->invoice_deadline_date_to,
                                                         'language' => 'hu',
                                                         'clientOptions' => [
                                                             'autoclose' => true,
@@ -96,10 +106,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     ]
                                                     ); ?>    
             </div>
-        </div>
-        <div class="row">
             <div class="col-md-2">
-                <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary', 'style' => 'margin-top:25px']) ?>
             </div>
         </div>
     </div>
@@ -144,33 +152,37 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
+                'attribute' => 'price_summa',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return '<nobr>'.money_format( '%.0n Ft',$model->price_summa).'</nobr>';
+                }
+            ],
+            [
+                'attribute' => 'tax_summa',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return '<nobr>'.money_format( '%.0n Ft',$model->tax_summa).'</nobr>';
+                }
+            ],
+            [
+                'attribute' => 'all_summa',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return '<nobr>'.money_format( '%.0n Ft',$model->all_summa).'</nobr>';
+                }
+            ],
+            
+            [
                 'attribute'=>'invoice_date',
-                'filter' => DateRangePicker::widget([
-                        'name' => StringHelper::basename($searchModel::className()).'[invoice_date_from]',
-                        'value' => $searchModel->invoice_date_from,
-                        'nameTo' => StringHelper::basename($searchModel::className()).'[invoice_date_to]',
-                        'valueTo' => $searchModel->invoice_date_to,
-                        'language' => 'hu',
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd'
-                            ]
-                    ]),
+            ],
+            
+            [
+                'attribute'=>'invoice_deadline_date',
             ],
             
             [
                 'attribute'=>'settle_date',
-                'filter' => DateRangePicker::widget([
-                        'name' => StringHelper::basename($searchModel::className()).'[settle_date_from]',
-                        'value' => $searchModel->settle_date_from,
-                        'nameTo' => StringHelper::basename($searchModel::className()).'[settle_date_to]',
-                        'valueTo' => $searchModel->settle_date_to,
-                        'language' => 'hu',
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd'
-                            ]
-                    ]),
             ],
             
             [

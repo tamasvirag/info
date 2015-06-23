@@ -23,7 +23,7 @@ class InvoiceSearch extends Invoice
     public function rules()
     {
         return [
-            [['id', 'copy_count', 'payment_method_id', 'user_id', 'office_id'], 'integer'],
+            [['id', 'copy_count', 'payment_method_id', 'user_id', 'office_id', 'client_id'], 'integer'],
             [['invoice_date', 'invoice_date_from', 'invoice_date_to',
                 'invoice_data', 'storno_invoice_data',
                 'storno_invoice_date', 'storno_invoice_date_from', 'storno_invoice_date_to',

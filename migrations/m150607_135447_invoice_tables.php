@@ -104,7 +104,7 @@ INSERT INTO office (name) VALUE ('Kecskemét');
             'id' => 'pk',
             'invoice_id' => Schema::TYPE_INTEGER,
             'item_id' => Schema::TYPE_INTEGER,
-            'item_table' => Schema::TYPE_STRING,
+            'item_class' => Schema::TYPE_STRING,
         ]);
         
         $this->addForeignKey( 'fk_invoice_item_invoice_id', 'invoice_item', 'invoice_id', 'invoice', 'id', 'SET NULL', 'CASCADE' );

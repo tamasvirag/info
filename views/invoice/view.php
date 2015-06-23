@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'News'), 'url' => ['index']];
+$this->title = $model->invoice_number;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Invoices'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-view">
@@ -29,14 +29,34 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'client_id',
-            'name',
-            'description:ntext',
-            'distribution_date',
-            'status_id',
+            'invoice_number',
             'invoice_date',
+            'invoice_deadline_date',
             'settle_date',
+            'paymentMethodLabel',
+            'clientLabel',
+            
+            'price_summa',
+            'tax_summa',
+            'all_summa',
+            
+            'storno_invoice_number',
+            'storno_invoice_date',
+            
+            'copy_count',
+            'printed',
+            
+            'userLabel',
+            'officeLabel',
+            
+            'created_at',
         ],
     ]) ?>
+    
+    <?php if(count($model->invoiceItems)): ?>
+        <?php foreach($model->invoiceItems as $item): ?>
+            <p><?=Yii::t('app',$item->item_class)?> - <?=$item->model->label?></p>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
 </div>
