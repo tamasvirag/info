@@ -37,6 +37,41 @@ class InvoiceController extends BaseController
     
     public function actionTransfer()
     {
+        $today = date('d', time());
+        $period_to = date("Y-m-d");
+        $period_from = date( "Y-m-d", strtotime('last Monday') );
+        if ( isset($_REQUEST['period_to']) || isset($_REQUEST['period_from'])) {
+            if ( isset($_REQUEST['period_to']) ) {
+                $period_to = $_REQUEST['period_to'];
+            }
+            else {
+                $period_to = "";
+            }
+            if ( isset($_REQUEST['period_from']) ) {
+                $period_from = $_REQUEST['period_from'];
+            }
+            else {
+                $period_from = "";
+            }
+        }
+        
+        $q = Client::find()
+                    ->joinWith('news')
+                    ->andWhere('news.payment_method_id='.PaymentMethod::TRANSFER)
+                    ->andWhere('news.status_id='.News::STATUS_NEW);
+        if ($period_from != "") {
+            $q->andWhere("distribution_date >='".$period_from."'");
+        }
+        if ($period_to != "") {
+            $q->andWhere("distribution_date <='".$period_to."'");
+        }
+        $clients = $q->all();
+        
+        return $this->render('transfer', [
+            'period_from'   => $period_from,
+            'period_to'     => $period_to,
+            'clients'       => $clients,
+        ]);
     }
     
     public function actionCash()

@@ -73,6 +73,7 @@ return [
     'District Parent ID' => 'Fő körzete',
     'Districts' => 'Terjesztési körzetek',
     'Email' => 'E-mail cím',
+    'Filter' => 'Szűrés',
     'Full Name' => 'Név',
     'Helpers' => 'Besegítő személyek név, telefonszám',
     'House' => 'Kertes',
