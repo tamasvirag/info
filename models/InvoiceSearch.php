@@ -23,7 +23,7 @@ class InvoiceSearch extends Invoice
     public function rules()
     {
         return [
-            [['id', 'copy_count', 'payment_method_id', 'user_id', 'office_id', 'client_id'], 'integer'],
+            [['id', 'copy_count', 'payment_method_id', 'office_id', 'client_id', 'created_by', 'updated_by'], 'integer'],
             [['invoice_date', 'invoice_date_from', 'invoice_date_to',
                 'invoice_data', 'storno_invoice_data',
                 'storno_invoice_date', 'storno_invoice_date_from', 'storno_invoice_date_to',
@@ -58,7 +58,7 @@ class InvoiceSearch extends Invoice
             'id' => $this->id,
             'copy_count' => $this->copy_count,
             'payment_method_id' => $this->payment_method_id,
-            'user_id' => $this->user_id,
+            'created_by' => $this->created_by,
             'client_id' => $this->client_id,
             'office_id' => $this->office_id,
         ]);

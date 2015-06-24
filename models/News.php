@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\components\NumberToString;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 class News extends \yii\db\ActiveRecord
 {
@@ -23,7 +24,7 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             [['name','payment_method_id', 'user_id', 'client_id'],'required'],
-            [['client_id', 'status_id', 'payment_method_id' ,'user_id'], 'integer'],
+            [['client_id', 'status_id', 'payment_method_id' ,'user_id', 'created_by', 'updated_by'], 'integer'],
             [['description'], 'string'],
             [['distribution_date', 'invoice_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
@@ -34,6 +35,7 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             TimestampBehavior::className(),
+            BlameableBehavior::className(),
         ];
     }
 
@@ -52,6 +54,9 @@ class News extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
+            'created_by' => Yii::t('app', 'Created by'),
+            'updated_by' => Yii::t('app', 'Updated by'),
+
         ];
     }
     
@@ -250,6 +255,36 @@ class News extends \yii\db\ActiveRecord
     {
         if ( isset( $this->user ) ) {
             return $this->user->full_name;
+        }
+        else {
+            return "";
+        }
+    }
+    
+    public function getCreatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+    
+    public function getCreatedByLabel()
+    {
+        if ( isset( $this->createdBy ) ) {
+            return $this->createdBy->full_name;
+        }
+        else {
+            return "";
+        }
+    }
+    
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+    }
+    
+    public function getUpdatedByLabel()
+    {
+        if ( isset( $this->updatedBy ) ) {
+            return $this->updatedBy->full_name;
         }
         else {
             return "";

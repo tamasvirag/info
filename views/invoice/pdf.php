@@ -13,7 +13,7 @@ $client     = $data['client'];
                 <?php if ($data['type']=='normal' || $data['type']=='storno'): ?>
                     <p>A számla 2 példányban készült.<br><?=$data['copy']?>. példány
                 <?php elseif($data['type']=='copy'): ?>
-                    <p>1. számla másolat<br>A számla 2 példányban készült.</p>
+                    <p><?=$data['copy_count']?>. számla másolat<br>A számla 2 példányban készült.</p>
                 <?php endif; ?>
                 </p>
             </td>

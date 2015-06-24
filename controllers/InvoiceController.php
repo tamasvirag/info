@@ -35,43 +35,128 @@ class InvoiceController extends BaseController
         ]);
     }
     
+    public function actionCopy($id)
+    {
+        $invoice = $this->findModel($id);
+        $invoice->copy_count += 1;
+        $invoice->save();
+        return $this->redirect(['invoice/pdf','id'=>$invoice->id, 'type'=>'copy']);
+    }
+    
+    public function actionStorno($id)
+    {
+        $invoice = $this->findModel($id);
+
+        if ( isset($invoice->storno_invoice_date)) {
+            Yii::$app->getSession()->setFlash('danger', Yii::t('app','Storno invoice is already printed') );
+            return $this->render('pdf-error');
+        }
+        
+        $invoice->storno_invoice_date = date("Y-m-d");
+        $invoice->storno_invoice_number = $invoice->getNextInvoiceNumber(Invoice::TYPE_STORNO);
+        $invoice->save();
+        return $this->redirect(['invoice/pdf','id'=>$invoice->id, 'type'=>'storno']);
+    }
+    
     public function actionTransfer()
     {
-        $today = date('d', time());
-        $period_to = date("Y-m-d");
-        $period_from = date( "Y-m-d", strtotime('last Monday') );
-        if ( isset($_REQUEST['period_to']) || isset($_REQUEST['period_from'])) {
-            if ( isset($_REQUEST['period_to']) ) {
-                $period_to = $_REQUEST['period_to'];
+        /**
+        * Step 2 / invoicing selected news, create invoice -> redirect to actionPdf
+        */
+        if ( isset($_REQUEST['selection']) && $_REQUEST['selection'] ) {
+            $newsIds = $_REQUEST['selection'];
+            
+            // check whether NEW all of them
+            if ( !News::isNew($newsIds) ) {
+                die('Some of them are already invoiced.');
             }
-            else {
-                $period_to = "";
+            $data_set = News::getInvoiceData($newsIds);
+            // preparing for storno invoice
+            $storno_data_set = News::getInvoiceData($newsIds,'storno');
+            
+            /**
+            * Create TRANSFER Invoice
+            */
+            $invoice = new Invoice();
+            
+            // Számla kelte = NOW
+            $now_date                       = new \DateTime( date( 'Y-m-d', time() ) );
+            $invoice->invoice_date          = $now_date->format('Y-m-d');
+            // Teljesítés dátuma = Számla kelte
+            $invoice->settle_date           = $now_date->format('Y-m-d');
+            // Fizetési határidő = Számla kelte
+            $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
+            
+            $invoice->payment_method_id     = PaymentMethod::TRANSFER;
+            $invoice->client_id             = $data_set['client']->id;
+            $invoice->price_summa           = $data_set['price_summa'];
+            $invoice->tax_summa             = $data_set['tax_summa'];
+            $invoice->all_summa             = $data_set['all_summa'];
+            $invoice->invoice_number        = $invoice->getNextInvoiceNumber(Invoice::TYPE_TRANSFER);
+
+            // round to 5 Ft CASH
+            //$data_set['all_summa']          = round($data_set['all_summa']/5, 0) * 5;
+            $invoice->invoice_data          = serialize($data_set);
+            $invoice->storno_invoice_data   = serialize($storno_data_set);
+                      
+            $invoice->save();
+            
+            foreach($newsIds as $news_id) {
+                $invoiceItem = new InvoiceItem;
+                $invoiceItem->invoice_id    = $invoice->id;
+                $invoiceItem->item_id       = $news_id;
+                $invoiceItem->item_class    = 'News';
+                $invoiceItem->save();
+                
+                $news = News::findOne($news_id);
+                $news->invoice_date = $invoice->invoice_date;
+                $news->settle_date  = $invoice->settle_date;
+                $news->status_id    = News::STATUS_INVOICED;
+                $news->save(); 
             }
-            if ( isset($_REQUEST['period_from']) ) {
-                $period_from = $_REQUEST['period_from'];
-            }
-            else {
-                $period_from = "";
-            }
+            
+            return $this->redirect(['invoice/pdf','id'=>$invoice->id]);
         }
-        
-        $q = Client::find()
-                    ->joinWith('news')
-                    ->andWhere('news.payment_method_id='.PaymentMethod::TRANSFER)
-                    ->andWhere('news.status_id='.News::STATUS_NEW);
-        if ($period_from != "") {
-            $q->andWhere("distribution_date >='".$period_from."'");
+        /**
+        * Step 1 / all news in period grouped by Client
+        */
+        else {        
+            $today = date('d', time());
+            $period_to = date("Y-m-d");
+            $period_from = date( "Y-m-d", strtotime('last Monday') );
+            if ( isset($_REQUEST['period_to']) || isset($_REQUEST['period_from'])) {
+                if ( isset($_REQUEST['period_to']) ) {
+                    $period_to = $_REQUEST['period_to'];
+                }
+                else {
+                    $period_to = "";
+                }
+                if ( isset($_REQUEST['period_from']) ) {
+                    $period_from = $_REQUEST['period_from'];
+                }
+                else {
+                    $period_from = "";
+                }
+            }
+            
+            $q = Client::find()
+                        ->joinWith('news')
+                        ->andWhere('news.payment_method_id='.PaymentMethod::TRANSFER)
+                        ->andWhere('news.status_id='.News::STATUS_NEW);
+            if ($period_from != "") {
+                $q->andWhere("distribution_date >='".$period_from."'");
+            }
+            if ($period_to != "") {
+                $q->andWhere("distribution_date <='".$period_to."'");
+            }
+            $clients = $q->all();
+            
+            return $this->render('transfer', [
+                'period_from'   => $period_from,
+                'period_to'     => $period_to,
+                'clients'       => $clients,
+            ]);
         }
-        if ($period_to != "") {
-            $q->andWhere("distribution_date <='".$period_to."'");
-        }
-        $clients = $q->all();
-        
-        return $this->render('transfer', [
-            'period_from'   => $period_from,
-            'period_to'     => $period_to,
-            'clients'       => $clients,
-        ]);
     }
     
     public function actionCash()
@@ -101,6 +186,8 @@ class InvoiceController extends BaseController
                 die('Some of them are already invoiced.');
             }
             $data_set = News::getInvoiceData($newsIds);
+            // preparing for storno invoice
+            $storno_data_set = News::getInvoiceData($newsIds,'storno');
             
             /**
             * Create CASH Invoice
@@ -120,12 +207,12 @@ class InvoiceController extends BaseController
             $invoice->price_summa           = $data_set['price_summa'];
             $invoice->tax_summa             = $data_set['tax_summa'];
             $invoice->all_summa             = $data_set['all_summa'];
-            $invoice->user_id               = Yii::$app->user->id;
-            $invoice->setNextInvoiceNumber(Invoice::TYPE_CASH);
+            $invoice->invoice_number        = $invoice->getNextInvoiceNumber(Invoice::TYPE_CASH);
 
             // round to 5 Ft CASH
             $data_set['all_summa']          = round($data_set['all_summa']/5, 0) * 5;
             $invoice->invoice_data          = serialize($data_set);
+            $invoice->storno_invoice_data   = serialize($storno_data_set);
                       
             $invoice->save();
             
@@ -185,31 +272,39 @@ class InvoiceController extends BaseController
             Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invalid invoice id') );
             return $this->render('pdf-error');
         }
-        if ( $invoice->printed ) {
-            Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invoice is already printed') );
-            return $this->render('pdf-error');
-        }
         
         $data_set = unserialize($invoice->invoice_data);
-        
-        // egyelőre nincs használatban /////////////
+        $copy_count = "";
+
         if ( isset($_REQUEST['type']) && $_REQUEST['type'] == 'storno' ) {
             $invoice_type = 'storno';
+            $data_set = unserialize($invoice->storno_invoice_data);
         }
         elseif ( isset($_REQUEST['type']) && $_REQUEST['type'] == 'copy' ) {
             $invoice_type = 'copy';
+            $copy_count = $invoice->copy_count;
         }
         else {
+            if ( $invoice->printed ) {
+                Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invoice is already printed') );
+                return $this->render('pdf-error');
+            }
             $invoice_type = 'normal';
         }
-        ////////////////////////////////////////////
         
         
-        $this->layout = 'invoice-pdf'; 
+        
+        $this->layout = 'invoice-pdf';
+        
+        
+        // megoldani a 2 peldany nyomtatast 
         $copy = 1;
-
+        ///////////////////////////////////
+        
+        
         $invoice_data = [
             'copy'              => $copy,
+            'copy_count'        => $copy_count,
             'invoice'           => $invoice,
             'client'            => $data_set['client'],
             'items'             => $data_set['items'],

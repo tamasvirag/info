@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "invoice".
@@ -19,7 +20,6 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $copy_count
  * @property string $settle_date
  * @property integer $payment_method_id
- * @property integer $user_id
  * @property integer $office_id
  *
  * @property Office $office
@@ -49,7 +49,7 @@ class Invoice extends \yii\db\ActiveRecord
         return [
             [['invoice_date', 'invoice_data', 'storno_invoice_data'], 'string'],
             [['invoice_deadline_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
-            [['copy_count', 'payment_method_id', 'user_id', 'office_id', 'client_id', 'price_summa', 'tax_summa', 'all_summa'], 'integer'],
+            [['copy_count', 'payment_method_id', 'office_id', 'client_id', 'price_summa', 'tax_summa', 'all_summa', 'created_by', 'updated_by'], 'integer'],
             [['invoice_number', 'storno_invoice_number', 'storno_invoice_date'], 'string', 'max' => 255]
         ];
     }
@@ -58,6 +58,7 @@ class Invoice extends \yii\db\ActiveRecord
     {
         return [
             TimestampBehavior::className(),
+            BlameableBehavior::className(),
         ];
     }
 
@@ -86,6 +87,8 @@ class Invoice extends \yii\db\ActiveRecord
             'all_summa' => Yii::t('app', 'All'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
+            'created_by' => Yii::t('app', 'Created by'),
+            'updated_by' => Yii::t('app', 'Updated by'),
         ];
     }
 
@@ -122,15 +125,30 @@ class Invoice extends \yii\db\ActiveRecord
     }
 
 
-    public function getUser()
+    public function getCreatedBy()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
     
-    public function getUserLabel()
+    public function getCreatedByLabel()
     {
-        if ( isset( $this->user ) ) {
-            return $this->user->full_name;
+        if ( isset( $this->createdBy ) ) {
+            return $this->createdBy->full_name;
+        }
+        else {
+            return "";
+        }
+    }
+    
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+    }
+    
+    public function getUpdatedByLabel()
+    {
+        if ( isset( $this->updatedBy ) ) {
+            return $this->updatedBy->full_name;
         }
         else {
             return "";
@@ -159,7 +177,7 @@ class Invoice extends \yii\db\ActiveRecord
         return $this->hasMany(InvoiceItem::className(), ['invoice_id' => 'id']);
     }
     
-    public function setNextInvoiceNumber($type) {
+    public function getNextInvoiceNumber($type) {
         if ( $type == self::TYPE_CASH) {
             $seq = 'seq_news_invoice_number_cash';
             $pre = 'TK'.date('Y');
@@ -178,6 +196,6 @@ class Invoice extends \yii\db\ActiveRecord
         
         $connection = \Yii::$app->db;
         $result = $connection->createCommand("SELECT nextval('".$seq."') as invoice_number")->queryAll();
-        $this->invoice_number = $pre.$result[0]['invoice_number'];
+        return $pre.$result[0]['invoice_number'];
     }
 }

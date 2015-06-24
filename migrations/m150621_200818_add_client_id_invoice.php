@@ -13,6 +13,6 @@ class m150621_200818_add_client_id_invoice extends Migration
 
     public function down()
     {
-        $this->addForeignKey( 'fk_invoice_client_id' );
+        $this->dropForeignKey( 'fk_invoice_client_id' );
     }
 }

@@ -92,12 +92,10 @@ INSERT INTO office (name) VALUE ('Kecskemét');
             'settle_date' => Schema::TYPE_DATE,
             'payment_method_id' => Schema::TYPE_INTEGER,
             
-            'user_id' => Schema::TYPE_INTEGER,
             'office_id' => Schema::TYPE_INTEGER,
         ]);
         
         $this->addForeignKey( 'fk_invoice_payment_method_id', 'invoice', 'payment_method_id', 'payment_method', 'id', 'SET NULL', 'CASCADE' );
-        $this->addForeignKey( 'fk_invoice_user_id', 'invoice', 'user_id', 'user', 'id', 'SET NULL', 'CASCADE' );
         $this->addForeignKey( 'fk_invoice_office_id', 'invoice', 'office_id', 'office', 'id', 'SET NULL', 'CASCADE' );
         
         $this->createTable( 'invoice_item', [

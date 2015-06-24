@@ -46,7 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'copy_count',
             'printed',
             
-            'userLabel',
+            'createdByLabel',
+            'updatedByLabel',
             'officeLabel',
             
             'created_at',

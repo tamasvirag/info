@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div>
             <div class="col-md-2">
-                <?= $form->field($searchModel, 'user_id')->widget( Select2::classname(), [
+                <?= $form->field($searchModel, 'created_by')->widget( Select2::classname(), [
                     'data' => ArrayHelper::map( User::find()->all(), 'id', 'full_name' ),
                     'language' => 'hu',
                     'options' => ['placeholder' => Yii::t('app','please choose')],
@@ -176,22 +176,22 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'invoice_date',
             ],
-            
+            [
+                'attribute'=>'storno_invoice_date',
+            ],
             [
                 'attribute'=>'invoice_deadline_date',
             ],
-            
             [
                 'attribute'=>'settle_date',
             ],
-            
             [
-                'attribute' => 'user_id',
+                'attribute' => 'created_by',
                 'format'    => 'raw',
-                'value' => 'userLabel',
+                'value' => 'createdByLabel',
                 'filter' => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[user_id]',
-                                'value' => $searchModel->user_id,
+                                'name' => StringHelper::basename($searchModel::className()).'[created_by]',
+                                'value' => $searchModel->created_by,
                                 'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( User::find()->all(), 'id', 'full_name' )),
                                 'language' => 'hu',
                                 'pluginOptions' => [
@@ -199,6 +199,24 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             ]),
                 'options' => ['width'=>'10%'],
+            ],
+            
+            [
+                'attribute' => Yii::t('app','invoice_copy'),
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return HTML::a( HTML::encode( Yii::t('app','Print Invoice Copy') ),['copy', 'id'=>$model->id, 'type'=>'copy'], ['target' => '_blank'] );
+                }
+            ],
+            [
+                'attribute'=>'copy_count',
+            ],
+            [
+                'attribute' => Yii::t('app','invoice_storno'),
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank'] );
+                }
             ],
             
             ['class' => 'yii\grid\ActionColumn','template'=>'{view}'],

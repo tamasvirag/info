@@ -72,14 +72,17 @@ use kartik\select2\Select2;
         -->
         </div>
         <div class="col-md-2">
-            <?=\Yii::t('app','Invoice Date')?>:<br><?=$model->invoice_date?$model->invoice_date:"-"?>
-        </div>
-        <div class="col-md-2">
+            <?=\Yii::t('app','Invoice Date')?>:<br><?=$model->invoice_date?$model->invoice_date:"-"?><br>
+            <br>
             <?=\Yii::t('app','Settle Date')?>:<br><?=$model->settle_date?$model->settle_date:"-"?>
         </div>
         <div class="col-md-2">
-            <?=\Yii::t('app','Created')?>:<br><?=$model->created_at?date('Y-m-d H:i:s',$model->created_at):""?><br>
-            <?=\Yii::t('app','Updated')?>:<br><?=$model->updated_at?date('Y-m-d H:i:s',$model->updated_at):""?><br>
+            <?=\Yii::t('app','Created')?>:<br><?=$model->created_at?date('Y-m-d H:i:s',$model->created_at):"-"?><br>
+            <?=$model->created_by?$model->createdByLabel:""?><br>
+        </div>
+        <div class="col-md-2">
+            <?=\Yii::t('app','Updated')?>:<br><?=$model->updated_at?date('Y-m-d H:i:s',$model->updated_at):"-"?><br>
+            <?=$model->updated_by?$model->updatedByLabel:""?><br>
         </div>
     </div>
     </div>
