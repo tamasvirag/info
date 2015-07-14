@@ -101,3 +101,6 @@ a.desc:after {
 
 .form-control::placeholder {
   color: #bbb; }
+
+.modal-backdrop {
+  z-index: 1030; }

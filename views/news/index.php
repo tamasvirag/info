@@ -176,6 +176,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
+                'attribute' => 'newsCount',
+                'format'    => 'raw',
+                'value' => 'newsCount',
+                'filter' => false
+            ],
+            
+            [
                 'attribute' => 'payment_method_id',
                 'format'    => 'raw',
                 'value' => 'paymentMethodLabel',

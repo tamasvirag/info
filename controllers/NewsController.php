@@ -118,12 +118,12 @@ class NewsController extends BaseController
         }
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+            return $this->redirect(['update','id'=>$model->id]);
         } else {
             $searchModel = new DistrictSearch();
             $searchModel->news_id = $id;
             $dataProvider = $searchModel->search();
-    
             return $this->render('update', [
                 'model' => $model,
                 'news_id' => $id,

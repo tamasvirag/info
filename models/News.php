@@ -56,6 +56,7 @@ class News extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated'),
             'created_by' => Yii::t('app', 'Created by'),
             'updated_by' => Yii::t('app', 'Updated by'),
+            'newsCount' => Yii::t('app', 'News Count'),
 
         ];
     }
@@ -166,7 +167,17 @@ class News extends \yii\db\ActiveRecord
         }
     }
     
-    
+    public function getNewsCount() { // példányszám
+        $all = 0;
+        $data_set = self::getInvoiceData([$this->id]);
+        if ( isset($data_set['items']) && count($data_set['items']) ) {
+            foreach($data_set['items'] as $item) {
+                $all += $item['amount'];
+            }
+        }
+        return $all;
+    }
+        
     //////////////////////////////////////////////////////////////////// kiszervezni
     public function setInvoiceData($invoice_type) {
     

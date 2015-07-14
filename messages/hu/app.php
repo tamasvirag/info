@@ -92,6 +92,7 @@ return [
     'Loginform username' => 'Név',
     'Name' => 'Név',
     'News' => 'Szórólapok',
+    'News Count' => 'Példányszám',
     'Other Cost' => 'Egyéb költségek',
     'Password' => 'Jelszó',
     'Payment Method' => 'Fizetési mód',
@@ -137,5 +138,6 @@ return [
     'please choose' => 'Kérem válasszon!',
     'rememberMe' => 'Emlékezzen rám',
     'success_copy' => 'Sikeresen létrehozva.',
+    'success_save' => 'Sikeres mentés.',
     'users' => 'Értékesítők',
 ];
