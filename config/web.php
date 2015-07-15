@@ -9,6 +9,9 @@ $config = [
     'language' => 'hu',
     'bootstrap' => ['log'],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'kejwqlrvm48v9q3n4tv8h9htwpgeru',
