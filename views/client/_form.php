@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\User;
+use app\models\PaymentMethod;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Client */
@@ -19,6 +20,9 @@ use app\models\User;
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+        </div>
+        <div class="col-md-2">
+            <?= $form->field($model, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
         </div>
     </div>
     <div class="row">

@@ -109,4 +109,10 @@ class ClientController extends BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    public function actionGetclientjsonbyid($id) {
+        $model = $this->findModel($id);
+        $ret = ['payment_method_id'=>$model->payment_method_id];
+        echo json_encode($ret);
+    }
 }

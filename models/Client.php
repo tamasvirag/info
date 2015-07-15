@@ -44,7 +44,7 @@ class Client extends \yii\db\ActiveRecord
     {
         return [
             [['name'],'required'],
-            [['user_id'], 'integer'],
+            [['user_id', 'payment_method_id'], 'integer'],
             [['name', 'pcode', 'city', 'address', 'post_address', 'web', 'regnumber', 'taxnumber', 'company_name', 'company_pcode', 'company_city', 'company_address', 'contact_name', 'contact_phone'], 'string', 'max' => 255]
         ];
     }
@@ -71,6 +71,7 @@ class Client extends \yii\db\ActiveRecord
             'contact_name' => Yii::t('app', 'Contact Name'),
             'contact_phone' => Yii::t('app', 'Contact Phone'),
             'user_id' => Yii::t('app', 'User ID'),
+            'payment_method_id' => Yii::t('app', 'Payment Method'),
         ];
     }
     
@@ -98,6 +99,21 @@ class Client extends \yii\db\ActiveRecord
     public function getNews()
     {
         return $this->hasMany(News::className(), ['client_id' => 'id']);
+    }
+    
+    public function getPaymentMethod()
+    {
+        return $this->hasOne(PaymentMethod::className(), ['id' => 'payment_method_id']);
+    }
+    
+    public function getPaymentMethodLabel()
+    {
+        if ( isset( $this->paymentMethod ) ) {
+            return $this->paymentMethod->name;
+        }
+        else {
+            return "";
+        }
     }
     
 }

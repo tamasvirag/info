@@ -5,6 +5,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\web\View;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -22,6 +23,8 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+
+<?=$this->registerJs("var baseUrl = '".Yii::$app->getUrlManager()->getBaseUrl()."';", View::POS_END); ?>
 
 <?php $this->beginBody() ?>
     <div class="wrap">
