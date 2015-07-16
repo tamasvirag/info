@@ -36,8 +36,13 @@ class UserController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
+            $auth = Yii::$app->authManager;
+            $userAssignments = [];
+            $allRoles = $auth->getRoles();
             return $this->render('create', [
-                'model' => $model,
+                'model'             => $model,
+                'allRoles'          => $allRoles,
+                'userAssignments'   => $userAssignments,
             ]);
         }
     }
@@ -49,8 +54,18 @@ class UserController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
+            $auth = Yii::$app->authManager;
+            
+            $userAssignments = $auth->getAssignments(Yii::$app->user->identity->id);
+            //var_dump($userAssignments);
+            
+            $allRoles = $auth->getRoles();
+            //var_dump($allRoles);
+            
             return $this->render('update', [
-                'model' => $model,
+                'model'             => $model,
+                'allRoles'          => $allRoles,
+                'userAssignments'   => $userAssignments,
             ]);
         }
     }

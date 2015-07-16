@@ -6,7 +6,9 @@ use yii\data\ActiveDataProvider;
 use Yii;
 
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
-{   
+{
+    public $roles;
+    
     public static function findIdentity($id)
     {
         return static::findOne($id);

@@ -140,4 +140,14 @@ return [
     'success_copy' => 'Sikeresen létrehozva.',
     'success_save' => 'Sikeres mentés.',
     'users' => 'Értékesítők',
+    
+    'admin' => 'Admin',
+    'clientManager' => 'Partnerek',
+    'dealerManager' => 'Terjesztők',
+    'districtManager' => 'Terjesztési körzetek',
+    'invoiceManager' => 'Számlázás',
+    'newsManager' => 'Szórólapok',
+    'userManager' => 'Értékesítők',
+    'Roles' => 'Hozzáférési szint',
+    
 ];
