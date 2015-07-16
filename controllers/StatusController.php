@@ -9,16 +9,28 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\BaseController;
+use yii\filters\AccessControl;
 
 /**
  * StatusController implements the CRUD actions for Status model.
  */
 class StatusController extends BaseController
 {
-    /**
-     * Lists all Status models.
-     * @return mixed
-     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         $searchModel = new StatusSearch();

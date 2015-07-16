@@ -9,16 +9,28 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\BaseController;
+use yii\filters\AccessControl;
 
 /**
  * DealerController implements the CRUD actions for Dealer model.
  */
 class DealerController extends BaseController
 {
-    /**
-     * Lists all Dealer models.
-     * @return mixed
-     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['dealerManager'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         $searchModel = new DealerSearch();

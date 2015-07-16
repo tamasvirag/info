@@ -9,16 +9,29 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\BaseController;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+
 
 /**
  * AreaController implements the CRUD actions for Area model.
  */
 class AreaController extends BaseController
 {
-    /**
-     * Lists all Area models.
-     * @return mixed
-     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([

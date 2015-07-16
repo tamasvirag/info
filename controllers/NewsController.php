@@ -15,11 +15,27 @@ use app\models\NewsDistrict;
 use app\models\PaymentMethod;
 use kartik\mpdf\Pdf;
 use app\components\NumberToString;
+use yii\filters\AccessControl;
 
 use yii\db\Query;
 
 class NewsController extends BaseController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['newsManager'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         $searchModel = new NewsSearch();

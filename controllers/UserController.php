@@ -8,9 +8,25 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\BaseController;
+use yii\filters\AccessControl;
 
 class UserController extends BaseController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['userManager'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         $searchModel = new User();
@@ -34,6 +50,14 @@ class UserController extends BaseController
         $model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $auth = Yii::$app->authManager;
+            $auth->revokeAll($model->id);
+            if ( Yii::$app->request->post('roles') !== null && is_array(Yii::$app->request->post('roles')) ) {
+                foreach(Yii::$app->request->post('roles') as $rolename) {
+                    $role = $auth->getRole($rolename);
+                    $auth->assign($role, $model->id);
+                }
+            }
             return $this->redirect(['index']);
         } else {
             $auth = Yii::$app->authManager;
@@ -52,16 +76,19 @@ class UserController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $auth = Yii::$app->authManager;
+            $auth->revokeAll($model->id);
+            if ( Yii::$app->request->post('roles') !== null && is_array(Yii::$app->request->post('roles')) ) {
+                foreach(Yii::$app->request->post('roles') as $rolename) {
+                    $role = $auth->getRole($rolename);
+                    $auth->assign($role, $model->id);
+                }
+            }
             return $this->redirect(['index']);
         } else {
             $auth = Yii::$app->authManager;
-            
-            $userAssignments = $auth->getAssignments(Yii::$app->user->identity->id);
-            //var_dump($userAssignments);
-            
+            $userAssignments = $auth->getAssignments($model->id);
             $allRoles = $auth->getRoles();
-            //var_dump($allRoles);
-            
             return $this->render('update', [
                 'model'             => $model,
                 'allRoles'          => $allRoles,

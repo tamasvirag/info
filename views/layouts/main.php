@@ -24,6 +24,8 @@ AppAsset::register($this);
 </head>
 <body>
 
+<?php //var_dump(Yii::$app->user->can('clientManager')); ?>
+
 <?=$this->registerJs("var baseUrl = '".Yii::$app->getUrlManager()->getBaseUrl()."';", View::POS_END); ?>
 
 <?php $this->beginBody() ?>

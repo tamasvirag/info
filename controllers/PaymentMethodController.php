@@ -9,16 +9,28 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\BaseController;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 
 /**
  * PaymentMethodController implements the CRUD actions for PaymentMethod model.
  */
 class PaymentMethodController extends BaseController
 {
-    /**
-     * Lists all PaymentMethod models.
-     * @return mixed
-     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
