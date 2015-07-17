@@ -23,7 +23,7 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
             </div>
             <div class="col-md-2">
-                <?= $form->field($model, 'password')->passwordInput(['maxlength' => 255]) ?>
+                <?= $form->field($model, 'password')->textInput(['maxlength' => 255]) ?>
             </div>
             <div class="col-md-2">
                 <?= $form->field($model, 'active')->checkbox() ?>

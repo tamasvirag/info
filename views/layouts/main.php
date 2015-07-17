@@ -6,6 +6,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\web\View;
+use app\components\MenuHelper;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -24,8 +25,6 @@ AppAsset::register($this);
 </head>
 <body>
 
-<?php //var_dump(Yii::$app->user->can('clientManager')); ?>
-
 <?=$this->registerJs("var baseUrl = '".Yii::$app->getUrlManager()->getBaseUrl()."';", View::POS_END); ?>
 
 <?php $this->beginBody() ?>
@@ -35,51 +34,14 @@ AppAsset::register($this);
                 'brandLabel' => 'Szuperinfó terjesztés',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-default ', //navbar-fixed-top
+                    'class' => 'navbar-default navbar-fixed-top', //
                 ],
             ]);
             
             if ( !Yii::$app->user->isGuest ) {
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-left'],
-                    'items' => [
-                        [
-                            'label' => \Yii::t('app','news'),
-                            'url' => ['/news'],
-                            'active' => in_array(Yii::$app->controller->id,['news']),
-                            'items' =>  [
-                                            ['label' => Yii::t('app', 'Add new'), 'url' => Url::to(['news/create'])],
-                                            ['label' => Yii::t('app', 'Listing'), 'url' => Url::to(['news/index'])],
-                                            ['label' => Yii::t('app', 'Invoicing cash'), 'url' => Url::to(['invoice/cash'])],
-                                            ['label' => Yii::t('app', 'Invoicing transfer'), 'url' => Url::to(['invoice/transfer'])],
-                                            ['label' => Yii::t('app', 'Invoices'), 'url' => Url::to(['invoice/index'])]
-                                        ]
-                            
-                        ],
-                        
-                        ['label' => \Yii::t('app','clients'), 'url' => ['/client'], 'active' => in_array(Yii::$app->controller->id, ['client'])],
-                        ['label' => \Yii::t('app','dealers'), 'url' => ['/dealer'], 'active' => in_array(Yii::$app->controller->id, ['dealer'])],
-                        ['label' => \Yii::t('app','districts'), 'url' => ['/district'], 'active' => in_array(Yii::$app->controller->id, ['district'])],
-                        ['label' => \Yii::t('app','users'), 'url' => ['/user'], 'active' => in_array(Yii::$app->controller->id, ['user'])],
-                        
-                        /*
-                        [
-                            'label' => \Yii::t('app','admin'),
-                            'items' => [
-                                 ['label' => \Yii::t('app','areas'), 'url' => ['/area']],
-                                 ['label' => \Yii::t('app','Payment Methods'), 'url' => ['/paymentmethod']],
-                                 ['label' => \Yii::t('app','statuses'), 'url' => ['/status']],
-                                 ['label' => \Yii::t('app','users'), 'url' => ['/user']],
-                            ],
-                        ],*/
-                        
-    
-                        Yii::$app->user->isGuest ?
-                            ['label' => \Yii::t('app','login'), 'url' => ['/site/login']] :
-                            ['label' => \Yii::t('app','logout').' (' . Yii::$app->user->identity->username . ')',
-                                'url' => ['/site/logout'],
-                                'linkOptions' => ['data-method' => 'post']],
-                    ],
+                    'items' => MenuHelper::getAssignedMenu(),
                 ]);
             }
             

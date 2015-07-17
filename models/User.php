@@ -67,6 +67,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'full_name' => Yii::t('app', 'Full Name'),
             'auth_key' => Yii::t('app', 'Auth Key'),
             'office_id' => Yii::t('app', 'Office ID'),
+            
+            'roles' => Yii::t('app', 'Roles'),
         ];
     }
 
@@ -119,6 +121,23 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             ->andFilterWhere(['like', 'auth_key', $this->auth_key]);
 
         return $dataProvider;
+    }
+    
+    public function getRoles() {
+        $auth = Yii::$app->authManager;
+        $userAssignments = $auth->getAssignments($this->id);
+        return $userAssignments;
+    }
+    
+    public function getRolesText() {
+        $rolesText = [];
+        $roles = $this->getRoles();
+        if ( is_array($roles) && count($roles)) {
+            foreach($roles as $key => $role) {
+                $rolesText[] = \Yii::t('app',$key);
+            }
+        }
+        return implode(", ", $rolesText);
     }
     
 }

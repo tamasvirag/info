@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'filterPosition'   => GridView::FILTER_POS_HEADER,
+//        'filterModel' => $searchModel,
+//        'filterPosition'   => GridView::FILTER_POS_HEADER,
         'columns' => [
             [
                 'attribute' => 'full_name',
@@ -35,6 +35,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             'username',
+            
+            [
+                'attribute' => 'roles',
+                'format'    => 'raw',
+                'value'     => function( $model ) {
+                    return $model->rolesText;
+                },
+                'filter'    => false,
+            ],
             
             [
                 'attribute' => 'active',
