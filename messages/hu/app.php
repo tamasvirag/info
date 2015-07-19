@@ -28,7 +28,14 @@ return [
     'Invoice Deadline Date' => 'Fizetési határidő',
     'Invoice ID' => '',
     'Invoice Number' => '',
+    
     'Invoice selected' => 'Kijelöltek számlázása',
+    'Invoice copy 1'=> 'Kijelöltek számlázása 1. példány',
+    'Invoice copy 2'=> 'Kijelöltek számlázása 2. példány',
+    'Invoice selected preview' => 'Kijelöltek számlázása előnézet',
+    'Print Invoice Copy' => 'Másolat nyomtatása',
+    'Print Storno Invoice' => 'Storno számla nyomtatása',
+    
     'Item ID' => '',
     'Item Table' => '',
     'News ID' => '',
@@ -103,8 +110,6 @@ return [
     'Phone' => 'Telefon',
     'Post Address' => 'Postázási cím (ha eltér a számlázási címtől)',
     'Price' => 'Ár',
-    'Print Invoice Copy' => 'Másolat nyomtatása',
-    'Print Storno Invoice' => 'Storno számla nyomtatása',
     'Regnumber' => 'Cégjegyzékszám',
     'Search' => 'Keresés',
     'Settle Date' => 'Kiegyenlítés dátuma',

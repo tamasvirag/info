@@ -26,7 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <p><?= Yii::t('app', 'Period') ?>: <?=$period_from?> - <?=$period_to?><br><?= Yii::t('app', 'Client') ?>: <?=$client->name?></p>
 
-    <?php $form = ActiveForm::begin( ['options'=>['id'=>'news-invoice-cash', 'target'=>'_blank']] ); ?>
+    <?php $form = ActiveForm::begin( [
+            'options'=>['id'=>'news-invoice-'.$client->id, 'target'=>'_blank'],
+            'action'=> Url::to(['invoice/execute']),
+        ] ); ?>
+    <?= Html::hiddenInput('payment_method_id',PaymentMethod::CASH); ?>
+    <?= Html::hiddenInput('preview',1,['id'=>'hidden-field-'.$client->id]); ?>
     
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -136,8 +141,9 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php if($dataProvider->count): ?>
     
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Invoice selected'), ['class' => 'btn btn-primary']) ?>
+    <div class="form-group" id="form-btn-group-<?php echo $client->id; ?>">
+        <?= Html::submitButton(Yii::t('app', 'Invoice selected preview'), ['class' => 'btn', 'id' => 'btn-invoice-preview-'.$client->id]) ?>
+        <?= Html::Button(Yii::t('app', 'Invoice selected'), ['class' => 'btn btn-primary btn-invoice-submit', 'id' => 'btn-invoice-'.$client->id, 'data-client-id'=>$client->id]) ?>
     </div>
     <?php endif; ?>
     

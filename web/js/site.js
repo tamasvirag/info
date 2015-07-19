@@ -39,5 +39,32 @@
                 });
         });
         
+        
+        
+        // invoice execute
+        $(document).on('click', '.btn-invoice-submit', function() {
+            var client_id = $(this).data('client-id');
+            
+            $("#btn-invoice-preview-"+client_id).remove();
+            $("#hidden-field-"+client_id).remove();
+            
+            $.ajax({
+                type:       "POST",
+                url:        baseUrl+'/invoice/execute',
+                data:       $("#news-invoice-"+client_id).serialize(),
+                dataType:   'json',
+                success:    function(data)
+                {
+                    if (data.success)
+                    {
+                        $("#btn-invoice-"+client_id).remove();
+                        $("#form-btn-group-"+client_id).append("<span>Számla: </span> ");
+                        $("#form-btn-group-"+client_id).append("<a href='"+baseUrl+"/invoice/pdf?id="+data.invoice_id+"&copy=1' target='_blank'>1. példány</a> ");
+                        $("#form-btn-group-"+client_id).append("<a href='"+baseUrl+"/invoice/pdf?id="+data.invoice_id+"&copy=2' target='_blank'>2. példány</a> ");
+                    }
+                }
+            });
+        });
+        
     });
 })(jQuery);
