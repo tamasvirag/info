@@ -40,10 +40,26 @@
         });
         
         
+        $(document).on('click', '.btn-invoice-preview', function() {
+            var client_id = $(this).data('client-id');
+            
+            if ( $( "form#news-invoice-"+client_id+" input:checked" ).length == 0) {
+                alert("Nincs kijelölve elem!");
+                return false;
+            }
+            
+            $( "form#news-invoice-"+client_id ).submit();
+        });
+        
         
         // invoice execute
         $(document).on('click', '.btn-invoice-submit', function() {
             var client_id = $(this).data('client-id');
+            
+            if ( $( "form#news-invoice-"+client_id+" input:checked" ).length == 0) {
+                alert("Nincs kijelölve elem!");
+                return false;
+            }
             
             $("#btn-invoice-preview-"+client_id).remove();
             $("#hidden-field-"+client_id).remove();
@@ -64,6 +80,7 @@
                     }
                 }
             });
+
         });
         
     });
