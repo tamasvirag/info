@@ -120,13 +120,13 @@ class NewsController extends BaseController
                     $newsDistrict = new NewsDistrict();
                     $newsDistrict->news_id          = $model->id;
                     $newsDistrict->district_id      = $district_id;
-                    $newsDistrict->amount           = $newsDistrictPost['amount'][$district_id];
-                    $newsDistrict->block            = $newsDistrictPost['block'][$district_id];
-                    $newsDistrict->block_price      = str_ireplace(",", ".", $newsDistrictPost['block_price'][$district_id] );
-                    $newsDistrict->block_price_real = str_ireplace(",", ".", $newsDistrictPost['block_price_real'][$district_id] );
-                    $newsDistrict->house            = $newsDistrictPost['house'][$district_id];
-                    $newsDistrict->house_price      = str_ireplace(",", ".", $newsDistrictPost['house_price'][$district_id] );
-                    $newsDistrict->house_price_real = str_ireplace(",", ".", $newsDistrictPost['house_price_real'][$district_id] );
+                    $newsDistrict->amount           = isset($newsDistrictPost['amount'][$district_id])?$newsDistrictPost['amount'][$district_id]:null;
+                    $newsDistrict->block            = isset($newsDistrictPost['block'][$district_id])?$newsDistrictPost['block'][$district_id]:null;
+                    $newsDistrict->block_price      = isset($newsDistrictPost['block_price'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['block_price'][$district_id] ):null;
+                    $newsDistrict->block_price_real = isset($newsDistrictPost['block_price_real'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['block_price_real'][$district_id] ):null;
+                    $newsDistrict->house            = isset($newsDistrictPost['house'][$district_id])?$newsDistrictPost['house'][$district_id]:null;
+                    $newsDistrict->house_price      = isset($newsDistrictPost['house_price'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['house_price'][$district_id] ):null;
+                    $newsDistrict->house_price_real = isset($newsDistrictPost['house_price_real'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['house_price_real'][$district_id] ):null;
                     $newsDistrict->save();
                 }
                 

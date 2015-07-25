@@ -26,6 +26,21 @@
         });
         
         
+        // Set whole parent disctrict
+        $(document).on('change', '.group-parent', function() {
+            
+            if ($(this).is(":checked")) {
+                $('.group-'+$(this).val()).prop("checked",true);
+            }
+            else {
+                $('.group-'+$(this).val()).prop("checked",false);
+            }
+            
+            
+            checkNewsDistrictRows();
+        });
+        
+        
         
         // new News, get payment_method_id from Client
         $(document).on('change', '#news-client_id', function(){

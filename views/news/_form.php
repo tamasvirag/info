@@ -110,11 +110,21 @@ use kartik\select2\Select2;
                      * Set news_id for District
                      */
                     $model->news_id = $news_id;
-                    return [
-                        'checked'   => count($model->nD)?'checked':'',
-                        'value'     => $model['id'],
-                        'class'     => (isset($model->parent_id)?'visible':'hidden'),
-                    ];
+                    
+                    if (isset($model->parent_id)){
+                        return [
+                            'checked'   => count($model->nD)?'checked':'',
+                            'value'     => $model['id'],
+                            'class'     => 'visible group-'.$model->parent_id,
+                        ];
+                    }
+                    else {
+                        return [
+                            'checked'   => count($model->nD)?'checked':'',
+                            'value'     => $model['id'],
+                            'class'     => 'visible group-parent',
+                        ];
+                    }
                 },
                 'contentOptions' => ['width'=>'3%'],
             ],
@@ -142,14 +152,14 @@ use kartik\select2\Select2;
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function( $model, $id ) {        
-                    if (isset($model->parent_id)){
+                    /*if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[amount]['.$id.']', count($model->nD)?$model->nD[0]->amount:null, [
                             'placeHolder' => $model->amount,
                             'class' => 'form-control',
                         ] );
-                    } else {
+                    } else {*/
                         return $model->amount;
-                    }
+                    //}
                 },
                 'contentOptions' => ['width'=>'10%'],
             ],

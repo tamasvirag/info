@@ -50,6 +50,7 @@ return [
     'Address' => 'Cím',
     'Invoice is already printed.' => 'A számla már nyomtatásra került.',
     'Amount' => 'db',
+    'Amount original' => 'Eredeti db szám',
     'Are you sure you want to delete this item?' => 'Biztos, hogy törölni akarja?',
     'Area ID' => 'Terület',
     'Areas' => 'Területek',

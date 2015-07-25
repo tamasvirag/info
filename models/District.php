@@ -28,7 +28,7 @@ class District extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'area_id' => Yii::t('app', 'Area ID'),
             'name' => Yii::t('app', 'Name'),
-            'amount' => Yii::t('app', 'Amount'),
+            'amount' => Yii::t('app', 'Amount original'),
             'block' => Yii::t('app', 'Block'),
             'block_price' => Yii::t('app', 'Block Price'),
             'block_price_real' => Yii::t('app', 'Block Price real'),
