@@ -59,10 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
-                'attribute' => 'payment_method_id',
+                'attribute' => 'newsCount',
                 'format'    => 'raw',
-                'value' => 'paymentMethodLabel',
-                'filter' => ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' )
+                'value' => 'newsCount',
+                'filter' => false,
+                'options' => ['width'=>'10%'],
             ],
             
             [
@@ -78,15 +79,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'yyyy-mm-dd'
                             ]
                     ]),
+                'options' => ['width'=>'15%'],
             ],
-            
-            [
-                'attribute' => 'status_id',
-                'format'    => 'raw',
-                'value' => 'statusLabel',
-                'filter' => ArrayHelper::map( Status::find()->all(), 'id', 'name' )
-            ],
-            
+                        
             [
                 'attribute'=>'created_at',
                 'format'    => ['date', 'php:Y-m-d'],
@@ -101,6 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'yyyy-mm-dd'
                             ]
                     ]),
+                'options' => ['width'=>'15%'],
             ],
                         
             [
@@ -116,14 +112,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'allowClear' => true
                                 ],
                             ]),
-                'options' => ['width'=>'10%'],
+                'options' => ['width'=>'15%'],
             ],
             [
                 'attribute' => Yii::t('app','invoice_normal'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
                     return HTML::a( HTML::encode( Yii::t('app','Invoicing button') ),['cash', 'news_id'=>$model->id, 'type'=>'normal'] );
-                }
+                },
+                'options' => ['width'=>'15%'],
             ],
 
         ],

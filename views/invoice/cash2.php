@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'layout'=>'{pager}{items}{pager}',
         'columns' => [
             [
-                'header' => '',
+                //'header' => '',
                 'class' => 'yii\grid\CheckboxColumn',
                 'checkboxOptions' => function($model, $key, $index, $column) use ($news_id) {
                     return [
@@ -76,10 +76,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
-                'attribute' => 'payment_method_id',
+                'attribute' => 'newsCount',
                 'format'    => 'raw',
-                'value' => 'paymentMethodLabel',
-                'filter' => ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' )
+                'value' => 'newsCount',
+                'filter' => false,
+                'options' => ['width'=>'15%'],
             ],
             
             [
@@ -95,13 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'yyyy-mm-dd'
                             ]
                     ]),
-            ],
-            
-            [
-                'attribute' => 'status_id',
-                'format'    => 'raw',
-                'value' => 'statusLabel',
-                'filter' => ArrayHelper::map( Status::find()->all(), 'id', 'name' )
+                'options' => ['width'=>'15%'],
             ],
             
             [
@@ -118,6 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'yyyy-mm-dd'
                             ]
                     ]),
+                'options' => ['width'=>'15%'],
             ],
                         
             [
@@ -133,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'allowClear' => true
                                 ],
                             ]),
-                'options' => ['width'=>'10%'],
+                'options' => ['width'=>'15%'],
             ],
 
         ],

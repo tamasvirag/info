@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'layout'=>'{pager}{items}{pager}',
                 'columns' => [
                     [
-                        'header' => '',
+                        //'header' => '',
                         'class' => 'yii\grid\CheckboxColumn',
                         'checkboxOptions' => function($model, $key, $index, $column) {
                             return [
@@ -110,25 +110,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format'    => 'raw',
                         'value' => function( $model ) {
                             return HTML::a( HTML::encode( $model->name ),['/news/update', 'id'=>$model->id] );
-                        }
+                        },
                     ],
                     
                     [
-                        'attribute' => 'payment_method_id',
+                        'attribute' => 'newsCount',
                         'format'    => 'raw',
-                        'value' => 'paymentMethodLabel',
+                        'value' => 'newsCount',
+                        'filter' => false,
                         'options' => ['width'=>'15%'],
                     ],
                     
                     [
                         'attribute'=>'distribution_date',
-                        'options' => ['width'=>'15%'],
-                    ],
-                    
-                    [
-                        'attribute' => 'status_id',
-                        'format'    => 'raw',
-                        'value' => 'statusLabel',
                         'options' => ['width'=>'15%'],
                     ],
                     
