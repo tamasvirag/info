@@ -17,6 +17,8 @@ use app\models\District;
 use app\models\DistrictSearch;
 use app\models\NewsDistrict;
 use app\models\PaymentMethod;
+use app\models\InvoiceGroup;
+use app\models\InvoiceGroupItem;
 use kartik\mpdf\Pdf;
 use app\components\NumberToString;
 use yii\filters\AccessControl;
@@ -137,47 +139,74 @@ class InvoiceController extends BaseController
             if ( isset($_REQUEST['preview']) && $_REQUEST['preview'] ) {
                 $preview = true;
             }
-            $invoice = $this->getInvoiceData($newsIds, $_REQUEST['payment_method_id'], $preview);
             
-            $data_set       = unserialize($invoice->invoice_data);
+            // collect news by clients into groups
+            $newsByClientArray = [];
+            foreach( $newsIds as $news_id ) {
+                $news = News::findOne($news_id);
+                if ( !isset($newsByClientArray[$news->client_id]) ) {
+                    $newsByClientArray[$news->client_id] = [];    
+                }
+                $newsByClientArray[$news->client_id][] = $news->id;
+            }
             
-            $copy           = 1;
-            $copy_count     = "";
-            $invoice_type   = 'normal';
-            
-            $invoice_data = [
-                'copy'              => $copy,
-                'copy_count'        => $copy_count,
-                'invoice'           => $invoice,
-                'client'            => $data_set['client'],
-                'items'             => $data_set['items'],
-                'price_summa'       => $data_set['price_summa'],
-                'tax_summa'         => $data_set['tax_summa'],
-                'all_summa'         => $data_set['all_summa'],
-                'all_summa_string'  => $data_set['all_summa_string'],
-                'type'              => $invoice_type,
-            ];
+            $invoiceDataByClientArray = [];
+            // walkthrough by clients
+            foreach( $newsByClientArray as $client_id => $newsIds ) {
+                $invoice = $this->getInvoiceData($newsIds, $_REQUEST['payment_method_id'], $preview);
+                                
+                $dataSet       = unserialize($invoice->invoice_data);
+                
+                $copy           = 1;
+                $copy_count     = "";
+                $invoice_type   = 'normal';
+                
+                $invoiceData = [
+                    'copy'              => $copy,
+                    'copy_count'        => $copy_count,
+                    'invoice'           => $invoice,
+                    'client'            => $dataSet['client'],
+                    'item_ids'          => $newsIds,
+                    'items'             => $dataSet['items'],
+                    'price_summa'       => $dataSet['price_summa'],
+                    'tax_summa'         => $dataSet['tax_summa'],
+                    'all_summa'         => $dataSet['all_summa'],
+                    'all_summa_string'  => $dataSet['all_summa_string'],
+                    'type'              => $invoice_type,
+                ];
+                $invoiceDataByClientArray[$client_id] = $invoiceData;
+            }
+
             
             if ($preview) {
-                return $this->render('pdf',['data'=>$invoice_data]);
+                return $this->render('pdf',['dataArray'=>$invoiceDataByClientArray]);
             }
-            else {
-                $invoice->save();
+            else {                
+                $invoiceGroup = new InvoiceGroup;
+                $invoiceGroup->save();
                 
-                foreach($newsIds as $news_id) {
-                    $invoiceItem = new InvoiceItem;
-                    $invoiceItem->invoice_id    = $invoice->id;
-                    $invoiceItem->item_id       = $news_id;
-                    $invoiceItem->item_class    = 'News';
-                    $invoiceItem->save();
-                    
-                    $news = News::findOne($news_id);
-                    $news->invoice_date = $invoice->invoice_date;
-                    $news->settle_date  = $invoice->settle_date;
-                    $news->status_id    = News::STATUS_INVOICED;
-                    $news->save(); 
+                foreach($invoiceDataByClientArray as $client_id => $invoiceData) {
+                    $invoice = $invoiceData['invoice'];
+                    $invoice->save();
+                    foreach($invoiceData['item_ids'] as $news_id) {
+                        $invoiceItem = new InvoiceItem;
+                        $invoiceItem->invoice_id    = $invoice->id;
+                        $invoiceItem->item_id       = $news_id;
+                        $invoiceItem->item_class    = 'News';
+                        $invoiceItem->save();
+                        
+                        $news = News::findOne($news_id);
+                        $news->invoice_date = $invoice->invoice_date;
+                        $news->settle_date  = $invoice->settle_date;
+                        $news->status_id    = News::STATUS_INVOICED;
+                        $news->save();
+                    }
+                    $invoiceGroupItem = new InvoiceGroupItem;
+                    $invoiceGroupItem->invoice_group_id = $invoiceGroup->id;
+                    $invoiceGroupItem->invoice_id       = $invoice->id;
+                    $invoiceGroupItem->save();
                 }
-                echo json_encode(['success' => true, 'invoice_id' => $invoice->id]);
+                echo json_encode(['success' => true, 'invoice_group_id' => $invoiceGroup->id]);
             }
         }
     }
@@ -276,28 +305,36 @@ class InvoiceController extends BaseController
         }        
     }
 
-    public function actionPdf($id)
+    public function actionPdf()
     {
+        $invoiceIds = [];
+        if (isset($_REQUEST['id']) && $_REQUEST['id']) {
+            $invoiceIds[] = $_REQUEST['id'];
+        }
+        elseif (isset($_REQUEST['invoice_group_id']) && $_REQUEST['invoice_group_id']) {
+            if (($invoiceGroup = InvoiceGroup::findOne($_REQUEST['invoice_group_id'])) !== null) {
+                $invoiceIds = $invoiceGroup->invoiceIds;
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        }
+        
+        /*
         if (($invoice = Invoice::findOne($id)) === null) {
             Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invalid invoice id') );
             return $this->render('pdf-error');
         }
+        */
         
         $copy = 1;
         if (isset($_REQUEST['copy']) && $_REQUEST['copy'] && in_array($_REQUEST['copy'], ["1","2"])) {
             $copy = $_REQUEST['copy'];
         }
         
-        $data_set = unserialize($invoice->invoice_data);
         $copy_count = "";
-
-        if ( isset($_REQUEST['type']) && $_REQUEST['type'] == 'storno' ) {
-            $invoice_type = 'storno';
-            $data_set = unserialize($invoice->storno_invoice_data);
-        }
-        elseif ( isset($_REQUEST['type']) && $_REQUEST['type'] == 'copy' ) {
-            $invoice_type = 'copy';
-            $copy_count = $invoice->copy_count;
+        
+        if ( isset($_REQUEST['type']) && in_array($_REQUEST['type'], ['storno','copy']) ) {
+            $invoice_type = $_REQUEST['type'];
         }
         else {
             $invoice_type = 'normal';
@@ -305,20 +342,39 @@ class InvoiceController extends BaseController
                 
         $this->layout = 'invoice-pdf';
         
-        $invoice_data = [
-            'copy'              => $copy,
-            'copy_count'        => $copy_count,
-            'invoice'           => $invoice,
-            'client'            => $data_set['client'],
-            'items'             => $data_set['items'],
-            'price_summa'       => $data_set['price_summa'],
-            'tax_summa'         => $data_set['tax_summa'],
-            'all_summa'         => $data_set['all_summa'],
-            'all_summa_string'  => $data_set['all_summa_string'],
-            'type'              => $invoice_type,
-        ];
+        $dataArray = [];
+        foreach( $invoiceIds as $invoice_id ) {
+            $invoice = Invoice::findOne($invoice_id);
+            
+            switch ($invoice_type) {
+                case "storno":
+                    $dataSet    = unserialize($invoice->storno_invoice_data);
+                    break;
+                case "copy":
+                    $copy_count = $invoice->copy_count;
+                    $dataSet    = unserialize($invoice->invoice_data);
+                    break;
+                case "normal":
+                    $dataSet    = unserialize($invoice->invoice_data);
+                    break;
+            }
+            
+            $invoiceData = [
+                'copy'              => $copy,
+                'copy_count'        => $copy_count,
+                'invoice'           => $invoice,
+                'client'            => $dataSet['client'],
+                'items'             => $dataSet['items'],
+                'price_summa'       => $dataSet['price_summa'],
+                'tax_summa'         => $dataSet['tax_summa'],
+                'all_summa'         => $dataSet['all_summa'],
+                'all_summa_string'  => $dataSet['all_summa_string'],
+                'type'              => $invoice_type,
+            ];
+            $dataArray[$dataSet['client']->id] = $invoiceData;
+        }
         
-        $content = $this->render('pdf',['data'=>$invoice_data]);
+        $content = $this->render('pdf',['dataArray'=>$dataArray]);
         
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,

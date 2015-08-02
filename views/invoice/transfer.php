@@ -57,6 +57,21 @@ $this->params['breadcrumbs'][] = $this->title;
     
     
     <?php if( count($clients)): ?>
+
+
+
+    
+        <?php $form = ActiveForm::begin( [
+                'options'=>['id'=>'news-invoice', 'target'=>'_blank'],
+                'action'=> Url::to(['invoice/execute']),
+            ] ); ?>
+        <?= Html::hiddenInput('payment_method_id',PaymentMethod::TRANSFER); ?>
+        <?= Html::hiddenInput('preview',1,['id'=>'hidden-field']); ?>
+
+
+
+            
+    
         <?php foreach( $clients as $client ): ?>
             <?= Yii::t('app', 'Client') ?>: <b><?=$client->name?></b>
             
@@ -83,12 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);
             ?>
             
-            <?php $form = ActiveForm::begin( [
-                    'options'=>['id'=>'news-invoice-'.$client->id, 'target'=>'_blank'],
-                    'action'=> Url::to(['invoice/execute']),
-                ] ); ?>
-            <?= Html::hiddenInput('payment_method_id',PaymentMethod::TRANSFER); ?>
-            <?= Html::hiddenInput('preview',1,['id'=>'hidden-field-'.$client->id]); ?>
+            
             
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -142,14 +152,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]); ?>
             
-            <?php if($dataProvider->count): ?>
-                <div class="form-group" id="form-btn-group-<?php echo $client->id; ?>">
-                    <?= Html::Button(Yii::t('app', 'Invoice selected preview'), ['class' => 'btn btn-invoice-preview', 'id' => 'btn-invoice-preview-'.$client->id, 'data-client-id'=>$client->id]) ?>
-                    <?= Html::Button(Yii::t('app', 'Invoice selected'), ['class' => 'btn btn-primary btn-invoice-submit', 'id' => 'btn-invoice-'.$client->id, 'data-client-id'=>$client->id]) ?>
-                </div>
-            <?php endif; ?>
-            <?php ActiveForm::end(); ?>
-            <hr>
         <?php endforeach; ?>
+        
+        <div class="form-group" id="form-btn-group-<?php echo $client->id; ?>">
+            <?= Html::Button(Yii::t('app', 'Invoice selected preview'), ['class' => 'btn btn-invoice-preview', 'id' => 'btn-invoice-preview']) ?>
+            <?= Html::Button(Yii::t('app', 'Invoice selected'), ['class' => 'btn btn-primary btn-invoice-submit', 'id' => 'btn-invoice']) ?>
+        </div>
+        
+        <?php ActiveForm::end(); ?>
+
     <?php endif; ?>
 </div>

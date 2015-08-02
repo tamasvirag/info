@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 
+foreach($dataArray as $data):
+
 $items      = $data['items'];
 $invoice    = $data['invoice'];
 $client     = $data['client'];
@@ -192,3 +194,7 @@ $client     = $data['client'];
         <td class="sign" align="center" width="30%"><p class="small">aláírás</p></td>
     </tr>
 </table>
+
+<pagebreak sheet-size="A4-P" resetpagenum="1"/>
+
+<?php endforeach; ?>
