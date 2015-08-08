@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a45f525a9bd9c6dab0104a1ace8fc3d9",
+    "hash": "28572aa99e0036b3c3240350e3ff2bd8",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -66,6 +66,31 @@
                 "yii2"
             ],
             "time": "2015-04-02 11:48:05"
+        },
+        {
+            "name": "bower-asset/bootbox",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/makeusabrew/bootbox.git",
+                "reference": "2b236a96a27d5b225b595de1f3ffd44a2435836f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/makeusabrew/bootbox/zipball/2b236a96a27d5b225b595de1f3ffd44a2435836f",
+                "reference": "2b236a96a27d5b225b595de1f3ffd44a2435836f",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=3.0.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./bootbox.js",
+                "bower-asset-ignore": [
+                    "**/.*"
+                ]
+            }
         },
         {
             "name": "bower-asset/bootstrap",
@@ -672,17 +697,55 @@
             "time": "2015-06-06 14:19:39"
         },
         {
-            "name": "yiisoft/yii2",
-            "version": "2.0.5",
+            "name": "xj/yii2-bootbox-widget",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "ea8c13b9f5cd437bd7bf73cad8a3457a155f3727"
+                "url": "https://github.com/xjflyttp/yii2-bootbox-widget.git",
+                "reference": "6fb8b05112f3579a41c4821a9c4cb5aeb13a1153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ea8c13b9f5cd437bd7bf73cad8a3457a155f3727",
-                "reference": "ea8c13b9f5cd437bd7bf73cad8a3457a155f3727",
+                "url": "https://api.github.com/repos/xjflyttp/yii2-bootbox-widget/zipball/6fb8b05112f3579a41c4821a9c4cb5aeb13a1153",
+                "reference": "6fb8b05112f3579a41c4821a9c4cb5aeb13a1153",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootbox": "~4.0.0",
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "xj\\bootbox\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "xjflyttp",
+                    "email": "xjflyttp@gmail.com"
+                }
+            ],
+            "description": "yii2-bootbox-widget",
+            "time": "2015-05-21 08:39:46"
+        },
+        {
+            "name": "yiisoft/yii2",
+            "version": "2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-framework.git",
+                "reference": "f42b2eb80f61992438661b01d0d74c6738e2ff38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f42b2eb80f61992438661b01d0d74c6738e2ff38",
+                "reference": "f42b2eb80f61992438661b01d0d74c6738e2ff38",
                 "shasum": ""
             },
             "require": {
@@ -757,7 +820,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-07-11 02:37:59"
+            "time": "2015-08-05 22:00:30"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1118,16 +1181,16 @@
         },
         {
             "name": "yiisoft/yii2-debug",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "5c7081b2be71c61d3a50d978b31edc3e0b6f2f97"
+                "reference": "1b302e67521d46feb2413d9d96ca94ed82b39b0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/5c7081b2be71c61d3a50d978b31edc3e0b6f2f97",
-                "reference": "5c7081b2be71c61d3a50d978b31edc3e0b6f2f97",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/1b302e67521d46feb2413d9d96ca94ed82b39b0e",
+                "reference": "1b302e67521d46feb2413d9d96ca94ed82b39b0e",
                 "shasum": ""
             },
             "require": {
@@ -1161,7 +1224,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2015-05-10 22:08:56"
+            "time": "2015-08-06 16:14:06"
         },
         {
             "name": "yiisoft/yii2-faker",

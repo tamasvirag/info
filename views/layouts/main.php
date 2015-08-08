@@ -7,6 +7,9 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\web\View;
 use app\components\MenuHelper;
+use xj\bootbox\BootboxAsset;
+
+BootboxAsset::registerWithOverride($this);
 
 /* @var $this \yii\web\View */
 /* @var $content string */

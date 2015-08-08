@@ -104,7 +104,8 @@ a.desc:after {
   color: #bbb; }
 
 .modal-backdrop {
-  z-index: 1030; }
+  z-index: 1030;
+  position: fixed; }
 
 .navbar {
   min-height: 40px; }
@@ -153,6 +154,10 @@ label {
 .btn {
   font-size: 13px;
   padding: 6px 10px; }
+
+a.btn {
+  display: inline;
+  padding: 8px 10px; }
 
 .mt-21 {
   margin-top: 21px; }

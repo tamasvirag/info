@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/ss-gizmo.css',
     ];
     public $js = [
+//        'js/bootbox.min.js',
         'js/site.js',
     ];
     public $depends = [
