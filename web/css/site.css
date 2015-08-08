@@ -1,13 +1,14 @@
 html, body {
-  height: 100%; }
+  height: 100%;
+  font-size: 13px; }
 
 .wrap {
   min-height: 100%;
   height: auto;
   margin: 0 auto -60px;
-  padding: 0 0 60px; }
+  padding: 0; }
   .wrap > .container {
-    padding: 70px 15px 20px; }
+    padding: 56px 15px 20px; }
 
 .footer {
   height: 60px;
@@ -105,9 +106,6 @@ a.desc:after {
 .modal-backdrop {
   z-index: 1030; }
 
-body {
-  font-size: 13px; }
-
 .navbar {
   min-height: 40px; }
 
@@ -119,9 +117,6 @@ body {
 .navbar-nav > li > a {
   padding-top: 12px;
   padding-bottom: 12px; }
-
-.wrap > .container {
-  padding: 56px 15px 20px; }
 
 .well {
   border-radius: 2px;

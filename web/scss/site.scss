@@ -3,15 +3,16 @@
 
 html,body { 
     height: 100%;
+    font-size: 13px;
 }
 
 .wrap {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0;
     > .container {
-        padding: 70px 15px 20px;
+        padding: 56px 15px 20px;
     }
 }
 
@@ -126,9 +127,6 @@ a.desc:after {
 
 
 
-body {
-    font-size: 13px;
-}
 .navbar {
     min-height: 40px;
 }
@@ -140,9 +138,6 @@ body {
 .navbar-nav>li>a {
     padding-top: 12px;
     padding-bottom: 12px;
-}
-.wrap > .container {
-    padding: 56px 15px 20px;
 }
 .well {
     border-radius: 2px;

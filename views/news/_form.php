@@ -46,7 +46,7 @@ use kartik\select2\Select2;
                 ],
             ]); ?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
         </div>    
     </div>
@@ -66,14 +66,14 @@ use kartik\select2\Select2;
                 ]); ?>
         </div>
         <div class="col-md-2">
-            <?=\Yii::t('app','Status ID')?>:<br><?=$model->statusLabel?>
+            <strong><?=\Yii::t('app','Status ID')?></strong><br><?=$model->statusLabel?>
         <!--
             <?= $form->field($model, 'status_id')->dropDownList( ArrayHelper::map( Status::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
         -->
         </div>
         <div class="col-md-2">
             <?=\Yii::t('app','Invoice Date')?>:<br><?=$model->invoice_date?$model->invoice_date:"-"?><br>
-            <br>
+            
             <?=\Yii::t('app','Settle Date')?>:<br><?=$model->settle_date?$model->settle_date:"-"?>
         </div>
         <div class="col-md-2">
