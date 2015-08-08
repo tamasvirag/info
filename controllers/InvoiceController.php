@@ -319,12 +319,10 @@ class InvoiceController extends BaseController
             }
         }
         
-        /*
-        if (($invoice = Invoice::findOne($id)) === null) {
+        if (!count($invoiceIds)) {
             Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invalid invoice id') );
             return $this->render('pdf-error');
         }
-        */
         
         $copy = 1;
         if (isset($_REQUEST['copy']) && $_REQUEST['copy'] && in_array($_REQUEST['copy'], ["1","2"])) {
@@ -373,7 +371,7 @@ class InvoiceController extends BaseController
             ];
             $dataArray[$dataSet['client']->id] = $invoiceData;
         }
-        
+
         $content = $this->render('pdf',['dataArray'=>$dataArray]);
         
         $pdf = new Pdf([
@@ -386,7 +384,7 @@ class InvoiceController extends BaseController
             'cssInline' => '',
             'options' => ['title' => ''],
             'methods' => [
-                'SetHeader' => ['<p class="small">{nb} / {PAGENO}. oldal</p>'],
+                'SetHeader' => ['<p class="small">{nbpg} / {PAGENO}. oldal</p>'],
                 'SetFooter' => ['<p align="left" class="small">Terjesztés - A számlaprogram megfelel a PM 34/1999 (XII.26) rendeletnek</p>'],
             ]
         ]);
@@ -395,8 +393,14 @@ class InvoiceController extends BaseController
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'application/pdf');
         
-        $invoice->printed = 1;
-        $invoice->save();
+        
+        
+        /// megoldani
+        //$invoice->printed = 1;
+        //$invoice->save();
+        
+        
+        
         
         return $pdf->render();
     }

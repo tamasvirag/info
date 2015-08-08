@@ -65,6 +65,8 @@ use kartik\select2\Select2;
                     ]
                 ]); ?>
         </div>
+        
+        <?php if(isset($model->id)): ?>
         <div class="col-md-2">
             <strong><?=\Yii::t('app','Status ID')?></strong><br><?=$model->statusLabel?>
         <!--
@@ -84,6 +86,7 @@ use kartik\select2\Select2;
             <?=\Yii::t('app','Updated')?>:<br><?=$model->updated_at?date('Y-m-d H:i:s',$model->updated_at):"-"?><br>
             <?=$model->updated_by?$model->updatedByLabel:""?><br>
         </div>
+        <?php endif; ?>
     </div>
     </div>
 
