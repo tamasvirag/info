@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="user-form container">
+<div class="user-form">
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="well">

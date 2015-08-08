@@ -104,3 +104,84 @@ a.desc:after {
 
 .modal-backdrop {
   z-index: 1030; }
+
+body {
+  font-size: 13px; }
+
+.navbar {
+  min-height: 40px; }
+
+.navbar-brand {
+  padding: 12px 15px;
+  height: 40px;
+  font-size: 17px; }
+
+.navbar-nav > li > a {
+  padding-top: 12px;
+  padding-bottom: 12px; }
+
+.wrap > .container {
+  padding: 56px 15px 20px; }
+
+.well {
+  border-radius: 2px;
+  box-shadow: none;
+  border: none;
+  padding: 24px; }
+
+label {
+  margin-bottom: 3px; }
+
+.form-group {
+  margin-bottom: 12px; }
+
+.form-control {
+  font-size: 13px;
+  height: 32px;
+  padding: 4px 10px; }
+
+.input-group-addon {
+  padding: 7px 12px; }
+
+.select2-container--krajee .select2-selection {
+  font-size: 13px; }
+
+.select2-container--krajee .select2-selection__clear {
+  font-size: 13px; }
+
+.select2-container--krajee .select2-selection--single {
+  height: 32px; }
+
+.select2-container--krajee .select2-selection--single .select2-selection__arrow {
+  height: 30px; }
+
+.btn {
+  font-size: 13px;
+  padding: 6px 10px; }
+
+.mt-21 {
+  margin-top: 21px; }
+
+h1 {
+  font-size: 26px; }
+
+h2 {
+  font-size: 24px; }
+
+h3 {
+  font-size: 22px; }
+
+h4 {
+  font-size: 20px; }
+
+h5 {
+  font-size: 20px; }
+
+h6 {
+  font-size: 20px; }
+
+.pagination {
+  margin: 10px 0; }
+
+.pagination > li > a, .pagination > li > span {
+  padding: 4px 10px; }

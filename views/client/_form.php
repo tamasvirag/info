@@ -12,7 +12,7 @@ use app\models\PaymentMethod;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="client-form container">
+<div class="client-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

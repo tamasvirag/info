@@ -9,7 +9,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="dealer-form container">
+<div class="dealer-form">
 
     <?php $form = ActiveForm::begin(); ?>
 <div class="well">

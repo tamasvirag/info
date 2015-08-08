@@ -17,7 +17,7 @@ use kartik\select2\Select2;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="news-form container">
+<div class="news-form">
 
     <?php $form = ActiveForm::begin( ['options'=>['id'=>'edit-news-districts']] ); ?>
 
@@ -47,7 +47,7 @@ use kartik\select2\Select2;
             ]); ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
+            <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
         </div>    
     </div>
     

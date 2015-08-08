@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     ); ?>    
             </div>
             <div class="col-md-2">
-                <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary', 'style' => 'margin-top:25px']) ?>
+                <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary mt-21']) ?>
             </div>
         </div>
     </div>

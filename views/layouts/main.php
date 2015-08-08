@@ -61,12 +61,13 @@ AppAsset::register($this);
         </div>
     </div>
 
+<?php /*
     <footer class="footer">
         <div class="container">
             <p class="pull-left"></p>
             <p class="pull-right"></p>
         </div>
-    </footer>
+    </footer> */?>
 
 <?php $this->endBody() ?>
 </body>
