@@ -151,6 +151,7 @@ class NewsController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        Yii::$app->session->setFlash('success', Yii::t('app','success_delete'));
         return $this->redirect(['index']);
     }
     
