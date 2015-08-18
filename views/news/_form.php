@@ -273,7 +273,9 @@ use kartik\select2\Select2;
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         
         <?php if(isset($model->id)): ?>
-        <?= Html::a(Yii::t('app', 'Invoicing'), ['invoice/fromnews', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
+        <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
+        
+        <?= Html::a(Yii::t('app', 'Invoicing'), ['invoice/cash', 'news_id' => $model->id, 'type'=>'normal'], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
         <?php endif; ?>
     </div>
     

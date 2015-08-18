@@ -65,14 +65,17 @@ class InvoiceController extends BaseController
     {
         $invoice = $this->findModel($id);
 
+/*
         if ( isset($invoice->storno_invoice_date)) {
             Yii::$app->getSession()->setFlash('danger', Yii::t('app','Storno invoice is already printed') );
             return $this->render('pdf-error');
         }
-        
-        $invoice->storno_invoice_date = date("Y-m-d");
-        $invoice->storno_invoice_number = $invoice->getNextInvoiceNumber(Invoice::TYPE_STORNO);
-        $invoice->save();
+*/
+        if ( !isset($invoice->storno_invoice_date)) {
+            $invoice->storno_invoice_date = date("Y-m-d");
+            $invoice->storno_invoice_number = $invoice->getNextInvoiceNumber(Invoice::TYPE_STORNO);
+            $invoice->save();
+        }
         return $this->redirect(['invoice/pdf','id'=>$invoice->id, 'type'=>'storno']);
     }
     

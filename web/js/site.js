@@ -70,11 +70,14 @@
             
             bootbox.confirm("Biztos benne?", function(result) {
             
-                if (result) {
-                    if ( $( "form#news-invoice input[name='selection[]']:checked" ).length == 0) {
+                if (result && $( "form#news-invoice input[name='selection[]']:checked" ).length != 0) {
+                    
+                    /*
+                        if ( $( "form#news-invoice input[name='selection[]']:checked" ).length == 0) {
                         bootbox.alert("Nincs kijelölve elem!");
                         return false;
                     }
+                    */
                     
                     $("#btn-invoice-preview").remove();
                     $("#hidden-field").remove();
@@ -90,13 +93,14 @@
                             {
                                 $("#btn-invoice").remove();
                                 $("#form-btn-group").append("<span>Számla: </span> ");
-        //                        $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?id="+data.invoice_id+"&copy=1' target='_blank'>1. példány</a> ");
-        //                        $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?id="+data.invoice_id+"&copy=2' target='_blank'>2. példány</a> ");
+                                $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?invoice_group_id="+data.invoice_group_id+"&copy=1' target='_blank'>1. példány</a> ");
+                                $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?invoice_group_id="+data.invoice_group_id+"&copy=2' target='_blank'>2. példány</a> ");
                             }
                         }
                     });
                     
                 }
+                
                 else {
                     return;
                 }

@@ -106,7 +106,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'layout'=>'{pager}{items}{pager}',
                 'columns' => [
                     [
-                        //'header' => '',
                         'class' => 'yii\grid\CheckboxColumn',
                         'checkboxOptions' => function($model, $key, $index, $column) {
                             return [
@@ -154,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
         <?php endforeach; ?>
         
-        <div class="form-group" id="form-btn-group-<?php echo $client->id; ?>">
+        <div class="form-group" id="form-btn-group">
             <?= Html::Button(Yii::t('app', 'Invoice selected preview'), ['class' => 'btn btn-invoice-preview', 'id' => 'btn-invoice-preview']) ?>
             <?= Html::Button(Yii::t('app', 'Invoice selected'), ['class' => 'btn btn-primary btn-invoice-submit', 'id' => 'btn-invoice']) ?>
         </div>

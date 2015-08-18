@@ -137,7 +137,8 @@ label {
   padding: 4px 10px; }
 
 .input-group-addon {
-  padding: 7px 12px; }
+  padding: 7px 12px;
+  font-size: 13px; }
 
 .select2-container--krajee .select2-selection {
   font-size: 13px; }

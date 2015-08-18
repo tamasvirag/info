@@ -205,7 +205,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => Yii::t('app','invoice_copy'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','Print Invoice Copy') ),['copy', 'id'=>$model->id, 'type'=>'copy'], ['target' => '_blank'] );
+                    return HTML::a( HTML::encode( Yii::t('app','Print Invoice Copy') ),['copy', 'id'=>$model->id, 'type'=>'copy'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','Are you sure?')] );
                 }
             ],
             [
@@ -215,7 +215,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => Yii::t('app','invoice_storno'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank'] );
+                    return HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','Are you sure?')] );
                 }
             ],
             

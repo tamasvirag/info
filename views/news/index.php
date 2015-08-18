@@ -260,7 +260,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => null,
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','create_from_this') ),['createfrom', 'id'=>$model->id] );
+                    return HTML::a( HTML::encode( Yii::t('app','create_from_this') ),['createfrom', 'id'=>$model->id], ['data-confirm'=>\Yii::t('app','Are you sure?')] );
                 }
             ],
 
