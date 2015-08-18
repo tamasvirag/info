@@ -90,19 +90,23 @@ class InvoiceController extends BaseController
         
         $invoice = new Invoice();
         
-        $now_date                       = new \DateTime( date( 'Y-m-d', time() ) );
-        $invoice->invoice_date          = $now_date->format('Y-m-d');
+        $now_date               = new \DateTime( date( 'Y-m-d', time() ) );
+        $invoice->invoice_date  = $now_date->format('Y-m-d');
         
         if ($payment_method_id == PaymentMethod::TRANSFER) {
-            // ???????? Terjesztési időpont, de melyik?
-            //$invoice->settle_date           = $news->distribution_date;
+            
+            // Teljesítés dátuma = utolsó Terjesztési időpont a terjesztések közül
+            $invoice->settle_date           = News::getLastDistributionDate($newsIds);
+            
             // Fizetési határidő = Számla kelte + 8 nap
             $now_date->add(new \DateInterval('P8D'));
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
         }
         elseif ($payment_method_id == PaymentMethod::CASH) {
+        
             // Teljesítés dátuma = Számla kelte
             $invoice->settle_date           = $now_date->format('Y-m-d');
+            
             // Fizetési határidő = Számla kelte
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
         }

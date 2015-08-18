@@ -7,6 +7,7 @@ use app\models\Client;
 use app\models\User;
 use app\models\Status;
 use app\models\PaymentMethod;
+use app\models\News;
 use app\models\NewsDistrict;
 use yii\helpers\ArrayHelper;
 use dosamigos\datepicker\DatePicker;
@@ -275,7 +276,9 @@ use kartik\select2\Select2;
         <?php if(isset($model->id)): ?>
         <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
         
-        <?= Html::a(Yii::t('app', 'Invoicing'), ['invoice/cash', 'news_id' => $model->id, 'type'=>'normal'], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
+            <?php if ($model->payment_method_id == PaymentMethod::CASH && $model->status_id == News::STATUS_NEW ): ?>
+            <?= Html::a(Yii::t('app', 'Invoicing'), ['invoice/cash', 'news_id' => $model->id, 'type'=>'normal'], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
     

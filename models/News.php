@@ -177,6 +177,22 @@ class News extends \yii\db\ActiveRecord
         }
         return $all;
     }
+    
+    public static function getLastDistributionDate($newsIds) {
+        $last = null;
+        if (count($newsIds)) {
+            foreach($newsIds as $news_id) {
+                $news = self::findOne($news_id);
+                if ( $last === null ) {
+                    $last = $news->distribution_date;
+                }
+                elseif ( $news->distribution_date > $last ) {
+                    $last = $news->distribution_date;
+                }
+            }
+        }
+        return $last;
+    }
         
     //////////////////////////////////////////////////////////////////// kiszervezni
     public function setInvoiceData($invoice_type) {

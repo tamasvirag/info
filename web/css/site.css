@@ -164,22 +164,22 @@ a.btn {
   margin-top: 21px; }
 
 h1 {
-  font-size: 26px; }
-
-h2 {
-  font-size: 24px; }
-
-h3 {
   font-size: 22px; }
 
-h4 {
+h2 {
   font-size: 20px; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 18px; }
 
 h5 {
-  font-size: 20px; }
+  font-size: 18px; }
 
 h6 {
-  font-size: 20px; }
+  font-size: 18px; }
 
 .pagination {
   margin: 10px 0; }
