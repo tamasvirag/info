@@ -96,6 +96,7 @@ return [
     'Invoice selected preview' => 'Kijelöltek számlázása előnézet',
     'Invoices' => 'Számlák',
     'Invoicing' => 'Számlázás',
+    'confirm_invoicing' => 'Biztos benne, hogy számlázza?',
     'Invoicing button' => 'Számlázás',
     'Invoicing cash' => 'Számlázás - készpénzes',
     'Invoicing transfer' => 'Számlázás - átutalásos',
@@ -160,4 +161,5 @@ return [
     'success_copy' => 'Sikeresen létrehozva.',
     'success_save' => 'Sikeres mentés.',
     'users' => 'Értékesítők',
+    'newscount' => 'Példányszám',
 ];

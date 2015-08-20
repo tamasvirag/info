@@ -33,9 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::hiddenInput('payment_method_id',PaymentMethod::CASH); ?>
     <?= Html::hiddenInput('preview',1,['id'=>'hidden-field']); ?>
     
-    
-    
-    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'layout'=>'{pager}{items}{pager}',

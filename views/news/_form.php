@@ -152,18 +152,14 @@ use kartik\select2\Select2;
             ],
             
             [
+                'label' => \Yii::t('app','newscount'),
                 'attribute' => 'amount',
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function( $model, $id ) {        
-                    /*if (isset($model->parent_id)){
-                        return HTML::textInput( 'newsDistrict[amount]['.$id.']', count($model->nD)?$model->nD[0]->amount:null, [
-                            'placeHolder' => $model->amount,
-                            'class' => 'form-control',
-                        ] );
-                    } else {*/
-                        return $model->amount;
-                    //}
+                'value' => function( $model, $id ) {
+                    if (isset($model->parent_id)){
+                        return count($model->nD)?$model->nD[0]->amount:null;
+                    }
                 },
                 'contentOptions' => ['width'=>'10%'],
             ],
@@ -172,7 +168,7 @@ use kartik\select2\Select2;
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function( $model, $id ) {
-                    if (isset($model->parent_id)){                    
+                    if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block]['.$id.']', count($model->nD)?$model->nD[0]->block:null, [
                             'placeHolder' => $model->block,
                             'class' => 'form-control',
@@ -274,10 +270,10 @@ use kartik\select2\Select2;
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         
         <?php if(isset($model->id)): ?>
-        <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
+        <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm_create_from_this')]) ?>
         
             <?php if ($model->payment_method_id == PaymentMethod::CASH && $model->status_id == News::STATUS_NEW ): ?>
-            <?= Html::a(Yii::t('app', 'Invoicing'), ['invoice/cash', 'news_id' => $model->id, 'type'=>'normal'], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm')]) ?>
+            <?= Html::a(Yii::t('app', 'Invoicing'), ['invoice/cash', 'news_id' => $model->id, 'type'=>'normal'], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm_invoicing')]) ?>
             <?php endif; ?>
         <?php endif; ?>
     </div>

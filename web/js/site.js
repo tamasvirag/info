@@ -68,7 +68,7 @@
         // invoice execute
         $(document).on('click', '.btn-invoice-submit', function() {
             
-            bootbox.confirm("Biztos benne?", function(result) {
+            bootbox.confirm("Biztos benne, hogy számlázza?", function(result) {
             
                 if (result && $( "form#news-invoice input[name='selection[]']:checked" ).length != 0) {
                     
