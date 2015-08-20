@@ -97,28 +97,33 @@ class News extends \yii\db\ActiveRecord
                 if ( count( $news->newsDistricts ) ) {
                     foreach ( $news->newsDistricts as $newsDistrict ) {
                         $district = $newsDistrict->district;
-                        $block = $newsDistrict->block!==null?floatval($newsDistrict->block):floatval($district->block);
-                        $block_price = $newsDistrict->block_price!==null?floatval($newsDistrict->block_price):floatval($district->block_price);
-                        $house = $newsDistrict->house!==null?floatval($newsDistrict->house):floatval($district->house);
-                        $house_price = $newsDistrict->house_price!==null?floatval($newsDistrict->house_price):floatval($district->house_price);
-                       
-                        if ( $block_price != 0 && $block != 0) {
-                            if ( !isset($items[strval($block_price)]) ) {
-                                $items[strval($block_price)] = $block;
+                        
+                        // főkategóriákat nem vesszük bele
+                        if ($district->parent_id != null) {
+                            $block = $newsDistrict->block!==null?floatval($newsDistrict->block):floatval($district->block);
+                            $block_price = $newsDistrict->block_price!==null?floatval($newsDistrict->block_price):floatval($district->block_price);
+                            $house = $newsDistrict->house!==null?floatval($newsDistrict->house):floatval($district->house);
+                            $house_price = $newsDistrict->house_price!==null?floatval($newsDistrict->house_price):floatval($district->house_price);
+                           
+                            if ( $block_price != 0 && $block != 0) {
+                                if ( !isset($items[strval($block_price)]) ) {
+                                    $items[strval($block_price)] = $block;
+                                }
+                                else {
+                                    $items[strval($block_price)] += $block;
+                                }
                             }
-                            else {
-                                $items[strval($block_price)] += $block;
+                           
+                            if ( $house_price != 0 && $house != 0) {
+                                if ( !isset($items[strval($house_price)]) ) {
+                                    $items[strval($house_price)] = $house;
+                                }
+                                else {
+                                    $items[strval($house_price)] += $house;
+                                }
                             }
                         }
-                       
-                        if ( $house_price != 0 && $house != 0) {
-                            if ( !isset($items[strval($house_price)]) ) {
-                                $items[strval($house_price)] = $house;
-                            }
-                            else {
-                                $items[strval($house_price)] += $house;
-                            }
-                        }
+                                                
                     } 
                 }
                 $clients[$news->client->id] = 1;
@@ -193,40 +198,6 @@ class News extends \yii\db\ActiveRecord
         }
         return $last;
     }
-        
-    //////////////////////////////////////////////////////////////////// kiszervezni
-    public function setInvoiceData($invoice_type) {
-    
-        // Számla kelte = NOW
-        $now_date = new \DateTime( date( 'Y-m-d', time() ) );
-        $this->invoice_date = $now_date->format('Y-m-d');
-
-        $this->invoice_number = 'T'.$now_date->format('Ymd').strval($this->id);    
-        if ( $invoice_type == 'storno' ) {
-            $this->storno_invoice_number = 'TS'.$now_date->format('Ymd').strval($this->id);
-        }
-        
-        if ( $this->payment_method_id == PaymentMethod::CASH ) {
-            $all_summa = round($all_summa/5, 0) * 5;
-
-            // Teljesítés dátuma = Számla kelte
-            $this->settle_date = $now_date->format('Y-m-d');
-                        
-            // Fizetési határidő = Számla kelte
-            $this->payment_deadline_date = $now_date->format('Y-m-d');
-        }
-        elseif ( $this->payment_method_id == PaymentMethod::TRANSFER ) {
-            $all_summa = round($all_summa);
-            
-            // Fizetési határidő = Számla kelte + 8 nap
-            $this->payment_deadline_date = $now_date->modify('+8 day')->format('Y-m-d');
-            
-            // Teljesítés dátuma = Terjesztési időpont
-            $this->settle_date = $this->distribution_date;
-        }
-        
-    }
-    /////////////////////////////////////////////////////////////////
     
     public function getPaymentMethod()
     {
