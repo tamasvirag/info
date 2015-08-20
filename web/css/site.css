@@ -107,6 +107,12 @@ a.desc:after {
   z-index: 1030;
   position: fixed; }
 
+.table-simple > thead > tr > th {
+  background-color: #f5f5f5; }
+
+.table-simple > tbody > tr > td {
+  background-color: #fff; }
+
 .navbar {
   min-height: 40px; }
 

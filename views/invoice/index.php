@@ -114,10 +114,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
 
     <?= GridView::widget([
+        'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
-//        'filterModel' => $searchModel,
         'filterPosition'   => GridView::FILTER_POS_HEADER,
-//        'filterRowOptions' => ['class' => 'filters'],
         'layout'=>'{summary}{pager}{items}{pager}',
         'columns' => [
             [
@@ -174,7 +173,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
+                'label' => \Yii::t('app','invoice_date_abb'),
                 'attribute'=>'invoice_date',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return '<nobr>'.$model->invoice_date.'</nobr>';
+                }
             ],
             [
                 'attribute'=>'storno_invoice_date',
@@ -183,6 +187,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'invoice_deadline_date',
             ],
             [
+                'label' => \Yii::t('app','settle_date_abb'),
                 'attribute'=>'settle_date',
             ],
             [
@@ -215,7 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => Yii::t('app','invoice_storno'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','Are you sure?')] );
+                    return HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno')] );
                 }
             ],
             

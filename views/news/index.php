@@ -145,10 +145,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
 
     <?= GridView::widget([
+        'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
-//        'filterModel' => $searchModel,
         'filterPosition'   => GridView::FILTER_POS_HEADER,
-//        'filterRowOptions' => ['class' => 'filters'],
         'layout'=>'{summary}{pager}{items}{pager}',
         'columns' => [
             [
@@ -263,7 +262,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => null,
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','create_from_this') ),['createfrom', 'id'=>$model->id], ['data-confirm'=>\Yii::t('app','Are you sure?')] );
+                    return HTML::a( HTML::encode( Yii::t('app','create_from_this') ),['createfrom', 'id'=>$model->id], ['data-confirm'=>\Yii::t('app','confirm_create_from_this')] );
                 }
             ],
 
