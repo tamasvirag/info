@@ -70,13 +70,9 @@ use kartik\select2\Select2;
         <?php if(isset($model->id)): ?>
         <div class="col-md-2">
             <strong><?=\Yii::t('app','Status ID')?></strong><br><?=$model->statusLabel?>
-        <!--
-            <?= $form->field($model, 'status_id')->dropDownList( ArrayHelper::map( Status::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
-        -->
         </div>
         <div class="col-md-2">
             <?=\Yii::t('app','Invoice Date')?>:<br><?=$model->invoice_date?$model->invoice_date:"-"?><br>
-            
             <?=\Yii::t('app','Settle Date')?>:<br><?=$model->settle_date?$model->settle_date:"-"?>
         </div>
         <div class="col-md-2">
@@ -90,11 +86,11 @@ use kartik\select2\Select2;
         <?php endif; ?>
     </div>
     </div>
-
     
     <?php if(isset($model->id)): ?>
     
     <h3><?=\Yii::t('app','districts')?></h3>
+    <p><strong><?=\Yii::t('app','newscount_all')?>:</strong> <span id="newscount-all"></span></p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -158,7 +154,7 @@ use kartik\select2\Select2;
                 'format' => 'raw',
                 'value' => function( $model, $id ) {
                     if (isset($model->parent_id)){
-                        return count($model->nD)?$model->nD[0]->amount:null;
+                        return "<div class='newscount' id='newscount-".$id."'>".(count($model->nD)?$model->nD[0]->amount:null)."</div>";
                     }
                 },
                 'contentOptions' => ['width'=>'10%'],
@@ -170,8 +166,9 @@ use kartik\select2\Select2;
                 'value' => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block]['.$id.']', count($model->nD)?$model->nD[0]->block:null, [
-                            'placeHolder' => $model->block,
-                            'class' => 'form-control',
+                            'placeHolder'   => $model->block,
+                            'class'         => 'form-control newscount-trigger',
+                            'id'            => 'block-'.$id,
                         ] );
                     } else {
                         return $model->block;
@@ -186,8 +183,9 @@ use kartik\select2\Select2;
                 'value' => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block_price]['.$id.']', count($model->nD)?$model->nD[0]->block_price:null, [
-                            'placeHolder' => $model->block_price,
-                            'class' => 'form-control',
+                            'placeHolder'   => $model->block_price,
+                            'class'         => 'form-control newscount-trigger',
+                            'id'            => 'block-price-'.$id,
                         ] );
                     } else {
                         return $model->block_price;
@@ -202,8 +200,8 @@ use kartik\select2\Select2;
                 'value' => function( $model, $id ) {
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[block_price_real]['.$id.']', count($model->nD)?$model->nD[0]->block_price_real:null, [
-                            'placeHolder' => $model->block_price_real,
-                            'class' => 'form-control',
+                            'placeHolder'   => $model->block_price_real,
+                            'class'         => 'form-control',
                         ] );
                     } else {
                         return $model->block_price_real;
@@ -218,8 +216,9 @@ use kartik\select2\Select2;
                 'value' => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[house]['.$id.']', count($model->nD)?$model->nD[0]->house:null, [
-                            'placeHolder' => $model->house,
-                            'class' => 'form-control',
+                            'placeHolder'   => $model->house,
+                            'class'         => 'form-control newscount-trigger',
+                            'id'            => 'house-'.$id,
                         ] );
                     } else {
                         return $model->house;
@@ -234,8 +233,9 @@ use kartik\select2\Select2;
                 'value' => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[house_price]['.$id.']', count($model->nD)?$model->nD[0]->house_price:null, [
-                            'placeHolder' => $model->house_price,
-                            'class' => 'form-control',
+                            'placeHolder'   => $model->house_price,
+                            'class'         => 'form-control newscount-trigger',
+                            'id'            => 'house-price-'.$id,
                         ] );
                     } else {
                         return $model->house_price;
@@ -250,8 +250,8 @@ use kartik\select2\Select2;
                 'value' => function( $model, $id ) {
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[house_price_real]['.$id.']', count($model->nD)?$model->nD[0]->house_price_real:null, [
-                            'placeHolder' => $model->house_price_real,
-                            'class' => 'form-control',
+                            'placeHolder'   => $model->house_price_real,
+                            'class'         => 'form-control',
                         ] );
                     } else {
                         return $model->house_price_real;

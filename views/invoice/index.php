@@ -181,9 +181,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute'=>'storno_invoice_date',
-            ],
-            [
                 'label' => \Yii::t('app','invoice_deadline_date_abb'),
                 'attribute'=>'invoice_deadline_date',
             ],
@@ -223,6 +220,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function( $model ) {
                     return HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno')] );
                 }
+            ],
+            [
+                'attribute'=>'storno_invoice_date',
             ],
             
 //            ['class' => 'yii\grid\ActionColumn','template'=>'{view}'],

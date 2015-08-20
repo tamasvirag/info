@@ -153,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'name',
                 'format'    => 'raw',
-                'value' => function( $model ) {
+                'value'     => function( $model ) {
                     return HTML::a( HTML::encode( $model->name ),['update', 'id'=>$model->id] );
                 }
             ],
@@ -161,8 +161,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'client_id',
                 'format'    => 'raw',
-                'value' => 'clientLabel',
-                'filter' => Select2::widget([
+                'value'     => 'clientLabel',
+                'filter'    => Select2::widget([
                                 'name' => StringHelper::basename($searchModel::className()).'[client_id]',
                                 'value' => $searchModel->client_id,
                                 'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( Client::find()->all(), 'id', 'name' )),
@@ -171,27 +171,27 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'allowClear' => true
                                 ],
                             ]),
-                'options' => ['width'=>'15%'],
+                'options'   => ['width'=>'15%'],
             ],
             
             [
                 'attribute' => 'newsCount',
                 'format'    => 'raw',
-                'value' => 'newsCount',
-                'filter' => false
+                'value'     => 'newsCount',
+                'filter'    => false
             ],
             
             [
                 'attribute' => 'payment_method_id',
                 'format'    => 'raw',
-                'value' => 'paymentMethodLabel',
-                'filter' => ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' )
+                'value'     => 'paymentMethodLabel',
+                'filter'    => ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' )
             ],
             
             [
-                'label' => \Yii::t('app','distribution_date_abb'),
-                'attribute'=>'distribution_date',
-                'filter' => DateRangePicker::widget([
+                'label'     => \Yii::t('app','distribution_date_abb'),
+                'attribute' =>'distribution_date',
+                'filter'    => DateRangePicker::widget([
                         'name' => StringHelper::basename($searchModel::className()).'[distribution_date_from]',
                         'value' => $searchModel->distribution_date_from,
                         'nameTo' => StringHelper::basename($searchModel::className()).'[distribution_date_to]',
@@ -207,14 +207,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status_id',
                 'format'    => 'raw',
-                'value' => 'statusLabel',
-                'filter' => ArrayHelper::map( Status::find()->all(), 'id', 'name' )
+                'value'     => 'statusLabel',
+                'filter'    => ArrayHelper::map( Status::find()->all(), 'id', 'name' )
             ],
             
             [
-                'label' => \Yii::t('app','invoice_date_abb'),
-                'attribute'=>'invoice_date',
-                'filter' => DateRangePicker::widget([
+                'label'     => \Yii::t('app','invoice_date_abb'),
+                'attribute' =>'invoice_date',
+                'filter'    => DateRangePicker::widget([
                         'name' => StringHelper::basename($searchModel::className()).'[invoice_date_from]',
                         'value' => $searchModel->invoice_date_from,
                         'nameTo' => StringHelper::basename($searchModel::className()).'[invoice_date_to]',
@@ -228,9 +228,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
-                'label' => \Yii::t('app','settle_date_abb'),
-                'attribute'=>'settle_date',
-                'filter' => DateRangePicker::widget([
+                'label'     => \Yii::t('app','settle_date_abb'),
+                'attribute' =>'settle_date',
+                'filter'    => DateRangePicker::widget([
                         'name' => StringHelper::basename($searchModel::className()).'[settle_date_from]',
                         'value' => $searchModel->settle_date_from,
                         'nameTo' => StringHelper::basename($searchModel::className()).'[settle_date_to]',
@@ -246,8 +246,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'user_id',
                 'format'    => 'raw',
-                'value' => 'userLabel',
-                'filter' => Select2::widget([
+                'value'     => 'userLabel',
+                'filter'    => Select2::widget([
                                 'name' => StringHelper::basename($searchModel::className()).'[user_id]',
                                 'value' => $searchModel->user_id,
                                 'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( User::find()->all(), 'id', 'full_name' )),
@@ -256,12 +256,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'allowClear' => true
                                 ],
                             ]),
-                'options' => ['width'=>'10%'],
+                'options'   => ['width'=>'10%'],
             ],
             [
                 'attribute' => null,
                 'format'    => 'raw',
-                'value' => function( $model ) {
+                'value'     => function( $model ) {
                     return HTML::a( HTML::encode( Yii::t('app','create_from_this') ),['createfrom', 'id'=>$model->id], ['data-confirm'=>\Yii::t('app','confirm_create_from_this')] );
                 }
             ],

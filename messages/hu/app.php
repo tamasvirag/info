@@ -163,4 +163,5 @@ return [
     'success_save' => 'Sikeres mentés.',
     'users' => 'Értékesítők',
     'newscount' => 'Példányszám',
+    'newscount_all' => 'Példányszám',
 ];
