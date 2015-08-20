@@ -91,6 +91,7 @@ return [
     'Invoice Date' => 'Számlázás dátuma',
     'invoice_date_abb' => 'Számlázás',
     'Invoice Deadline Date' => 'Fizetési határidő',
+    'invoice_deadline_date_abb' => 'Fiz. határidő',
     'Invoice Number' => 'Számlászám',
     'Invoice selected' => 'Kijelöltek számlázása',
     'Invoice selected preview' => 'Kijelöltek számlázása előnézet',

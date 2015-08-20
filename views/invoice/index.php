@@ -184,6 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'storno_invoice_date',
             ],
             [
+                'label' => \Yii::t('app','invoice_deadline_date_abb'),
                 'attribute'=>'invoice_deadline_date',
             ],
             [
