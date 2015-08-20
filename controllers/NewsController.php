@@ -92,6 +92,9 @@ class NewsController extends BaseController
         $newModel               = new News();
         $newModel->attributes   = $model->attributes;
         $newModel->id           = null;
+        $newModel->status_id    = News::STATUS_NEW;
+        $newModel->invoice_date = null;
+        $newModel->settle_date  = null;
         $newModel->save();
         
         if (count($newsDistricts)) {

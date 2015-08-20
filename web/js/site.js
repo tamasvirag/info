@@ -1,6 +1,7 @@
 (function($) {
     $(function() {
         
+        setTimeout(function() { $('.alert').slideUp(); }, 3000);
         
         // News district edit
         function checkNewsDistrictRows() {
