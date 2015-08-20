@@ -190,6 +190,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
+                'label' => \Yii::t('app','distribution_date_abb'),
                 'attribute'=>'distribution_date',
                 'filter' => DateRangePicker::widget([
                         'name' => StringHelper::basename($searchModel::className()).'[distribution_date_from]',
@@ -212,6 +213,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
+                'label' => \Yii::t('app','invoice_date_abb'),
                 'attribute'=>'invoice_date',
                 'filter' => DateRangePicker::widget([
                         'name' => StringHelper::basename($searchModel::className()).'[invoice_date_from]',
@@ -227,6 +229,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
+                'label' => \Yii::t('app','settle_date_abb'),
                 'attribute'=>'settle_date',
                 'filter' => DateRangePicker::widget([
                         'name' => StringHelper::basename($searchModel::className()).'[settle_date_from]',
