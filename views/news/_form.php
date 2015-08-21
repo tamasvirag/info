@@ -267,7 +267,7 @@ use kartik\select2\Select2;
     <?php endif; ?>
     
     <div class="form-group">
-        <?php if ($model->status_id == News::STATUS_NEW): ?>
+        <?php if (!in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED])): ?>
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?php endif; ?>
         
@@ -284,7 +284,7 @@ use kartik\select2\Select2;
 
 </div>
 
-<?php if ($model->status_id != News::STATUS_NEW): ?>
+<?php if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ): ?>
 <script>
     disableNews = true;
 </script>
