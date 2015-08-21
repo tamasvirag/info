@@ -147,9 +147,16 @@
                 
             }); 
             
-            
-
         });
+
+        if ( typeof disableNews !== 'undefined' ) {
+            $("input").attr('disabled', 'disabled');
+            $("input").attr('readonly', 'true');
+            $("select").attr('disabled', 'disabled');
+            $("select").attr('readonly', 'true');
+            $("textarea").attr('disabled', 'disabled');
+            $("textarea").attr('readonly', 'true');
+        }
         
     });
 })(jQuery);

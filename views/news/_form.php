@@ -267,7 +267,9 @@ use kartik\select2\Select2;
     <?php endif; ?>
     
     <div class="form-group">
+        <?php if ($model->status_id == News::STATUS_NEW): ?>
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php endif; ?>
         
         <?php if(isset($model->id)): ?>
         <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm_create_from_this')]) ?>
@@ -281,3 +283,24 @@ use kartik\select2\Select2;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php if ($model->status_id != News::STATUS_NEW): ?>
+<script>
+    disableNews = true;
+</script>
+<?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
