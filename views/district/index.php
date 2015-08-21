@@ -31,6 +31,7 @@ $dealerData = ArrayHelper::map( Dealer::find()->all(), 'id', 'name' );
     </p>
 
     <?= GridView::widget([
+        'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'filterPosition'   => GridView::FILTER_POS_HEADER,
@@ -47,7 +48,7 @@ $dealerData = ArrayHelper::map( Dealer::find()->all(), 'id', 'name' );
                 'attribute' => 'name',
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( $model->name ),['update', 'id'=>$model->id] );
+                    return "<nobr>".HTML::a( HTML::encode( $model->name ),['update', 'id'=>$model->id] )."</nobr>";
                 }
             ],
             [
@@ -116,7 +117,7 @@ $dealerData = ArrayHelper::map( Dealer::find()->all(), 'id', 'name' );
                 'filter' => $dealerData
             ],
 
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}'],
+            ['class' => 'yii\grid\ActionColumn','template'=>'<nobr>{update} {delete}</nobr>'],
         ],
     ]); ?>
 

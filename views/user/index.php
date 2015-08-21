@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= GridView::widget([
+        'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
 //        'filterModel' => $searchModel,
 //        'filterPosition'   => GridView::FILTER_POS_HEADER,

@@ -147,7 +147,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
-        'filterPosition'   => GridView::FILTER_POS_HEADER,
         'layout'=>'{summary}{pager}{items}{pager}',
         'columns' => [
             [
@@ -162,15 +161,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'client_id',
                 'format'    => 'raw',
                 'value'     => 'clientLabel',
-                'filter'    => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[client_id]',
-                                'value' => $searchModel->client_id,
-                                'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( Client::find()->all(), 'id', 'name' )),
-                                'language' => 'hu',
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]),
                 'options'   => ['width'=>'15%'],
             ],
             
@@ -191,17 +181,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label'     => \Yii::t('app','distribution_date_abb'),
                 'attribute' =>'distribution_date',
-                'filter'    => DateRangePicker::widget([
-                        'name' => StringHelper::basename($searchModel::className()).'[distribution_date_from]',
-                        'value' => $searchModel->distribution_date_from,
-                        'nameTo' => StringHelper::basename($searchModel::className()).'[distribution_date_to]',
-                        'valueTo' => $searchModel->distribution_date_to,
-                        'language' => 'hu',
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd'
-                            ]
-                    ]),
             ],
             
             [
@@ -214,48 +193,17 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label'     => \Yii::t('app','invoice_date_abb'),
                 'attribute' =>'invoice_date',
-                'filter'    => DateRangePicker::widget([
-                        'name' => StringHelper::basename($searchModel::className()).'[invoice_date_from]',
-                        'value' => $searchModel->invoice_date_from,
-                        'nameTo' => StringHelper::basename($searchModel::className()).'[invoice_date_to]',
-                        'valueTo' => $searchModel->invoice_date_to,
-                        'language' => 'hu',
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd'
-                            ]
-                    ]),
             ],
             
             [
                 'label'     => \Yii::t('app','settle_date_abb'),
                 'attribute' =>'settle_date',
-                'filter'    => DateRangePicker::widget([
-                        'name' => StringHelper::basename($searchModel::className()).'[settle_date_from]',
-                        'value' => $searchModel->settle_date_from,
-                        'nameTo' => StringHelper::basename($searchModel::className()).'[settle_date_to]',
-                        'valueTo' => $searchModel->settle_date_to,
-                        'language' => 'hu',
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd'
-                            ]
-                    ]),
             ],
             
             [
                 'attribute' => 'user_id',
                 'format'    => 'raw',
                 'value'     => 'userLabel',
-                'filter'    => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[user_id]',
-                                'value' => $searchModel->user_id,
-                                'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( User::find()->all(), 'id', 'full_name' )),
-                                'language' => 'hu',
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]),
                 'options'   => ['width'=>'10%'],
             ],
             [

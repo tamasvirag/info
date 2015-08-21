@@ -117,20 +117,11 @@ class NewsController extends BaseController
         
             $model->deleteDistricts();
             if ( count( Yii::$app->request->post('selection') ) ) {
-            
                 $newsDistrictPost = Yii::$app->request->post('newsDistrict');
                 foreach( Yii::$app->request->post('selection') as $district_id ) {
-                    
-                    $ogDistrict                     = District::findOne($district_id);
                     $newsDistrict                   = new NewsDistrict();
-                    
                     $newsDistrict->news_id          = $model->id;
                     $newsDistrict->district_id      = $district_id;
-                    
-                    $newsDistrict->amount = 
-                        (isset($newsDistrictPost['block'][$district_id])&&$newsDistrictPost['block'][$district_id]?$newsDistrictPost['block'][$district_id]:$ogDistrict->block) +
-                        (isset($newsDistrictPost['house'][$district_id])&&$newsDistrictPost['house'][$district_id]?$newsDistrictPost['house'][$district_id]:$ogDistrict->house);
-                    
                     $newsDistrict->block            = isset($newsDistrictPost['block'][$district_id])?$newsDistrictPost['block'][$district_id]:null;
                     $newsDistrict->block_price      = isset($newsDistrictPost['block_price'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['block_price'][$district_id] ):null;
                     $newsDistrict->block_price_real = isset($newsDistrictPost['block_price_real'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['block_price_real'][$district_id] ):null;
@@ -139,7 +130,6 @@ class NewsController extends BaseController
                     $newsDistrict->house_price_real = isset($newsDistrictPost['house_price_real'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['house_price_real'][$district_id] ):null;
                     $newsDistrict->save();
                 }
-                
             }
         }
         

@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= GridView::widget([
+        'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'filterPosition'   => GridView::FILTER_POS_HEADER,
@@ -62,7 +63,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => Select2::widget([
                                 'name' => StringHelper::basename($searchModel::className()).'[user_id]',
                                 'value' => $searchModel->user_id,
-                                'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( User::find()->all(), 'id', 'full_name' )),
+                                'options' => ['placeholder' => Yii::t('app','please choose')],
+                                'data' => ArrayHelper::map( User::find()->all(), 'id', 'full_name' ),
                                 'language' => 'hu',
                                 'pluginOptions' => [
                                     'allowClear' => true

@@ -16,6 +16,7 @@ class District extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['area_id', 'name', 'block', 'house'],'required'],
             [['area_id', 'amount', 'block', 'house', 'dealer_id', 'parent_id'], 'integer'],
             [['block_price', 'house_price', 'block_price_real', 'house_price_real'], 'number'],
             [['name'], 'string', 'max' => 255]
