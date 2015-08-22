@@ -1,14 +1,18 @@
 <?php
 use yii\helpers\Html;
 $invoiceCount = count($dataArray);
+if ( isset($_REQUEST['type'] ) && $_REQUEST['type'] == 'normal' ) {
+    $invoiceCount = $invoiceCount*2;
+}
 $i = 0;
 
-foreach($dataArray as $data):
-    $i++;
-    
-    $items      = $data['items'];
-    $invoice    = $data['invoice'];
-    $client     = $data['client'];
+foreach($dataArray as $client_id => $invoices):
+    foreach($invoices as $data):
+        $i++;
+        
+        $items      = $data['items'];
+        $invoice    = $data['invoice'];
+        $client     = $data['client'];
 ?>
 
 <table class="table">
@@ -202,4 +206,5 @@ foreach($dataArray as $data):
 <pagebreak sheet-size="A4-P" resetpagenum="1" />
 <?php endif; ?>
 
+<?php endforeach; ?>
 <?php endforeach; ?>

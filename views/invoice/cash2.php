@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::hiddenInput('preview',1,['id'=>'hidden-field']); ?>
     
     <?= GridView::widget([
+        'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
         'layout'=>'{pager}{items}{pager}',
         'columns' => [
@@ -59,15 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'client_id',
                 'format'    => 'raw',
                 'value' => 'clientLabel',
-                'filter' => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[client_id]',
-                                'value' => $searchModel->client_id,
-                                'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( Client::find()->all(), 'id', 'name' )),
-                                'language' => 'hu',
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]),
                 'options' => ['width'=>'15%'],
             ],
             
@@ -75,40 +67,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'newsCount',
                 'format'    => 'raw',
                 'value' => 'newsCount',
-                'filter' => false,
                 'options' => ['width'=>'15%'],
             ],
             
             [
                 'attribute'=>'distribution_date',
-                'filter' => DateRangePicker::widget([
-                        'name' => StringHelper::basename($searchModel::className()).'[distribution_date_from]',
-                        'value' => $searchModel->distribution_date_from,
-                        'nameTo' => StringHelper::basename($searchModel::className()).'[distribution_date_to]',
-                        'valueTo' => $searchModel->distribution_date_to,
-                        'language' => 'hu',
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd'
-                            ]
-                    ]),
                 'options' => ['width'=>'15%'],
             ],
             
             [
                 'attribute'=>'created_at',
                 'format'    => ['date', 'php:Y-m-d'],
-                'filter' => DateRangePicker::widget([
-                        'name' => StringHelper::basename($searchModel::className()).'[invoice_date_from]',
-                        'value' => $searchModel->invoice_date_from,
-                        'nameTo' => StringHelper::basename($searchModel::className()).'[invoice_date_to]',
-                        'valueTo' => $searchModel->invoice_date_to,
-                        'language' => 'hu',
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd'
-                            ]
-                    ]),
                 'options' => ['width'=>'15%'],
             ],
                         
@@ -116,15 +85,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'user_id',
                 'format'    => 'raw',
                 'value' => 'userLabel',
-                'filter' => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[user_id]',
-                                'value' => $searchModel->user_id,
-                                'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( User::find()->all(), 'id', 'full_name' )),
-                                'language' => 'hu',
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]),
                 'options' => ['width'=>'15%'],
             ],
 

@@ -100,7 +100,8 @@ $this->params['breadcrumbs'][] = $this->title;
             
             
             
-            <?= GridView::widget([
+            <?= GridView::widget([                    
+                'tableOptions'=>['class'=>'table table-simple table-bordered'],
                 'dataProvider' => $dataProvider,
                 'filterPosition'   => GridView::FILTER_POS_HEADER,
                 'layout'=>'{pager}{items}{pager}',

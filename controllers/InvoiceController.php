@@ -121,104 +121,23 @@ class InvoiceController extends BaseController
             $invoice->invoice_number    = "...";
         }
         else {
-            if ($payment_method_id = PaymentMethod::TRANSFER) {
+            if ($payment_method_id == PaymentMethod::TRANSFER) {
                 $invoice->invoice_number    = $invoice->getNextInvoiceNumber(Invoice::TYPE_TRANSFER);
             }
-            elseif ($payment_method_id = PaymentMethod::CASH) {
+            elseif ($payment_method_id == PaymentMethod::CASH) {
                 $invoice->invoice_number    = $invoice->getNextInvoiceNumber(Invoice::TYPE_CASH);
             }
         }
         
-        if ($payment_method_id = PaymentMethod::CASH) {
+        if ($payment_method_id == PaymentMethod::CASH) {
             // round to 5 Ft CASH
-            $data_set['all_summa']          = round($data_set['all_summa']/5, 0) * 5;
+            $data_set['all_summa']      = round($data_set['all_summa']/5, 0) * 5;
         }
         $invoice->invoice_data          = serialize($data_set);
         $invoice->storno_invoice_data   = serialize($storno_data_set);
         
         return $invoice;
     }
-    
-    public function actionExecute() {
-        if ( isset($_REQUEST['selection']) && $_REQUEST['selection'] && $_REQUEST['payment_method_id'] ) {
-            $newsIds = $_REQUEST['selection'];
-            $preview = false;
-            if ( isset($_REQUEST['preview']) && $_REQUEST['preview'] ) {
-                $preview = true;
-            }
-            
-            // collect news by clients into groups
-            $newsByClientArray = [];
-            foreach( $newsIds as $news_id ) {
-                $news = News::findOne($news_id);
-                if ( !isset($newsByClientArray[$news->client_id]) ) {
-                    $newsByClientArray[$news->client_id] = [];    
-                }
-                $newsByClientArray[$news->client_id][] = $news->id;
-            }
-            
-            $invoiceDataByClientArray = [];
-            // walkthrough by clients
-            foreach( $newsByClientArray as $client_id => $newsIds ) {
-                $invoice = $this->getInvoiceData($newsIds, $_REQUEST['payment_method_id'], $preview);
-                                
-                $dataSet       = unserialize($invoice->invoice_data);
-                
-                $copy           = 1;
-                $copy_count     = "";
-                $invoice_type   = 'normal';
-                
-                $invoiceData = [
-                    'copy'              => $copy,
-                    'copy_count'        => $copy_count,
-                    'invoice'           => $invoice,
-                    'client'            => $dataSet['client'],
-                    'item_ids'          => $newsIds,
-                    'items'             => $dataSet['items'],
-                    'price_summa'       => $dataSet['price_summa'],
-                    'tax_summa'         => $dataSet['tax_summa'],
-                    'all_summa'         => $dataSet['all_summa'],
-                    'all_summa_string'  => $dataSet['all_summa_string'],
-                    'type'              => $invoice_type,
-                ];
-                $invoiceDataByClientArray[$client_id] = $invoiceData;
-            }
-
-            
-            if ($preview) {
-                return $this->render('pdf',['dataArray'=>$invoiceDataByClientArray]);
-            }
-            else {                
-                $invoiceGroup = new InvoiceGroup;
-                $invoiceGroup->save();
-                
-                foreach($invoiceDataByClientArray as $client_id => $invoiceData) {
-                    $invoice = $invoiceData['invoice'];
-                    $invoice->save();
-                    foreach($invoiceData['item_ids'] as $news_id) {
-                        $invoiceItem = new InvoiceItem;
-                        $invoiceItem->invoice_id    = $invoice->id;
-                        $invoiceItem->item_id       = $news_id;
-                        $invoiceItem->item_class    = 'News';
-                        $invoiceItem->save();
-                        
-                        $news = News::findOne($news_id);
-                        $news->invoice_date = $invoice->invoice_date;
-                        $news->settle_date  = $invoice->settle_date;
-                        $news->status_id    = News::STATUS_INVOICED;
-                        $news->save();
-                    }
-                    $invoiceGroupItem = new InvoiceGroupItem;
-                    $invoiceGroupItem->invoice_group_id = $invoiceGroup->id;
-                    $invoiceGroupItem->invoice_id       = $invoice->id;
-                    $invoiceGroupItem->save();
-                }
-                echo json_encode(['success' => true, 'invoice_group_id' => $invoiceGroup->id]);
-            }
-        }
-    }
-    
-
     
     public function actionTransfer()
     {
@@ -311,6 +230,93 @@ class InvoiceController extends BaseController
             ]);
         }        
     }
+    
+    public function actionExecute() {
+        if ( isset($_REQUEST['selection']) && $_REQUEST['selection'] && $_REQUEST['payment_method_id'] ) {
+            $newsIds = $_REQUEST['selection'];
+            $preview = false;
+            if ( isset($_REQUEST['preview']) && $_REQUEST['preview'] ) {
+                $preview = true;
+            }
+            
+            // collect news by clients into groups
+            $newsByClientArray = [];
+            foreach( $newsIds as $news_id ) {
+                $news = News::findOne($news_id);
+                if ( !isset($newsByClientArray[$news->client_id]) ) {
+                    $newsByClientArray[$news->client_id] = [];    
+                }
+                $newsByClientArray[$news->client_id][] = $news->id;
+            }
+            
+            $invoiceDataByClientArray = [];
+            // walkthrough by clients
+            foreach( $newsByClientArray as $client_id => $newsIds ) {
+                $invoice = $this->getInvoiceData($newsIds, $_REQUEST['payment_method_id'], $preview);
+                                
+                $dataSet        = unserialize($invoice->invoice_data);
+                $copy           = 1;
+                $copy_count     = "";
+                $invoice_type   = 'normal';
+                
+                $invoiceData = [
+                    'copy'              => $copy,
+                    'copy_count'        => $copy_count,
+                    'invoice'           => $invoice,
+                    'client'            => $dataSet['client'],
+                    'item_ids'          => $newsIds,
+                    'items'             => $dataSet['items'],
+                    'price_summa'       => $dataSet['price_summa'],
+                    'tax_summa'         => $dataSet['tax_summa'],
+                    'all_summa'         => $dataSet['all_summa'],
+                    'all_summa_string'  => $dataSet['all_summa_string'],
+                    'type'              => $invoice_type,
+                ];
+                
+                // pdf-ben []-be kerülnek a példányok
+                if ($preview) {
+                    $invoiceDataByClientArray[$client_id] = [$invoiceData];
+                }
+                // pdf előtt még egyenként kezeljük a számlákat és mentjük db-be
+                else {
+                    $invoiceDataByClientArray[$client_id] = $invoiceData;
+                }
+                
+            }
+
+            
+            if ($preview) {
+                return $this->render('pdf',['dataArray'=>$invoiceDataByClientArray]);
+            }
+            else {                
+                $invoiceGroup = new InvoiceGroup;
+                $invoiceGroup->save();
+                
+                foreach($invoiceDataByClientArray as $client_id => $invoiceData) {
+                    $invoice = $invoiceData['invoice'];
+                    $invoice->save();
+                    foreach($invoiceData['item_ids'] as $news_id) {
+                        $invoiceItem = new InvoiceItem;
+                        $invoiceItem->invoice_id    = $invoice->id;
+                        $invoiceItem->item_id       = $news_id;
+                        $invoiceItem->item_class    = 'News';
+                        $invoiceItem->save();
+                        
+                        $news = News::findOne($news_id);
+                        $news->invoice_date = $invoice->invoice_date;
+                        $news->settle_date  = $invoice->settle_date;
+                        $news->status_id    = News::STATUS_INVOICED;
+                        $news->save();
+                    }
+                    $invoiceGroupItem = new InvoiceGroupItem;
+                    $invoiceGroupItem->invoice_group_id = $invoiceGroup->id;
+                    $invoiceGroupItem->invoice_id       = $invoice->id;
+                    $invoiceGroupItem->save();
+                }
+                echo json_encode(['success' => true, 'invoice_group_id' => $invoiceGroup->id]);
+            }
+        }
+    }
 
     public function actionPdf()
     {
@@ -330,12 +336,8 @@ class InvoiceController extends BaseController
             Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invalid invoice id') );
             return $this->render('pdf-error');
         }
-        
-        $copy = 1;
-        if (isset($_REQUEST['copy']) && $_REQUEST['copy'] && in_array($_REQUEST['copy'], ["1","2"])) {
-            $copy = $_REQUEST['copy'];
-        }
-        
+
+        // számlamásolatok száma
         $copy_count = "";
         
         if ( isset($_REQUEST['type']) && in_array($_REQUEST['type'], ['storno','copy']) ) {
@@ -365,7 +367,7 @@ class InvoiceController extends BaseController
             }
             
             $invoiceData = [
-                'copy'              => $copy,
+                'copy'              => 1,
                 'copy_count'        => $copy_count,
                 'invoice'           => $invoice,
                 'client'            => $dataSet['client'],
@@ -376,7 +378,16 @@ class InvoiceController extends BaseController
                 'all_summa_string'  => $dataSet['all_summa_string'],
                 'type'              => $invoice_type,
             ];
-            $dataArray[$dataSet['client']->id] = $invoiceData;
+            
+            // első példány
+            $dataArray[$dataSet['client']->id] = [$invoiceData];
+            
+            // második példány
+            if ($invoice_type == "normal") {
+                $invoiceData['copy'] = 2;
+                $dataArray[$dataSet['client']->id][] = $invoiceData;
+            }
+            
         }
 
         $content = $this->render('pdf',['dataArray'=>$dataArray]);
@@ -400,14 +411,8 @@ class InvoiceController extends BaseController
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'application/pdf');
         
-        
-        
-        /// megoldani
         //$invoice->printed = 1;
         //$invoice->save();
-        
-        
-        
         
         return $pdf->render();
     }

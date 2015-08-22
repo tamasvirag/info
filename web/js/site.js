@@ -133,8 +133,7 @@
                             {
                                 $("#btn-invoice").remove();
                                 $("#form-btn-group").append("<span>Számla: </span> ");
-                                $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?invoice_group_id="+data.invoice_group_id+"&copy=1' target='_blank'>1. példány</a> ");
-                                $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?invoice_group_id="+data.invoice_group_id+"&copy=2' target='_blank'>2. példány</a> ");
+                                $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?invoice_group_id="+data.invoice_group_id+"&type=normal' target='_blank'>Számlák megnyitása</a> ");
                             }
                         }
                     });
