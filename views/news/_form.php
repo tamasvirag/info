@@ -90,7 +90,10 @@ use kartik\select2\Select2;
     <?php if(isset($model->id)): ?>
     
     <h3><?=\Yii::t('app','districts')?></h3>
-    <p><strong><?=\Yii::t('app','newscount_all')?>:</strong> <span id="newscount-all"></span></p>
+    <p><strong><?=\Yii::t('app','newscount_all')?>:</strong> <span id="newscount-all"></span> db<br>
+    <strong><?=\Yii::t('app','Net Revenue')?>:</strong> <span id="revenue"></span> Ft<br>
+    <strong><?=\Yii::t('app','Cost')?>:</strong> <span id="cost"></span> Ft<br>
+    <strong><?=\Yii::t('app','Margin')?>:</strong> <span id="margin"></span> Ft</p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -201,7 +204,8 @@ use kartik\select2\Select2;
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[block_price_real]['.$id.']', count($model->nD)?$model->nD[0]->block_price_real:null, [
                             'placeHolder'   => $model->block_price_real,
-                            'class'         => 'form-control',
+                            'class'         => 'form-control newscount-trigger',
+                            'id'            => 'block-price-real-'.$id,
                         ] );
                     } else {
                         return $model->block_price_real;
@@ -251,7 +255,8 @@ use kartik\select2\Select2;
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[house_price_real]['.$id.']', count($model->nD)?$model->nD[0]->house_price_real:null, [
                             'placeHolder'   => $model->house_price_real,
-                            'class'         => 'form-control',
+                            'class'         => 'form-control newscount-trigger',
+                            'id'            => 'house-price-real-'.$id,
                         ] );
                     } else {
                         return $model->house_price_real;

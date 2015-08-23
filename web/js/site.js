@@ -14,12 +14,17 @@
                 $('#newscount-'+$(this).val()).html('');
             });
             
+            // pénzügyi adatok számolása szórólap szerkesztésnél
+            revenue      = 0;
+            cost         = 0;
+            margin       = 0;
             newscountAll = 0;
             $.each( $('.child input:checked'), function() {
                 $('#row-'+$(this).val()).addClass('highlight');
                 
-                block = 0;
-                blockPrice = $('#block-price-'+$(this).val()).val();
+                blockRevenue = 0;
+                block        = 0;
+                blockPrice   = $('#block-price-'+$(this).val()).val();
                 blockPricePH = $('#block-price-'+$(this).val()).attr('placeholder');
                 if ( isNumeric( blockPrice ) && blockPrice > 0 || blockPrice == "" && isNumeric( blockPricePH ) && blockPricePH > 0 ) {
                     if ( isNumeric( $('#block-'+$(this).val()).val() ) ) {
@@ -28,10 +33,33 @@
                     else if ( isNumeric( $('#block-'+$(this).val()).attr('placeholder') ) ) {
                         block = $('#block-'+$(this).val()).attr('placeholder');
                     }
+                    
+                    if ( isNumeric( blockPrice ) && blockPrice > 0 ) {
+                        blockRevenue = block * blockPrice;
+                    }
+                    else if ( isNumeric( blockPricePH ) && blockPricePH > 0 ) {
+                        blockRevenue = block * blockPricePH;
+                    }
                 }
                 
-                house = 0;
-                housePrice = $('#house-price-'+$(this).val()).val();
+                blockCost        = 0;
+                blockPriceReal   = $('#block-price-real-'+$(this).val()).val();
+                blockPriceRealPH = $('#block-price-real-'+$(this).val()).attr('placeholder');
+                
+                if ( isNumeric( block ) && block > 0 ) {
+                    if ( isNumeric( blockPriceReal ) ) {
+                        blockCost = block * blockPriceReal;
+                        console.log(blockCost);
+                    }
+                    else if ( blockPriceReal == "" && isNumeric( blockPriceRealPH ) ) {
+                        blockCost = block * blockPriceRealPH;
+                    }
+                }
+                
+
+                houseRevenue = 0;
+                house        = 0;
+                housePrice   = $('#house-price-'+$(this).val()).val();
                 housePricePH = $('#house-price-'+$(this).val()).attr('placeholder');
                 if ( isNumeric( housePrice ) && housePrice > 0 || housePrice == "" && isNumeric( housePricePH ) && housePricePH > 0 ) {
                     if ( isNumeric( $('#house-'+$(this).val()).val() ) ) {
@@ -40,12 +68,38 @@
                     else if ( isNumeric( $('#house-'+$(this).val()).attr('placeholder') ) ) {
                         house = $('#house-'+$(this).val()).attr('placeholder');
                     }
+                    
+                    if ( isNumeric( housePrice ) && housePrice > 0 ) {
+                        houseRevenue = house * housePrice;
+                    }
+                    else if ( isNumeric( housePricePH ) && housePricePH > 0 ) {
+                        houseRevenue = house * housePricePH;
+                    }
+                }
+                
+                houseCost        = 0;
+                housePriceReal   = $('#house-price-real-'+$(this).val()).val();
+                housePriceRealPH = $('#house-price-real-'+$(this).val()).attr('placeholder');
+                
+                if ( isNumeric( house ) && house > 0 ) {
+                    if ( isNumeric( housePriceReal ) ) {
+                        houseCost = house * housePriceReal;
+                    }
+                    else if ( housePriceReal == "" && isNumeric( housePriceRealPH ) ) {
+                        houseCost = house * housePriceRealPH;
+                    }
                 }
                 
                 $('#newscount-'+$(this).val()).html(parseInt(block)+parseInt(house));
                 newscountAll += (parseInt(block)+parseInt(house));
+                cost         += blockCost + houseCost;
+                revenue      += blockRevenue + houseRevenue;
             });
+            margin = revenue - cost;
             $('#newscount-all').html(newscountAll);
+            $('#revenue').html(revenue);
+            $('#cost').html(cost);
+            $('#margin').html(margin);
         }
         
         checkNewsDistrictRows();
