@@ -134,6 +134,7 @@
                                 $("#btn-invoice").remove();
                                 $("#form-btn-group").append("<span>Számla: </span> ");
                                 $("#form-btn-group").append("<a href='"+baseUrl+"/invoice/pdf?invoice_group_id="+data.invoice_group_id+"&type=normal' target='_blank'>Számlák megnyitása</a> ");
+                                $("#form-btn-group").append(" <a href='"+baseUrl+"/invoiceenvelope?invoice_group_id="+data.invoice_group_id+"' target='_blank'>Borítékok</a> ");
                             }
                         }
                     });
