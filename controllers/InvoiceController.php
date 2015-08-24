@@ -42,6 +42,19 @@ class InvoiceController extends BaseController
         ];
     }
     
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+    
     public function actionIndex()
     {        
         $searchModel = new InvoiceSearch();

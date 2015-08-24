@@ -92,6 +92,7 @@ return [
     'House Price' => 'Kertes ár Ft/db',
     'House Price real' => 'Kertes ktg. Ft/db',
     'ID' => 'ID',
+    'Invoice' => 'Számla',
     'Invoice Date' => 'Számlázás dátuma',
     'invoice_date_abb' => 'Számlázás',
     'Invoice Deadline Date' => 'Fizetési határidő',

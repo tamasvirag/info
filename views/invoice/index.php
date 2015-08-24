@@ -123,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'invoice_number',
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( $model->invoice_number ),['view', 'id'=>$model->id] );
+                    return HTML::a( HTML::encode( $model->invoice_number ),['update', 'id'=>$model->id] );
                 }
             ],
             
@@ -225,7 +225,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'storno_invoice_date',
             ],
             
-//            ['class' => 'yii\grid\ActionColumn','template'=>'{view}'],
+            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
         ],
     ]); ?>
 
