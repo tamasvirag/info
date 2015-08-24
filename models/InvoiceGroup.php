@@ -126,7 +126,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
         if ( count($invoiceIds) ) {
             foreach( $invoiceIds as $invoiceId ) {
                 $invoice = Invoice::findOne($invoiceId);
-                $ret .= HTML::a( $invoice->invoice_number, Url::to(['invoice/view','id'=>$invoice->id])  )." - ".$invoice->clientLabel."<br>";
+                $ret .= HTML::a( $invoice->invoice_number, Url::to(['invoice/update','id'=>$invoice->id])  )." - ".$invoice->clientLabel."<br>";
             }
             return $ret;
         }
