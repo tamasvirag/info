@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id',
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( $model->id ),['view', 'id'=>$model->id] );
+                    return $model->id; //HTML::a( HTML::encode( $model->id ),['view', 'id'=>$model->id] );
                 },
                 'options' => ['width'=>'2%'],
             ],

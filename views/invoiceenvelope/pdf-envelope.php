@@ -27,7 +27,7 @@ foreach($dataArray as $client_id => $client):
             <td width="40%">
             
             
-                <table class="table table-bordered">
+                <table class="table">
                 <tbody>
                     <tr>
                         <td>
