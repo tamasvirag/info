@@ -14,7 +14,7 @@ use yii\filters\AccessControl;
 /**
  * PaymentMethodController implements the CRUD actions for PaymentMethod model.
  */
-class PaymentMethodController extends BaseController
+class PaymentmethodController extends BaseController
 {
     public function behaviors()
     {
