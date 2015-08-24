@@ -177,6 +177,9 @@ a.btn {
   display: inline;
   padding: 8px 10px; }
 
+a.inline-block {
+  display: inline-block; }
+
 .mt-21 {
   margin-top: 21px; }
 
