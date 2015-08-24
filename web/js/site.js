@@ -1,7 +1,7 @@
 (function($) {
     $(function() {
         
-        setTimeout(function() { $('.alert').slideUp(); }, 3000);
+        setTimeout(function() { $('.alert').fadeOut(); }, 4000);
         
         function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
