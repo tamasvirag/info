@@ -22,6 +22,7 @@ class MenuHelper
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing cash')." ".strtolower(\Yii::t('app', 'News')), 'url' => Url::to(['invoice/cash'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing transfer')." ".strtolower(\Yii::t('app', 'News')), 'url' => Url::to(['invoice/transfer'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoices'), 'url' => Url::to(['invoice/index'])];
+            $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing history'), 'url' => Url::to(['invoicegroup/index'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Demand for payment'), 'url' => Url::to(['invoicedemand/index'])];
         }
         
@@ -38,7 +39,7 @@ class MenuHelper
             $items[] = [
                 'label' => \Yii::t('app','Invoicing'),
                 'url' => ['/invoice'],
-                'active' => in_array(\Yii::$app->controller->id,['invoice']),
+                'active' => in_array(\Yii::$app->controller->id,['invoice','invoicegroup','invoicedemand']),
                 'items' =>  $invoiceMenuItems,
             ];
         }

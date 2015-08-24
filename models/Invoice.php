@@ -6,44 +6,17 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 
-/**
- * This is the model class for table "invoice".
- *
- * @property integer $id
- * @property string $invoice_number
- * @property string $invoice_date
- * @property string $invoice_deadline_date
- * @property string $invoice_data
- * @property string $storno_invoice_number
- * @property string $storno_invoice_date
- * @property string $storno_invoice_data
- * @property integer $copy_count
- * @property string $settle_date
- * @property integer $payment_method_id
- * @property integer $office_id
- *
- * @property Office $office
- * @property PaymentMethod $paymentMethod
- * @property User $user
- * @property InvoiceItem[] $invoiceItems
- */
 class Invoice extends \yii\db\ActiveRecord
 {
     const TYPE_CASH     = 1;
     const TYPE_TRANSFER = 2;
     const TYPE_STORNO   = 3;
     
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'invoice';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -62,9 +35,6 @@ class Invoice extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

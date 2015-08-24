@@ -46,6 +46,12 @@ class InvoiceSearch extends Invoice
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'  => [
+                'defaultOrder' => 'invoice_date DESC',
+            ],
+            'pagination' => [
+                'pageSize' => 50,
+            ],
         ]);
 
         if ($params) $this->load($params);
@@ -90,20 +96,20 @@ class InvoiceSearch extends Invoice
     public function attributeLabels()
     {
         return array_merge([
-            'distribution_date_from'=> Yii::t('app', 'Distribution Date'),
-            'distribution_date_to'  => Yii::t('app', 'Distribution Date to'),
-            'invoice_date_from'     => Yii::t('app', 'Invoice Date'),
-            'invoice_date_to'       => Yii::t('app', 'Invoice Date to'),
-            'invoice_deadline_date_from'     => Yii::t('app', 'Invoice Deadline Date'),
-            'invoice_deadline_date_to'       => Yii::t('app', 'Invoice Deadline Date to'),
-            'storno_invoice_date_from'     => Yii::t('app', 'Storno Invoice Date'),
-            'storno_invoice_date_to'       => Yii::t('app', 'Storno Invoice Date to'),
-            'settle_date_from'      => Yii::t('app', 'Settle Date'),
-            'settle_date_to'        => Yii::t('app', 'Settle Date to'),
-            'created_from'      => Yii::t('app', 'Created'),
-            'created_to'        => Yii::t('app', 'Created to'),
-            'user_id'             => Yii::t('app', 'User ID'),
-            'client_id'           => Yii::t('app', 'Client ID'),
+            'distribution_date_from'    => Yii::t('app', 'Distribution Date'),
+            'distribution_date_to'      => Yii::t('app', 'Distribution Date to'),
+            'invoice_date_from'         => Yii::t('app', 'Invoice Date'),
+            'invoice_date_to'           => Yii::t('app', 'Invoice Date to'),
+            'invoice_deadline_date_from'=> Yii::t('app', 'Invoice Deadline Date'),
+            'invoice_deadline_date_to'  => Yii::t('app', 'Invoice Deadline Date to'),
+            'storno_invoice_date_from'  => Yii::t('app', 'Storno Invoice Date'),
+            'storno_invoice_date_to'    => Yii::t('app', 'Storno Invoice Date to'),
+            'settle_date_from'          => Yii::t('app', 'Settle Date'),
+            'settle_date_to'            => Yii::t('app', 'Settle Date to'),
+            'created_from'              => Yii::t('app', 'Created'),
+            'created_to'                => Yii::t('app', 'Created to'),
+            'user_id'                   => Yii::t('app', 'User ID'),
+            'client_id'                 => Yii::t('app', 'Client ID'),
         ],parent::attributeLabels());
     }
 }
