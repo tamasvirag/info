@@ -16,6 +16,7 @@
             
             // pénzügyi adatok számolása szórólap szerkesztésnél
             revenue      = 0;
+            grossRevenue = 0;
             cost         = 0;
             margin       = 0;
             newscountAll = 0;
@@ -95,9 +96,11 @@
                 cost         += blockCost + houseCost;
                 revenue      += blockRevenue + houseRevenue;
             });
-            margin = revenue - cost;
+            margin          = revenue - cost;
+            grossRevenue    = revenue * 1.27;
             $('#newscount-all').html(newscountAll);
             $('#revenue').html(revenue);
+            $('#gross-revenue').html(grossRevenue);
             $('#cost').html(cost);
             $('#margin').html(margin);
         }

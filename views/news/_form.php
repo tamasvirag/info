@@ -92,6 +92,7 @@ use kartik\select2\Select2;
     <h3><?=\Yii::t('app','districts')?></h3>
     <p><strong><?=\Yii::t('app','newscount_all')?>:</strong> <span id="newscount-all"></span> db<br>
     <strong><?=\Yii::t('app','Net Revenue')?>:</strong> <span id="revenue"></span> Ft<br>
+    <strong><?=\Yii::t('app','Gross Revenue')?>:</strong> <span id="gross-revenue"></span> Ft<br>
     <strong><?=\Yii::t('app','Cost')?>:</strong> <span id="cost"></span> Ft<br>
     <strong><?=\Yii::t('app','Margin')?>:</strong> <span id="margin"></span> Ft</p>
 

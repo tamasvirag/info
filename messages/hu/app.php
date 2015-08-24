@@ -85,6 +85,7 @@ return [
     'Email' => 'E-mail cím',
     'Filter' => 'Szűrés',
     'Full Name' => 'Név',
+    'Gross Revenue' => 'Bruttó árbevétel',
     'Helpers' => 'Besegítő személyek név, telefonszám',
     'House' => 'Kertes',
     'House Price' => 'Kertes ár Ft/db',
