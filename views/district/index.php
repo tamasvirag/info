@@ -16,7 +16,7 @@ use yii\helpers\Url;
 $this->title = Yii::t('app', 'Districts');
 $this->params['breadcrumbs'][] = $this->title;
 
-$dealerData = ArrayHelper::map( Dealer::find()->all(), 'id', 'name' );
+$dealerData = ArrayHelper::map( Dealer::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' );
 
 ?>
 <div class="district-index">
