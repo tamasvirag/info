@@ -11,9 +11,9 @@ foreach($dataArray as $client_id => $client):
     <tbody>
         <tr>
             <td width="50%">
-                <p>Feladó:</p>
+                <p>Feladó</p>
                 <p>Hírös Modul Kft.</p>
-                <p>Kőhíd u. 17.<br>Kecskemét<br>6000</p>
+                <p style="font-family: DejaVuSans;">Kőhíd u. 17.<br>Kecskemét<br>6000</p>
             </td>
             <td width="50%"></td>
         </tr>
@@ -26,18 +26,16 @@ foreach($dataArray as $client_id => $client):
 <table class="table">
     <tbody>
         <tr>
-            <td width="65%"></td>
-            <td width="35%">
+            <td width="60%"></td>
+            <td width="40%">
             
             
-                <table class="envelope">
+                <table class="table">
                 <tbody>
                     <tr>
                         <td>
-                            <p class="address">
-                                <?=$client->name?>
-                            </p>
                             <p>
+                                <?=$client->name?><br>
                                 <?=$client->address?><br>
                                 <?=$client->city?><br><br>
                                 <?=$client->pcode?><br>
