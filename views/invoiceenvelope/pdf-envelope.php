@@ -19,7 +19,10 @@ foreach($dataArray as $client_id => $client):
         </tr>
     </tbody>
 </table>
-<br><br><br><br><br><br><br><br><br><br>
+<br><br><br>
+<?php if( $format_ == 'LC5'): ?>
+<br><br><br><br><br><br><br>
+<?php endif; ?>
 <table class="table">
     <tbody>
         <tr>

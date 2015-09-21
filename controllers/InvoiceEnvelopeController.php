@@ -63,19 +63,24 @@ class InvoiceenvelopeController extends BaseController
             $dataArray[$dataSet['client']->id] = $dataSet['client'];            
         }
         
+        $formats = ['LC5'=>[162,229],'LC6'=>[114,162]];
+        $format = 'LC5';
+        if (isset($_REQUEST['format']) && $_REQUEST['format']) {
+            $format = $_REQUEST['format'];
+        }
         
-        $content = $this->render('pdf-envelope',['dataArray'=>$dataArray]);
+        $content = $this->render('pdf-envelope',['dataArray'=>$dataArray,'format_'=>$format]);
         
         $pdf = new Pdf([
-            'mode' => Pdf::MODE_UTF8,
-            'format' => [162,229], //162x229 LC5  //Pdf::FORMAT_A4,
-            'orientation' => Pdf::ORIENT_LANDSCAPE,
-            'destination' => Pdf::DEST_BROWSER,
-            'content' => $content,
-            'cssFile' => '',
-            'cssInline' => '',
-            'options' => ['title' => ''],
-            'methods' => []
+            'mode'          => Pdf::MODE_UTF8,
+            'format'        => $formats[$format], //162x229 LC5  //Pdf::FORMAT_A4,
+            'orientation'   => Pdf::ORIENT_LANDSCAPE,
+            'destination'   => Pdf::DEST_BROWSER,
+            'content'       => $content,
+            'cssFile'       => '',
+            'cssInline'     => '',
+            'options'       => ['title' => ''],
+            'methods'       => []
         ]);
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;

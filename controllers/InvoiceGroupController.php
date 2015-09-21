@@ -46,8 +46,6 @@ class InvoicegroupController extends BaseController
     public function actionIndex()
     {        
         $searchModel = new InvoiceGroup();
-//        var_dump(Yii::$app->request->bodyParams);
-//        die();
         $dataProvider = $searchModel->search(Yii::$app->request->bodyParams);
 
         return $this->render('index', [

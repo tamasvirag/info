@@ -105,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => \Yii::t('app','Print Envelopes'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( 'LC5', Url::to(['invoiceenvelope/index','invoice_group_id'=>$model->id]), ['target'=>'_blank']  );
+                    return HTML::a( 'LC5', Url::to(['invoiceenvelope/index','invoice_group_id'=>$model->id,'format'=>'LC5']), ['target'=>'_blank']  )." ".HTML::a( 'LC6', Url::to(['invoiceenvelope/index','invoice_group_id'=>$model->id, 'format'=>'LC6']), ['target'=>'_blank']  );
                 },
                 'options' => ['width'=>'15%'],
             ],
