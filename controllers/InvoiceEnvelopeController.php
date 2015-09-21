@@ -69,7 +69,7 @@ class InvoiceenvelopeController extends BaseController
             $format = $_REQUEST['format'];
         }
         
-        $content = $this->render('pdf-envelope',['dataArray'=>$dataArray,'format_'=>$format]);
+        $content = $this->render('pdf-envelope',['dataArray'=>$dataArray,'format_'=>$format]); 
         
         $pdf = new Pdf([
             'mode'          => Pdf::MODE_UTF8,
