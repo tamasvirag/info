@@ -99,4 +99,25 @@ class District extends \yii\db\ActiveRecord
     {
         return $this->hasMany(NewsDistrict::className(), ['district_id' => 'id']);
     }
+    
+    public function afterSave($insert, $changedAttributes)
+    {
+        if (isset($this->parent_id)) {
+            $districts = self::find()->where('parent_id =:parent_id',[':parent_id'=>$this->parent_id])->all();
+            if (count($districts)) {
+                $block  = 0;
+                $house  = 0;
+                foreach($districts as $district) {
+                    $block += $district->block;
+                    $house += $district->house;
+                }
+                $parent = self::find()->where( 'id =:id',[':id'=>$this->parent_id] )->one();
+                $parent->block = $block;
+                $parent->house = $house;
+                $parent->amount = $block + $house;
+                $parent->save();
+            }
+        }
+        return parent::afterSave($insert, $changedAttributes);
+    }
 }

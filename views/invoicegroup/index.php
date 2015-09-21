@@ -27,8 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     
     <?php $form = ActiveForm::begin([
-                                        'options'=>['id'=>'search-invoice'],
-                                        'method'=>'get',
+                                        'options'   => ['id'=>'search-invoice'],
+//                                        'method'    => 'get',
+                                        'action'    => Url::to(['invoicegroup/index']),
                                     ] ); ?>
     <div class="well">
         <div class="row">
@@ -101,10 +102,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => '',
+                'attribute' => \Yii::t('app','Print Envelopes'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( \Yii::t('app','Print Envelopes'), Url::to(['invoiceenvelope/index','invoice_group_id'=>$model->id]), ['target'=>'_blank']  );
+                    return HTML::a( 'LC5', Url::to(['invoiceenvelope/index','invoice_group_id'=>$model->id]), ['target'=>'_blank']  );
                 },
                 'options' => ['width'=>'15%'],
             ],

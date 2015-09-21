@@ -68,17 +68,14 @@ class InvoiceenvelopeController extends BaseController
         
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'format' => [114,162], //Pdf::FORMAT_A4,
+            'format' => [162,229], //162x229 LC5  //Pdf::FORMAT_A4,
             'orientation' => Pdf::ORIENT_LANDSCAPE,
             'destination' => Pdf::DEST_BROWSER,
             'content' => $content,
             'cssFile' => '',
             'cssInline' => '',
             'options' => ['title' => ''],
-            'methods' => [
-//                'SetHeader' => ['<p class="small">{nbpg} / {PAGENO}. oldal</p>'],
-//                'SetFooter' => ['<p align="left" class="small">Terjesztés - A számlaprogram megfelel a PM 34/1999 (XII.26) rendeletnek</p>'],
-            ]
+            'methods' => []
         ]);
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;

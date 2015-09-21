@@ -26,13 +26,13 @@ use kartik\select2\Select2;
             <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
         </div>
         <div class="col-md-2">
-            <?= $form->field($model, 'amount')->textInput() ?>
+            <?= $form->field($model, 'amount')->textInput(['disabled' => !isset($model->parent_id)]) ?>
         </div>
     </div>
     
     <div class="row">
         <div class="col-md-2">
-            <?= $form->field($model, 'block')->textInput() ?>
+            <?= $form->field($model, 'block')->textInput(['disabled' => !isset($model->parent_id)]) ?>
         </div>
         <div class="col-md-2">
             <?= $form->field($model, 'block_price')->textInput() ?>
@@ -41,7 +41,7 @@ use kartik\select2\Select2;
             <?= $form->field($model, 'block_price_real')->textInput() ?>
         </div>
         <div class="col-md-2">
-            <?= $form->field($model, 'house')->textInput() ?>
+            <?= $form->field($model, 'house')->textInput(['disabled' => !isset($model->parent_id)]) ?>
         </div>
         <div class="col-md-2">
             <?= $form->field($model, 'house_price')->textInput() ?>
