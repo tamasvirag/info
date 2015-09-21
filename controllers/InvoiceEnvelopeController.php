@@ -81,7 +81,6 @@ class InvoiceenvelopeController extends BaseController
             'cssInline'     => '',
             'options'       => ['title' => ''],
             'methods'       => []
-            ]
         ]);
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
