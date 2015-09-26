@@ -5,15 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Dealer;
 use app\models\DealerSearch;
+use app\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\BaseController;
 use yii\filters\AccessControl;
+use yii\data\ArrayDataProvider;
 
-/**
- * DealerController implements the CRUD actions for Dealer model.
- */
 class DealerController extends BaseController
 {
     public function behaviors()
@@ -31,6 +30,39 @@ class DealerController extends BaseController
         ];
     }
     
+    public function actionPay()
+    {
+        $searchModel = new NewsSearch();
+        $searchModel->search(Yii::$app->request->queryParams);
+        $data = ['summa'=>0];
+        
+        $dataProvider = new ArrayDataProvider();
+        
+        if ( isset( $searchModel->dealer_id ) && $searchModel->dealer_id ) {
+            $dealer = new Dealer();
+            $dealer->id = $searchModel->dealer_id;
+            $data = $dealer->getPaymentByDistributionDate( $searchModel->distribution_date_from, $searchModel->distribution_date_to);
+            
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $data['rows'],
+                'sort' => [
+                    'attributes' => ['news_name', 'district_name'],
+                ],
+                'pagination' => [
+                    'pageSize' => 10000,
+                ],
+            ]);
+        }
+        
+//        var_dump($dataProvider);
+
+        return $this->render('pay', [
+            'searchModel'   => $searchModel,
+            'dataProvider'  => $dataProvider,
+            'summa'         => $data['summa'],
+        ]);
+    }
+    
     public function actionIndex()
     {
         $searchModel = new DealerSearch();
@@ -42,11 +74,6 @@ class DealerController extends BaseController
         ]);
     }
 
-    /**
-     * Displays a single Dealer model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -54,11 +81,6 @@ class DealerController extends BaseController
         ]);
     }
 
-    /**
-     * Creates a new Dealer model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Dealer();
@@ -73,12 +95,6 @@ class DealerController extends BaseController
         }
     }
 
-    /**
-     * Updates an existing Dealer model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -93,12 +109,6 @@ class DealerController extends BaseController
         }
     }
 
-    /**
-     * Deletes an existing Dealer model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -106,13 +116,6 @@ class DealerController extends BaseController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Dealer model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Dealer the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Dealer::findOne($id)) !== null) {

@@ -107,6 +107,8 @@ class NewsSearch extends News
             'settle_date_to'        => Yii::t('app', 'Settle Date to'),
             'dealer_id'             => Yii::t('app', 'Dealer ID'),
             'district_id'           => Yii::t('app', 'District ID'),
+            'created_from'          => Yii::t('app', 'Created From'),
+            'created_to'            => Yii::t('app', 'Created To'),
         ],parent::attributeLabels());
     }
 }

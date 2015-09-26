@@ -8,9 +8,10 @@ class MenuHelper
 {
     public static function getAssignedMenu()
     {
-        $items = [];
-        $newsMenuItems = [];
-        $invoiceMenuItems = [];
+        $items              = [];
+        $newsMenuItems      = [];
+        $invoiceMenuItems   = [];
+        $dealerMenuItems    = [];
         
         if (\Yii::$app->user->can('newsManager')) {
             $newsMenuItems[] = ['label' => \Yii::t('app', 'Add new'), 'url' => Url::to(['news/create'])];
@@ -49,7 +50,15 @@ class MenuHelper
             $items[] = ['label' => \Yii::t('app','clients'), 'url' => ['/client'], 'active' => in_array(\Yii::$app->controller->id, ['client'])];
         }
         if (\Yii::$app->user->can('dealerManager')) {
-            $items[] = ['label' => \Yii::t('app','dealers'), 'url' => ['/dealer'], 'active' => in_array(\Yii::$app->controller->id, ['dealer'])];
+            $dealerMenuItems[] = ['label' => \Yii::t('app', 'Add new'), 'url' => Url::to(['dealer/create'])];
+            $dealerMenuItems[] = ['label' => \Yii::t('app', 'Listing'), 'url' => Url::to(['dealer/index'])];
+            $dealerMenuItems[] = ['label' => \Yii::t('app', 'Pay'), 'url' => Url::to(['dealer/pay'])];
+            $items[] = [
+                'label' => \Yii::t('app','dealers'),
+                'url' => ['/dealer'],
+                'active' => in_array(\Yii::$app->controller->id,['dealer']),
+                'items' => $dealerMenuItems
+            ];
         }
         if (\Yii::$app->user->can('districtManager')) {
             $items[] = ['label' => \Yii::t('app','districts'), 'url' => ['/district'], 'active' => in_array(\Yii::$app->controller->id, ['district'])];
