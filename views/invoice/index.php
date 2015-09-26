@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number')->textInput(['maxlength' => 255]) ?></div>
             <div class="col-md-2"><?= $form->field($searchModel, 'client_id')->widget( Select2::classname(), [
-                                            'data' => ArrayHelper::map( Client::find()->all(), 'id', 'name' ),
+                                            'data' => ArrayHelper::map( Client::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
                                             'language' => 'hu',
                                             'options' => ['placeholder' => Yii::t('app','please choose')],
                                             'pluginOptions' => [
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div>
             <div class="col-md-2">
                 <?= $form->field($searchModel, 'created_by')->widget( Select2::classname(), [
-                    'data' => ArrayHelper::map( User::find()->all(), 'id', 'full_name' ),
+                    'data' => ArrayHelper::map( User::find()->orderBy(['full_name' => SORT_ASC])->all(), 'id', 'full_name' ),
                     'language' => 'hu',
                     'options' => ['placeholder' => Yii::t('app','please choose')],
                     'pluginOptions' => [

@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'name' => StringHelper::basename($searchModel::className()).'[user_id]',
                                 'value' => $searchModel->user_id,
                                 'options' => ['placeholder' => Yii::t('app','please choose')],
-                                'data' => ArrayHelper::map( User::find()->all(), 'id', 'full_name' ),
+                                'data' => ArrayHelper::map( User::find()->orderBy(['full_name' => SORT_ASC])->all(), 'id', 'full_name' ),
                                 'language' => 'hu',
                                 'pluginOptions' => [
                                     'allowClear' => true

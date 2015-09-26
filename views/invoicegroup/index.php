@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-md-2">
                 <?= $form->field($searchModel, 'created_by')->widget( Select2::classname(), [
-                    'data'           => ArrayHelper::map( User::find()->all(), 'id', 'full_name' ),
+                    'data'           => ArrayHelper::map( User::find()->orderBy(['full_name' => SORT_ASC])->all(), 'id', 'full_name' ),
                     'language'       => 'hu',
                     'options'        => ['placeholder' => Yii::t('app','please choose')],
                     'pluginOptions'  => [
