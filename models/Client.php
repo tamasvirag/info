@@ -4,54 +4,22 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "client".
- *
- * @property integer $id
- * @property string $name
- * @property string $pcode
- * @property string $city
- * @property string $address
- * @property string $post_address
- * @property string $web
- * @property string $regnumber
- * @property string $taxnumber
- * @property string $company_name
- * @property string $company_pcode
- * @property string $company_city
- * @property string $company_address
- * @property string $contact_name
- * @property string $contact_phone
- * @property integer $user_id
- *
- * @property User $user
- * @property News[] $news
- */
 class Client extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'client';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['name'],'required'],
             [['user_id', 'payment_method_id'], 'integer'],
-            [['name', 'pcode', 'city', 'address', 'post_address', 'web', 'regnumber', 'taxnumber', 'company_name', 'company_pcode', 'company_city', 'company_address', 'contact_name', 'contact_phone'], 'string', 'max' => 255]
+            [['name', 'pcode', 'city', 'address', 'post_address', 'web', 'regnumber', 'taxnumber', 'company_name', 'company_pcode', 'company_city', 'company_address', 'contact_name', 'contact_phone', 'company_phone'], 'string', 'max' => 255]
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -68,6 +36,7 @@ class Client extends \yii\db\ActiveRecord
             'company_pcode' => Yii::t('app', 'Company Pcode'),
             'company_city' => Yii::t('app', 'Company City'),
             'company_address' => Yii::t('app', 'Company Address'),
+            'company_phone' => Yii::t('app', 'Company Phone'),
             'contact_name' => Yii::t('app', 'Contact Name'),
             'contact_phone' => Yii::t('app', 'Contact Phone'),
             'user_id' => Yii::t('app', 'User ID'),
@@ -78,7 +47,8 @@ class Client extends \yii\db\ActiveRecord
     public function getUserLabel()
     {
         if ( isset( $this->user ) ) {
-            return $this->user->name;
+            $active = $this->user->active?"":" ".\Yii::t('app', '(inactive)');
+            return $this->user->name.$active;
         }
         else {
             return "";

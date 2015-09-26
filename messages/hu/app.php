@@ -66,6 +66,7 @@ return [
     'Company Pcode' => 'Üzlet irányítószám',
     'Contact Name' => 'Ügyintéző neve',
     'Contact Phone' => 'Ügyintéző telefon',
+    'Company Phone' => 'Üzlet telefon',
     'Copy Count' => 'Másolatok',
     'Cost' => 'Költség',
     'Create' => 'Mentés',

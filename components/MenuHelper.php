@@ -15,10 +15,11 @@ class MenuHelper
         if (\Yii::$app->user->can('newsManager')) {
             $newsMenuItems[] = ['label' => \Yii::t('app', 'Add new'), 'url' => Url::to(['news/create'])];
             $newsMenuItems[] = ['label' => \Yii::t('app', 'Listing'), 'url' => Url::to(['news/index'])];
-            $newsMenuItems[] = ['label' => \Yii::t('app', 'Invoicing cash'), 'url' => Url::to(['invoice/cash'])];
-            $newsMenuItems[] = ['label' => \Yii::t('app', 'Invoicing transfer'), 'url' => Url::to(['invoice/transfer'])];
         }
         if (\Yii::$app->user->can('invoiceManager')) {
+            $newsMenuItems[] = ['label' => \Yii::t('app', 'Invoicing cash'), 'url' => Url::to(['invoice/cash'])];
+            $newsMenuItems[] = ['label' => \Yii::t('app', 'Invoicing transfer'), 'url' => Url::to(['invoice/transfer'])];
+            
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing cash')." ".strtolower(\Yii::t('app', 'News')), 'url' => Url::to(['invoice/cash'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing transfer')." ".strtolower(\Yii::t('app', 'News')), 'url' => Url::to(['invoice/transfer'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoices'), 'url' => Url::to(['invoice/index'])];
@@ -35,7 +36,7 @@ class MenuHelper
             ];
         }
         
-        if (\Yii::$app->user->can('invoiceManager')||\Yii::$app->user->can('newsManager')) {
+        if (\Yii::$app->user->can('invoiceManager')) {
             $items[] = [
                 'label' => \Yii::t('app','Invoicing'),
                 'url' => ['/invoice'],

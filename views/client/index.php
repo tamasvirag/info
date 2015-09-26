@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="client-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
@@ -31,9 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'filterPosition'   => GridView::FILTER_POS_HEADER,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
             [
                 'attribute' => 'name',
                 'format'    => 'raw',
@@ -41,21 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return HTML::a( HTML::encode( $model->name ),['update', 'id'=>$model->id] );
                 }
             ],
-            
-            // 'web',
-            // 'regnumber',
-            // 'taxnumber',
-             'company_name',
-            // 'company_pcode',
-            // 'company_city',
-            // 'company_address',
-            // 'contact_name',
-            // 'contact_phone',
-            
+            'company_name',
             'pcode',
             'city',
             'address',
-            //'post_address',
             [
                 'attribute' => 'user_id',
                 'format'    => 'raw',

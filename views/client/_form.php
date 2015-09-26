@@ -41,13 +41,21 @@ use app\models\PaymentMethod;
     </div>
     <div class="row">
         <div class="col-md-3">  
-            <?= $form->field($model, 'web')->textInput(['maxlength' => 255]) ?>
-        </div>
-        <div class="col-md-3">  
             <?= $form->field($model, 'regnumber')->textInput(['maxlength' => 255]) ?>
         </div>
         <div class="col-md-3">  
             <?= $form->field($model, 'taxnumber')->textInput(['maxlength' => 255]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <?= $form->field($model, 'contact_name')->textInput(['maxlength' => 255]) ?>
+        </div>
+        <div class="col-md-2">  
+            <?= $form->field($model, 'contact_phone')->textInput(['maxlength' => 255]) ?>
+        </div>
+        <div class="col-md-2">
+            <?= $form->field($model, 'user_id')->dropDownList( ArrayHelper::map( User::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
         </div>
     </div>
     <hr>
@@ -66,16 +74,11 @@ use app\models\PaymentMethod;
         <div class="col-md-2">
             <?= $form->field($model, 'company_address')->textInput(['maxlength' => 255]) ?>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
-            <?= $form->field($model, 'contact_name')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'company_phone')->textInput(['maxlength' => 255]) ?>
         </div>
-        <div class="col-md-2">  
-            <?= $form->field($model, 'contact_phone')->textInput(['maxlength' => 255]) ?>
-        </div>
-        <div class="col-md-2">
-            <?= $form->field($model, 'user_id')->dropDownList( ArrayHelper::map( User::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
+        <div class="col-md-3">  
+            <?= $form->field($model, 'web')->textInput(['maxlength' => 255]) ?>
         </div>
     </div>
     </div>
