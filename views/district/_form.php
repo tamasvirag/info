@@ -54,7 +54,7 @@ use kartik\select2\Select2;
     <div class="row">
         <div class="col-md-3">
             <?= $form->field($model, 'dealer_id')->widget( Select2::classname(), [
-                    'data' => ArrayHelper::map( Dealer::find()->all(), 'id', 'name' ),
+                    'data' => ArrayHelper::map( Dealer::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
                     'language' => 'hu',
                     'options' => ['placeholder' => Yii::t('app','please choose')],
                     'pluginOptions' => [

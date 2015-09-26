@@ -29,7 +29,7 @@ use kartik\select2\Select2;
         </div>
         <div class="col-md-3">
             <?= $form->field($model, 'client_id')->widget( Select2::classname(), [
-                'data' => ArrayHelper::map( Client::find()->all(), 'id', 'name' ),
+                'data' => ArrayHelper::map( Client::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
                 'language' => 'hu',
                 'options' => ['placeholder' => Yii::t('app','please choose')],
                 'pluginOptions' => [
@@ -39,7 +39,7 @@ use kartik\select2\Select2;
         </div>
         <div class="col-md-2">
             <?= $form->field($model, 'user_id')->widget( Select2::classname(), [
-                'data' => ArrayHelper::map( User::find()->all(), 'id', 'full_name' ),
+                'data' => ArrayHelper::map( User::find()->orderBy(['full_name' => SORT_ASC])->all(), 'id', 'full_name' ),
                 'language' => 'hu',
                 'options' => ['placeholder' => Yii::t('app','please choose')],
                 'pluginOptions' => [

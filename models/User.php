@@ -103,6 +103,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => [
+                    'full_name'=>SORT_ASC
+                ]
+            ],
         ]);
 
         $this->load($params);
