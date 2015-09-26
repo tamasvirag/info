@@ -85,6 +85,15 @@ use kartik\select2\Select2;
         </div>
         <?php endif; ?>
     </div>
+    
+    <div class="row">        
+        <div class="col-md-2">
+            <?= $form->field($model, 'overall_price')->textInput(['maxlength' => 255]) ?>
+        </div>
+        <div class="col-md-2">
+            <?= $form->field($model, 'overall_cost')->textInput(['maxlength' => 255]) ?>
+        </div>
+    </div>
     </div>
     
     <?php if(isset($model->id)): ?>
@@ -188,11 +197,11 @@ use kartik\select2\Select2;
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block_price]['.$id.']', count($model->nD)?$model->nD[0]->block_price:null, [
                             'placeHolder'   => $model->block_price,
-                            'class'         => 'form-control newscount-trigger',
+                            'class'         => 'form-control newscount-trigger price_input',
                             'id'            => 'block-price-'.$id,
                         ] );
                     } else {
-                        return $model->block_price;
+                        return Html::tag('span', Html::encode($model->block_price), ['class' => 'price_span']);
                     }
                 },
                 'contentOptions' => ['width'=>'10%'],
@@ -205,11 +214,11 @@ use kartik\select2\Select2;
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[block_price_real]['.$id.']', count($model->nD)?$model->nD[0]->block_price_real:null, [
                             'placeHolder'   => $model->block_price_real,
-                            'class'         => 'form-control newscount-trigger',
+                            'class'         => 'form-control newscount-trigger cost_input',
                             'id'            => 'block-price-real-'.$id,
                         ] );
                     } else {
-                        return $model->block_price_real;
+                        return Html::tag('span', Html::encode($model->block_price_real), ['class' => 'cost_span']);
                     }
                 },
                 'contentOptions' => ['width'=>'10%'],
@@ -239,11 +248,11 @@ use kartik\select2\Select2;
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[house_price]['.$id.']', count($model->nD)?$model->nD[0]->house_price:null, [
                             'placeHolder'   => $model->house_price,
-                            'class'         => 'form-control newscount-trigger',
+                            'class'         => 'form-control newscount-trigger price_input',
                             'id'            => 'house-price-'.$id,
                         ] );
                     } else {
-                        return $model->house_price;
+                        return Html::tag('span', Html::encode($model->house_price), ['class' => 'price_span']);
                     }
                 },
                 'contentOptions' => ['width'=>'10%'],
@@ -256,11 +265,11 @@ use kartik\select2\Select2;
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[house_price_real]['.$id.']', count($model->nD)?$model->nD[0]->house_price_real:null, [
                             'placeHolder'   => $model->house_price_real,
-                            'class'         => 'form-control newscount-trigger',
+                            'class'         => 'form-control newscount-trigger cost_input',
                             'id'            => 'house-price-real-'.$id,
                         ] );
                     } else {
-                        return $model->house_price_real;
+                        return Html::tag('span', Html::encode($model->house_price_real), ['class' => 'cost_span']);
                     }
                 },
                 'contentOptions' => ['width'=>'10%'],

@@ -26,6 +26,7 @@ class News extends \yii\db\ActiveRecord
             [['name','payment_method_id', 'user_id', 'client_id'],'required'],
             [['client_id', 'status_id', 'payment_method_id' ,'user_id', 'created_by', 'updated_by'], 'integer'],
             [['description'], 'string'],
+            [['overall_price','overall_cost'], 'number'],
             [['distribution_date', 'invoice_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
         ];
@@ -57,7 +58,8 @@ class News extends \yii\db\ActiveRecord
             'created_by' => Yii::t('app', 'Created by'),
             'updated_by' => Yii::t('app', 'Updated by'),
             'newsCount' => Yii::t('app', 'News Count'),
-
+            'overall_price' => Yii::t('app', 'Overall price'),
+            'overall_cost' => Yii::t('app', 'Overall cost'),
         ];
     }
     

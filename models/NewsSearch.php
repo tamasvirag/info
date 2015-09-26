@@ -24,6 +24,7 @@ class NewsSearch extends News
     {
         return [
             [['id', 'payment_method_id', 'client_id', 'user_id', 'status_id', 'dealer_id', 'district_id'], 'integer'],
+            [['overall_price','overall_cost'], 'number'],
             [['name', 'description',
                 'distribution_date', 'distribution_date_from', 'distribution_date_to',
                 'invoice_date', 'invoice_date_from', 'invoice_date_to',
@@ -49,7 +50,7 @@ class NewsSearch extends News
                 ]
             ],
             'pagination' => [
-                'pageSize' => 50,
+                'pageSize' => 25,
             ],
         ]);
 

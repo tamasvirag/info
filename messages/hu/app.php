@@ -118,6 +118,8 @@ return [
     'News Count' => 'Példányszám',
     'Office ID' => 'Iroda',
     'Other Cost' => 'Egyéb költségek',
+    'Overall price' => 'Vállalt ár',
+    'Overall cost' => 'Vállalt költség',
     'Password' => 'Jelszó',
     'Payment Method' => 'Fizetési mód',
     'Payment Method ID' => 'Fizetési mód',

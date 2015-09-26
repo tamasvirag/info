@@ -9,6 +9,12 @@
         
         // News district edit
         function checkNewsDistrictRows() {
+        
+            
+            setOverallPrice();
+            setOverallCost();
+            
+            
             $.each( $('.child input:checkbox'), function() {
                 $('#row-'+$(this).val()).removeClass('highlight');
                 $('#newscount-'+$(this).val()).html('');
@@ -50,7 +56,6 @@
                 if ( isNumeric( block ) && block > 0 ) {
                     if ( isNumeric( blockPriceReal ) ) {
                         blockCost = block * blockPriceReal;
-                        console.log(blockCost);
                     }
                     else if ( blockPriceReal == "" && isNumeric( blockPriceRealPH ) ) {
                         blockCost = block * blockPriceRealPH;
@@ -107,6 +112,32 @@
         
         checkNewsDistrictRows();
         
+        
+        
+        // Vállalt ár és költség mező update az összes ár és ktg mezőn, ha megadásra került a formban
+        function setOverallPrice() {
+            if ( isNumeric( $('#news-overall_price').val() ) ) {
+                $('.price_input').val( $('#news-overall_price').val() );
+                $('.price_span').html( $('#news-overall_price').val() );
+            }
+        }
+        function setOverallCost() {
+            if ( isNumeric( $('#news-overall_cost').val() ) ) {
+                $('.cost_input').val( $('#news-overall_cost').val() );
+                $('.cost_span').html( $('#news-overall_cost').val() );
+            }
+        }
+        
+        $(document).on('change', '#news-overall_price', function(){
+            checkNewsDistrictRows();
+        });
+        $(document).on('change', '#news-overall_cost', function(){
+            checkNewsDistrictRows();
+        });
+        
+        
+        
+        
         $('#edit-news-districts table .child').toggle();
         
         $(document).on('click', '#edit-news-districts table .accordion', function() {
@@ -122,6 +153,7 @@
         $(document).on('keyup', '.newscount-trigger', function(){
             checkNewsDistrictRows();
         });
+
         
         
         // Set whole parent disctrict
