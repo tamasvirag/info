@@ -35,9 +35,6 @@ use app\models\PaymentMethod;
         <div class="col-md-3">
             <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
         </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'post_address')->textInput(['maxlength' => 255]) ?>
-        </div>
     </div>
     <div class="row">
         <div class="col-md-3">  
@@ -56,6 +53,19 @@ use app\models\PaymentMethod;
         </div>
         <div class="col-md-2">
             <?= $form->field($model, 'user_id')->dropDownList( ArrayHelper::map( User::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
+        </div>
+    </div>
+    <hr>
+    <p><?=\Yii::t('app','post_address_if')?></p>
+    <div class="row">
+        <div class="col-md-1">
+            <?= $form->field($model, 'post_pcode')->textInput(['maxlength' => 255]) ?>
+        </div>
+        <div class="col-md-2">
+            <?= $form->field($model, 'post_city')->textInput(['maxlength' => 255]) ?>
+        </div>
+        <div class="col-md-3">
+            <?= $form->field($model, 'post_address')->textInput(['maxlength' => 255]) ?>
         </div>
     </div>
     <hr>

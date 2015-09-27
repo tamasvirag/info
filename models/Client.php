@@ -16,7 +16,7 @@ class Client extends \yii\db\ActiveRecord
         return [
             [['name'],'required'],
             [['user_id', 'payment_method_id'], 'integer'],
-            [['name', 'pcode', 'city', 'address', 'post_address', 'web', 'regnumber', 'taxnumber', 'company_name', 'company_pcode', 'company_city', 'company_address', 'contact_name', 'contact_phone', 'company_phone'], 'string', 'max' => 255]
+            [['name', 'pcode', 'city', 'address', 'post_pcode', 'post_city', 'post_address', 'web', 'regnumber', 'taxnumber', 'company_name', 'company_pcode', 'company_city', 'company_address', 'contact_name', 'contact_phone', 'company_phone'], 'string', 'max' => 255]
         ];
     }
 
@@ -28,6 +28,8 @@ class Client extends \yii\db\ActiveRecord
             'pcode' => Yii::t('app', 'Pcode'),
             'city' => Yii::t('app', 'City'),
             'address' => Yii::t('app', 'Address'),
+            'post_pcode' => Yii::t('app', 'Post Pcode'),
+            'post_city' => Yii::t('app', 'Post City'),
             'post_address' => Yii::t('app', 'Post Address'),
             'web' => Yii::t('app', 'Web'),
             'regnumber' => Yii::t('app', 'Regnumber'),

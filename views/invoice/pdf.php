@@ -46,7 +46,12 @@ foreach($dataArray as $client_id => $invoices):
         <td width="50%" valign="top">
             <p class="small">Vevő neve, címe</p>
             <p class="title"><?=$client->name?></p>
-            <p><?=$client->pcode?> <?=$client->city?><br><?=$client->address?></p></td>
+            <?php if( $client->post_pcode != "" && $client->post_city != "" && $client->post_address != "" ): ?>
+            <p><?=$client->post_pcode?> <?=$client->post_city?><br><?=$client->post_address?></p>
+            <?php else: ?>
+            <p><?=$client->pcode?> <?=$client->city?><br><?=$client->address?></p>
+            <?php endif; ?>
+        </td>
     </tr>
     <tr></tr>
     </tbody>

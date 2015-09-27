@@ -36,9 +36,11 @@ foreach($dataArray as $client_id => $client):
                         <td>
                             <p>
                                 <?=$client->name?><br>
-                                <?=$client->address?><br>
-                                <?=$client->city?><br><br>
-                                <?=$client->pcode?><br>
+                                <?php if( $client->post_pcode != "" && $client->post_city != "" && $client->post_address != "" ): ?>
+                                    <?=$client->post_address?><br><?=$client->post_city?><br><?=$client->post_pcode?>
+                                <?php else: ?>
+                                    <?=$client->address?><br><?=$client->city?><br><?=$client->pcode?>
+                                <?php endif; ?>
                             </p>
                         </td>
                     </tr>
