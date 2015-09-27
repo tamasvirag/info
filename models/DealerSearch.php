@@ -32,7 +32,10 @@ class DealerSearch extends Dealer
                 'defaultOrder' => [
                     'name'=>SORT_ASC
                 ]
-            ]
+            ],
+            'pagination' => [
+                'pageSize' => 100,
+            ],
         ]);
 
         $this->load($params);
