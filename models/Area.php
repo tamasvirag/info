@@ -28,6 +28,7 @@ class Area extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['office_id'],'integer'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -40,9 +41,25 @@ class Area extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
+            'office_id' => Yii::t('app', 'Office ID'),
         ];
     }
 
+    public function getOffice()
+    {
+        return $this->hasOne(Office::className(), ['id' => 'office_id']);
+    }
+    
+    public function getOfficeLabel()
+    {
+        if ( isset( $this->office ) ) {
+            return $this->office->name;
+        }
+        else {
+            return "";
+        }
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */

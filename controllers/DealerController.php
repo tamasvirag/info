@@ -33,36 +33,45 @@ class DealerController extends BaseController
     
     public function actionPay()
     {
-        $searchModel = new NewsSearch();
-        $searchModel->search(Yii::$app->request->queryParams);
-        $data = ['summa'=>0];
+        $dataset = [];
+
+        if ( isset( Yii::$app->request->bodyParams['dealers'] ) ) {
         
-        $dataProvider = new ArrayDataProvider();
-        
-        if ( isset( $searchModel->dealer_id ) && $searchModel->dealer_id ) {
-            $dealer = new Dealer();
-            $dealer->id = $searchModel->dealer_id;
-            $data = $dealer->getPaymentByDistributionDate( $searchModel->distribution_date_from, $searchModel->distribution_date_to);
+            foreach( Yii::$app->request->bodyParams['dealers'] as $dealer_id ) {
+                
+                $dealerdata = [];
             
-            $dataProvider = new ArrayDataProvider([
-                'allModels' => $data['rows'],
-                'sort' => [
-                    'attributes' => ['news_name', 'district_name'],
-                ],
-                'pagination' => [
-                    'pageSize' => 10000,
-                ],
-            ]);
+                $dealer = Dealer::findOne($dealer_id);
+                $data = $dealer->getPaymentByDistributionDate(
+                    isset( Yii::$app->request->bodyParams['distribution_date_from'] )?Yii::$app->request->bodyParams['distribution_date_from']:null,
+                    isset( Yii::$app->request->bodyParams['distribution_date_to'] )?Yii::$app->request->bodyParams['distribution_date_to']:null);
+                $dataProvider = new ArrayDataProvider([
+                    'allModels' => $data['rows'],
+                    'sort' => [
+                        'attributes' => ['news_name', 'district_name'],
+                    ],
+                    'pagination' => [
+                        'pageSize' => 10000,
+                    ],
+                ]);
+                
+                $changer = new Banknote();
+                $change = $changer->change($data['summa']);
+                
+                $dealerdata = [
+                    'dataProvider'  => $dataProvider,
+                    'change'        => $change,
+                    'summa'         => $data['summa'],
+                    'dealer'        => $dealer,
+                ];
+                
+                $dataset[] = $dealerdata;
+            }
+
         }
 
-        $changer = new Banknote();
-        $change = $changer->change($data['summa']);
-
         return $this->render('pay', [
-            'searchModel'   => $searchModel,
-            'dataProvider'  => $dataProvider,
-            'summa'         => $data['summa'],
-            'change'        => $change,
+            'dataset'  => $dataset,
         ]);
     }
     

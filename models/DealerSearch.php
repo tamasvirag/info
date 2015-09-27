@@ -13,7 +13,7 @@ class DealerSearch extends Dealer
     {
         return [
             [['id'], 'integer'],
-            [['name', 'address', 'birth', 'taxnumber', 'tajnumber', 'phone', 'email', 'comment', 'helpers', 'payment_method', 'other_cost'], 'safe'],
+            [['name', 'address', 'birth', 'taxnumber', 'tajnumber', 'phone', 'email', 'comment', 'helpers', 'payment_method', 'other_cost', 'office_id'], 'safe'],
         ];
     }
 
@@ -43,6 +43,7 @@ class DealerSearch extends Dealer
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'office_id' => $this->office_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

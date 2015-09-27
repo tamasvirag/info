@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\Office;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Dealer */
@@ -47,6 +49,9 @@ use yii\bootstrap\ActiveForm;
     </div>
 
     <div class="row">
+        <div class="col-md-2">
+            <?= $form->field($model, 'office_id')->dropDownList( ArrayHelper::map( Office::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
+        </div>
         <div class="col-md-2">
             <?= $form->field($model, 'payment_method')->textInput(['maxlength' => 255]) ?>
         </div>

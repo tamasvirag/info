@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use app\models\Office;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DealerSearch */
@@ -36,22 +38,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             'address',
-            //'birth',
-            //'taxnumber',
-            // 'tajnumber',
-             'phone',
-             'email:email',
-             'comment:ntext',
+            'phone',
+            'email',
+            'comment:ntext',
+            
+            [
+                'attribute' => 'office_id',
+                'format'    => 'raw',
+                'value'     => 'officeLabel',
+                'filter'    => ArrayHelper::map( Office::find()->all(), 'id', 'name' )
+            ],
              
             [
                 'attribute' => \Yii::t('app','districts'),
                 'format' => 'raw',
                 'value' => 'districtsLabel',
             ],
-            
-            // 'helpers:ntext',
-            // 'payment_method',
-            // 'other_cost',
 
             ['class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}'],
         ],

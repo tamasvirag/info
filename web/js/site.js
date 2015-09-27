@@ -153,6 +153,15 @@
         $(document).on('keyup', '.newscount-trigger', function(){
             checkNewsDistrictRows();
         });
+        
+        
+        
+        // Terjesztok elszamolas
+        $('.dealer-office-select').click(function(e){
+            console.log($(this).data('office_id'));
+            e.preventDefault();
+            $('.dealer-office-'+$(this).data('office_id')+' input').prop("checked",true);
+        })
 
         
         

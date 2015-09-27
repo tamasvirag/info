@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\helpers\Html;
+use app\models\Office;
 
 /**
  * This is the model class for table "dealer".
@@ -39,6 +40,7 @@ class Dealer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['office_id'],'integer'],
             [['comment', 'helpers'], 'string'],
             [['name', 'address', 'birth', 'taxnumber', 'tajnumber', 'phone', 'email', 'payment_method', 'other_cost'], 'string', 'max' => 255]
         ];
@@ -62,12 +64,25 @@ class Dealer extends \yii\db\ActiveRecord
             'helpers' => Yii::t('app', 'Helpers'),
             'payment_method' => Yii::t('app', 'Payment Method'),
             'other_cost' => Yii::t('app', 'Other Cost'),
+            'office_id' => Yii::t('app', 'Office'),
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    public function getOffice()
+    {
+        return $this->hasOne(Office::className(), ['id' => 'office_id']);
+    }
+    
+    public function getOfficeLabel()
+    {
+        if ( isset( $this->office ) ) {
+            return $this->office->name;
+        }
+        else {
+            return "";
+        }
+    }
+    
     public function getDistricts()
     {
         return $this->hasMany(District::className(), ['dealer_id' => 'id']);

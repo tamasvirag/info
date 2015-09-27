@@ -206,3 +206,7 @@ h6 {
 
 .pagination > li > a, .pagination > li > span {
   padding: 4px 10px; }
+
+.dealers label {
+  font-weight: normal;
+  padding-right: 10px; }
