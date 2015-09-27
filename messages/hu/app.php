@@ -52,6 +52,7 @@ return [
     'Are you sure?' => 'Biztos benne?',
     'Area ID' => 'Terület',
     'Areas' => 'Területek',
+    'Banknotes' => 'Bankjegyek',
     'Birth' => 'Születési hely, idő',
     'Block' => 'Társas',
     'Block Price' => 'Társas ár Ft/db',

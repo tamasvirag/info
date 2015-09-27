@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use app\components\BaseController;
 use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
+use app\components\Banknote;
 
 class DealerController extends BaseController
 {
@@ -53,13 +54,15 @@ class DealerController extends BaseController
                 ],
             ]);
         }
-        
-//        var_dump($dataProvider);
+
+        $changer = new Banknote();
+        $change = $changer->change($data['summa']);
 
         return $this->render('pay', [
             'searchModel'   => $searchModel,
             'dataProvider'  => $dataProvider,
             'summa'         => $data['summa'],
+            'change'        => $change,
         ]);
     }
     

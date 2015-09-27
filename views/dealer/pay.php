@@ -74,9 +74,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <h4><?=\Yii::t('app','All')?>: <?=$summa?> Ft</h4>
     
     
+    <table class="table">
+    <thead>
+    <tr><th colspan="2"><strong><?=\Yii::t('app','Banknotes')?>:</strong></th></tr>
+    </thead>
+    
+    <?php foreach( $change as $note => $count ): ?>
+        <tr><td width="10%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
+    <?php endforeach; ?>
+    </table>
+    
+    
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
+        'layout'=>'{pager}{items}{pager}',
         'columns' => [
             [
                 'label'     => \Yii::t('app','News'),
