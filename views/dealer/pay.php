@@ -118,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $dealer         = $dealerdata['dealer'];
     ?>
     
-    <h5><?=$dealer->name?></h5>
+    <h5><strong><?=$dealer->name?></strong></h5>
     <?=\Yii::t('app','All')?>: <strong><?=$summa?> Ft</strong>
     
     <?php if ($dataProvider->getCount()): ?>
@@ -199,7 +199,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php if( $alltogether['summa'] != 0 ): ?>
     
-    <h5><?=\Yii::t('app','Dealers alltogether')?></h5>
+    <h5><strong><?=\Yii::t('app','Dealers alltogether')?></strong></h5>
     <?=\Yii::t('app','All')?>: <strong><?=$alltogether['summa']?> Ft</strong>
     
     <table class="table">
