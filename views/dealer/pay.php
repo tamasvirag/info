@@ -183,5 +183,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr>
     <?php endforeach; ?>
     <?php endif; ?>
+    
+    
+    
+    <h5><?=\Yii::t('app','Dealers alltogether')?></h5>
+    <?=\Yii::t('app','All')?>: <strong><?=$alltogether['summa']?> Ft</strong>
+        
+    <?php if(count($alltogether['change'])): ?>
+    <table class="table">
+    <thead>
+    <tr><th colspan="2"><?=\Yii::t('app','Banknotes')?>:</th></tr>
+    </thead>
+    
+    <?php foreach( $alltogether['change'] as $note => $count ): ?>
+        <tr><td width="10%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
+    <?php endforeach; ?>
+    </table>
+    <?php endif; ?>
+
 
 </div>

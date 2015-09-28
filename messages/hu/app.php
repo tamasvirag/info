@@ -79,6 +79,7 @@ return [
     'Created by' => 'Létrehozta',
     'Dealer ID' => 'Terjesztő',
     'Dealers' => 'Terjesztők',
+    'Dealers alltogether' => 'Terjesztők összesen',
     'Delete' => 'Törlés',
     'Demand for payment' => 'Fizetési felszólítás',
     'Description' => 'Leírás',

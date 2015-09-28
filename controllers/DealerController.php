@@ -34,6 +34,10 @@ class DealerController extends BaseController
     public function actionPay()
     {
         $dataset = [];
+        $alltogether = [
+            'summa' => 0,
+            'change' => ['20000'=>0,'10000'=>0,'5000'=>0,'2000'=>0,'1000'=>0,'500'=>0,'200'=>0,'100'=>0,'50'=>0,'20'=>0,'10'=>0,'5'=>0],
+        ];
 
         if ( isset( Yii::$app->request->bodyParams['dealers'] ) ) {
         
@@ -56,7 +60,7 @@ class DealerController extends BaseController
                 ]);
                 
                 $changer = new Banknote();
-                $change = $changer->change($data['summa']);
+                $change = $changer->change( $data['summa'] );
                 
                 $dealerdata = [
                     'dataProvider'  => $dataProvider,
@@ -65,13 +69,21 @@ class DealerController extends BaseController
                     'dealer'        => $dealer,
                 ];
                 
+                if ( count( $change ) ) {
+                    foreach( $change as $note => $count ) {
+                        $alltogether['change'][$note]   += $count;
+                        $alltogether['summa']           += $note*$count;
+                    }
+                }
+                
                 $dataset[] = $dealerdata;
             }
 
         }
 
         return $this->render('pay', [
-            'dataset'  => $dataset,
+            'dataset'       => $dataset,
+            'alltogether'   => $alltogether,
         ]);
     }
     
