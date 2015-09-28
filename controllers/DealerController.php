@@ -13,6 +13,7 @@ use app\components\BaseController;
 use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
 use app\components\Banknote;
+use kartik\mpdf\Pdf;
 
 class DealerController extends BaseController
 {
@@ -80,11 +81,47 @@ class DealerController extends BaseController
             }
 
         }
-
-        return $this->render('pay', [
-            'dataset'       => $dataset,
-            'alltogether'   => $alltogether,
-        ]);
+        
+        $format = 'html';
+        if ( isset($_REQUEST['dealer-pay-format']) ) {
+            $format = $_REQUEST['dealer-pay-format'];
+        }
+        
+        if ( $format == 'pdf' ) {
+            $this->layout = 'invoice-pdf';
+            
+            $content = $this->render('pay', [
+                'dataset'       => $dataset,
+                'alltogether'   => $alltogether,
+                'format'        => 'pdf',
+            ]);
+        
+            $pdf = new Pdf([
+                'mode'          => Pdf::MODE_UTF8,
+                'format'        => Pdf::FORMAT_A4,
+                'orientation'   => Pdf::ORIENT_PORTRAIT,
+                'destination'   => Pdf::DEST_BROWSER,
+                'content'       => $content,
+                'cssFile'       => '',
+                'cssInline'     => '',
+                'options'       => ['title' => ''],
+                'methods'       => []
+            ]);
+    
+            Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+            $headers = Yii::$app->response->headers;
+            $headers->add('Content-Type', 'application/pdf');
+//            $headers->add('Content-Disposition: attachment; filename=terjesztok.pdf');
+            
+            return $pdf->render();
+        }
+        else {
+            return $this->render('pay', [
+                'dataset'       => $dataset,
+                'alltogether'   => $alltogether,
+                'format'        => 'html',
+            ]);
+        }
     }
     
     public function actionIndex()

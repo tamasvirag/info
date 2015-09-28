@@ -144,7 +144,7 @@
             $('#edit-news-districts table .child-'+$(this).data('id')).toggle();
         });
         
-        $(document).on('change', '#edit-news-districts table input:checkbox', function(){
+        $(document).on('change', '#edit-news-districts table input:checkbox', function() {
             checkNewsDistrictRows();
         });
         $(document).on('change', '.newscount-trigger', function(){
@@ -158,11 +158,21 @@
         
         // Terjesztok elszamolas
         $('.dealer-office-select').click(function(e){
-            console.log($(this).data('office_id'));
             e.preventDefault();
             $('.dealer-office-'+$(this).data('office_id')+' input').prop("checked",true);
-        })
-
+        });
+        
+        $(document).on('click','#dealer-pay-filter-btn', function() {
+            $('#dealer-pay-format').val('html');
+            $("#dealer-pay-form").prop("target", '_self');
+            $('#dealer-pay-form').submit();
+        });
+        
+        $(document).on('click','#dealer-pay-pdf-btn', function() {
+            $('#dealer-pay-format').val('pdf');
+            $("#dealer-pay-form").prop("target", '_blank');
+            $('#dealer-pay-form').submit();
+        });
         
         
         // Set whole parent disctrict

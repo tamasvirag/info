@@ -27,13 +27,17 @@ $this->title = Yii::t('app', 'Pay');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Dealers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?php if ($format == 'html'): ?>
+
+
 <div class="dealer-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     
     
     <?php $form = ActiveForm::begin([
-                                        'options'=>['id'=>'search-news'],
+                                        'options'=>['id'=>'dealer-pay-form'], // , 'target'=>'_blank'
                                         'method'=>'post',
                                     ] ); ?>
     <div class="well">
@@ -88,14 +92,22 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="row">
             <div class="col-md-2">
-                <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary mt-21']) ?>
+                <input type="hidden" id="dealer-pay-format" name="dealer-pay-format" value=""/>
+                <?= Html::Button(Yii::t('app', 'Filter'), ['class' => 'btn btn-primary mt-21', 'id' => 'dealer-pay-filter-btn']) ?>
+                <?= Html::Button(Yii::t('app', 'Pdf export'), ['class' => 'btn btn-primary mt-21', 'id' => 'dealer-pay-pdf-btn']) ?>
             </div>
             
         </div>
     </div>
     <?php ActiveForm::end(); ?>
     
-    
+
+<?php endif; ?>
+
+
+
+
+  
     <?php if( count($dataset) ): ?>
     <?php foreach( $dataset as $dealerdata ): ?>
     
@@ -118,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </thead>
     
     <?php foreach( $change as $note => $count ): ?>
-        <tr><td width="10%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
+        <tr><td width="15%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
     <?php endforeach; ?>
     </table>
     <?php endif; ?>
@@ -185,21 +197,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif; ?>
     
     
+    <?php if( $alltogether['summa'] != 0 ): ?>
     
     <h5><?=\Yii::t('app','Dealers alltogether')?></h5>
     <?=\Yii::t('app','All')?>: <strong><?=$alltogether['summa']?> Ft</strong>
-        
-    <?php if(count($alltogether['change'])): ?>
+    
     <table class="table">
     <thead>
     <tr><th colspan="2"><?=\Yii::t('app','Banknotes')?>:</th></tr>
     </thead>
     
     <?php foreach( $alltogether['change'] as $note => $count ): ?>
-        <tr><td width="10%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
+        <tr><td width="15%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
     <?php endforeach; ?>
     </table>
-    <?php endif; ?>
 
+    <?php endif; ?>
 
 </div>
