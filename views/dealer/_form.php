@@ -58,6 +58,9 @@ use app\models\Office;
         <div class="col-md-2">
             <?= $form->field($model, 'other_cost')->textInput(['maxlength' => 255]) ?>
         </div>
+        <div class="col-md-2">
+            <?= $form->field($model, 'active')->checkbox() ?>
+        </div>
     </div>
     
     <hr>

@@ -53,10 +53,11 @@ class MenuHelper
             $dealerMenuItems[] = ['label' => \Yii::t('app', 'Add new'), 'url' => Url::to(['dealer/create'])];
             $dealerMenuItems[] = ['label' => \Yii::t('app', 'Listing'), 'url' => Url::to(['dealer/index'])];
             $dealerMenuItems[] = ['label' => \Yii::t('app', 'Pay'), 'url' => Url::to(['dealer/pay'])];
+            $dealerMenuItems[] = ['label' => \Yii::t('app', 'Complain'), 'url' => Url::to(['complain/index'])];
             $items[] = [
                 'label' => \Yii::t('app','dealers'),
                 'url' => ['/dealer'],
-                'active' => in_array(\Yii::$app->controller->id,['dealer']),
+                'active' => in_array(\Yii::$app->controller->id,['dealer','complain']),
                 'items' => $dealerMenuItems
             ];
         }

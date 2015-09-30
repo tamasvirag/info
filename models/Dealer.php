@@ -40,7 +40,7 @@ class Dealer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['office_id'],'integer'],
+            [['active', 'office_id'],'integer'],
             [['comment', 'helpers'], 'string'],
             [['name', 'address', 'birth', 'taxnumber', 'tajnumber', 'phone', 'email', 'payment_method', 'other_cost'], 'string', 'max' => 255]
         ];
@@ -65,6 +65,7 @@ class Dealer extends \yii\db\ActiveRecord
             'payment_method' => Yii::t('app', 'Payment Method'),
             'other_cost' => Yii::t('app', 'Other Cost'),
             'office_id' => Yii::t('app', 'Office'),
+            'active' => Yii::t('app', 'Active'),
         ];
     }
 
