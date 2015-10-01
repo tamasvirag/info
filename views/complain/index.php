@@ -19,18 +19,20 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="complain-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    
     <p>
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Complain',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    
 
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             [
                 'attribute' => 'name',
@@ -47,34 +49,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'     => function( $model ) {
                     return HTML::encode( isset($model->district)?$model->district->fullLabel:"" );
                 },
-                'filter' => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[district_id]',
-                                'value' => $searchModel->district_id,
-                                'options' => ['placeholder' => Yii::t('app','please choose')],
-                                'data' => ArrayHelper::map( District::find()->orderBy(['area_id' => SORT_ASC,'name' => SORT_ASC])->all(), 'id', 'fullLabel' ),
-                                'language' => 'hu',
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]),
-                'options' => ['width'=>'25%'],
+                'filter'    => false,
+                'options'   => ['width'=>'25%'],
 
             ],
             [
                 'attribute' => 'dealer_id',
                 'format'    => 'raw',
                 'value'     => 'dealerLabel',
-                'filter' => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[dealer_id]',
-                                'value' => $searchModel->dealer_id,
-                                'options' => ['placeholder' => Yii::t('app','please choose')],
-                                'data' => ArrayHelper::map( Dealer::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
-                                'language' => 'hu',
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]),
-                'options' => ['width'=>'25%'],
+                'filter'    => false,
+                'options'   => ['width'=>'25%'],
 
             ],
             
@@ -84,19 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'     => function( $model ) {
                     return HTML::encode( date('Y-m-d', $model->created_at) );
                 },
-                'filter'    => DateRangePicker::widget([                                    
-                                    'model' => $searchModel,
-                                    'name' => StringHelper::basename($searchModel::className()).'[created_at_from]',
-                                    'value' => $searchModel->created_at_from,
-                                    'nameTo' => StringHelper::basename($searchModel::className()).'[created_at_to]',
-                                    'attributeTo' => 'created_at_to',
-                                    'valueTo' => $searchModel->created_at_to,
-                                    'language' => 'hu',
-                                    'clientOptions' => [
-                                        'autoclose' => true,
-                                        'format' => 'yyyy-mm-dd'
-                                        ]
-                                ])
+                'filter'    => false,
             ],
 
             [

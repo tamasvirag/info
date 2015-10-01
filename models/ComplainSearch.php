@@ -69,10 +69,10 @@ class ComplainSearch extends Complain
             'updated_by' => $this->updated_by,
         ]);
         
-        if ( isset( $this->created_at_from ) ) {
+        if ( isset( $this->created_at_from ) && $this->created_at_from != "" ) {
             $query->andFilterWhere(['>=', 'created_at', strtotime( $this->created_at_from )]);
         }
-        if ( isset( $this->created_at_to ) ) {
+        if ( isset( $this->created_at_to ) && $this->created_at_to != "" ) {
             $query->andFilterWhere(['<=', 'created_at', strtotime( $this->created_at_to )]);
         }
 //        $query->andFilterWhere(['>=', 'created_at', strtotime( $this->created_at_from )])
@@ -85,5 +85,13 @@ class ComplainSearch extends Complain
             ->andFilterWhere(['like', 'result', $this->result]);
 
         return $dataProvider;
+    }
+    
+    public function attributeLabels()
+    {
+        return array_merge([
+            'created_at_from'          => Yii::t('app', 'Created From'),
+            'created_at_to'            => Yii::t('app', 'Created To'),
+        ],parent::attributeLabels());
     }
 }
