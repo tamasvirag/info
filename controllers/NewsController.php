@@ -119,15 +119,17 @@ class NewsController extends BaseController
             if ( count( Yii::$app->request->post('selection') ) ) {
                 $newsDistrictPost = Yii::$app->request->post('newsDistrict');
                 foreach( Yii::$app->request->post('selection') as $district_id ) {
+                    $district                       = District::findOne($district_id);
                     $newsDistrict                   = new NewsDistrict();
                     $newsDistrict->news_id          = $model->id;
                     $newsDistrict->district_id      = $district_id;
-                    $newsDistrict->block            = isset($newsDistrictPost['block'][$district_id])?$newsDistrictPost['block'][$district_id]:null;
-                    $newsDistrict->block_price      = isset($newsDistrictPost['block_price'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['block_price'][$district_id] ):null;
-                    $newsDistrict->block_price_real = isset($newsDistrictPost['block_price_real'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['block_price_real'][$district_id] ):null;
-                    $newsDistrict->house            = isset($newsDistrictPost['house'][$district_id])?$newsDistrictPost['house'][$district_id]:null;
-                    $newsDistrict->house_price      = isset($newsDistrictPost['house_price'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['house_price'][$district_id] ):null;
-                    $newsDistrict->house_price_real = isset($newsDistrictPost['house_price_real'][$district_id])?str_ireplace(",", ".", $newsDistrictPost['house_price_real'][$district_id] ):null;
+                    $newsDistrict->block            = (isset($newsDistrictPost['block'][$district_id])&&$newsDistrictPost['block'][$district_id]!="")?$newsDistrictPost['block'][$district_id]:$district->block;
+                    $newsDistrict->block_price      = (isset($newsDistrictPost['block_price'][$district_id])&&$newsDistrictPost['block_price'][$district_id]!="")?str_ireplace(",", ".", $newsDistrictPost['block_price'][$district_id] ):$district->block_price;
+                    $newsDistrict->block_price_real = (isset($newsDistrictPost['block_price_real'][$district_id])&&$newsDistrictPost['block_price_real'][$district_id]!="")?str_ireplace(",", ".", $newsDistrictPost['block_price_real'][$district_id] ):$district->block_price_real;
+                    $newsDistrict->house            = (isset($newsDistrictPost['house'][$district_id])&&$newsDistrictPost['house'][$district_id]!="")?$newsDistrictPost['house'][$district_id]:$district->house;
+                    $newsDistrict->house_price      = (isset($newsDistrictPost['house_price'][$district_id])&&$newsDistrictPost['house_price'][$district_id]!="")?str_ireplace(",", ".", $newsDistrictPost['house_price'][$district_id] ):$district->house_price;
+                    $newsDistrict->house_price_real = (isset($newsDistrictPost['house_price_real'][$district_id])&&$newsDistrictPost['house_price_real'][$district_id]!="")?str_ireplace(",", ".", $newsDistrictPost['house_price_real'][$district_id] ):$district->house_price_real;
+//                    $newsDistrict->amount = $newsDistrict->house + $newsDistrict->block;
                     $newsDistrict->save();
                 }
             }
