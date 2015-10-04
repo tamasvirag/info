@@ -99,16 +99,18 @@ use kartik\select2\Select2;
     <?php if(isset($model->id)): ?>
     
     <h3><?=\Yii::t('app','districts')?></h3>
-    <p><strong><?=\Yii::t('app','newscount_all')?>:</strong> <span id="newscount-all"></span> db<br>
+    <p>
+    <strong><?=\Yii::t('app','newscount_all')?>:</strong> <span id="newscount-all"></span> db<br>
     <strong><?=\Yii::t('app','Net Revenue')?>:</strong> <span id="revenue"></span> Ft<br>
     <strong><?=\Yii::t('app','Gross Revenue')?>:</strong> <span id="gross-revenue"></span> Ft<br>
     <strong><?=\Yii::t('app','Cost')?>:</strong> <span id="cost"></span> Ft<br>
-    <strong><?=\Yii::t('app','Margin')?>:</strong> <span id="margin"></span> Ft</p>
+    <strong><?=\Yii::t('app','Margin')?>:</strong> <span id="margin"></span> Ft
+    </p>
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'layout'=>'{items}',
-        'rowOptions' => function ($model, $key, $index, $grid){
+        'dataProvider'  => $dataProvider,
+        'layout'        => '{items}',
+        'rowOptions'    => function ($model, $key, $index, $grid){
                             return [
                                 'id'    => 'row-'.$model['id'],
                                 'class' => $model->parent_id?'child child-'.$model->parent_id:"parent"
@@ -116,9 +118,9 @@ use kartik\select2\Select2;
                         },
         'columns' => [
             [
-                'header' => '',
-                'class' => 'yii\grid\CheckboxColumn',
-                'checkboxOptions' => function($model, $key, $index, $column) use ($news_id) {
+                'header'            => '',
+                'class'             => 'yii\grid\CheckboxColumn',
+                'checkboxOptions'   => function($model, $key, $index, $column) use ($news_id) {
                     /**
                      * Set news_id for District
                      */
@@ -144,7 +146,7 @@ use kartik\select2\Select2;
             [
                 'attribute' => 'area_id',
                 'format'    => 'raw',
-                'value' => function($model, $key) {
+                'value'     => function($model, $key) {
                     if (!isset($model->parent_id)) {
                         return '<nobr><a class="accordion" data-id="'.$model['id'].'">+ '.$model->areaLabel.'</a></nobr>';
                     }
@@ -152,20 +154,20 @@ use kartik\select2\Select2;
                         return $model->areaLabel;
                     }
                 },
-                'filter' => false,
+                'filter'         => false,
                 'contentOptions' => ['width'=>'15%'],
             ],
             [
-                'attribute' => 'name',
+                'attribute'      => 'name',
                 'contentOptions' => ['width'=>'12%'],
             ],
             
             [
-                'label' => \Yii::t('app','newscount'),
+                'label'     => \Yii::t('app','newscount'),
                 'attribute' => 'amount',
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function( $model, $id ) {
+                'filter'    => false,
+                'format'    => 'raw',
+                'value'     => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return "<div class='newscount' id='newscount-".$id."'>".(count($model->nD)?$model->nD[0]->amount:null)."</div>";
                     }
@@ -174,9 +176,9 @@ use kartik\select2\Select2;
             ],
             [
                 'attribute' => 'block',
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function( $model, $id ) {
+                'filter'    => false,
+                'format'    => 'raw',
+                'value'     => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block]['.$id.']', count($model->nD)?$model->nD[0]->block:null, [
                             'placeHolder'   => $model->block,
@@ -191,9 +193,9 @@ use kartik\select2\Select2;
             ],
             [
                 'attribute' => 'block_price',
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function( $model, $id ) {
+                'filter'    => false,
+                'format'    => 'raw',
+                'value'     => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block_price]['.$id.']', count($model->nD)?$model->nD[0]->block_price:null, [
                             'placeHolder'   => $model->block_price,
@@ -208,9 +210,9 @@ use kartik\select2\Select2;
             ],
             [
                 'attribute' => 'block_price_real',
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function( $model, $id ) {
+                'filter'    => false,
+                'format'    => 'raw',
+                'value'     => function( $model, $id ) {
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[block_price_real]['.$id.']', count($model->nD)?$model->nD[0]->block_price_real:null, [
                             'placeHolder'   => $model->block_price_real,
@@ -225,9 +227,9 @@ use kartik\select2\Select2;
             ],
             [
                 'attribute' => 'house',
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function( $model, $id ) {
+                'filter'    => false,
+                'format'    => 'raw',
+                'value'     => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[house]['.$id.']', count($model->nD)?$model->nD[0]->house:null, [
                             'placeHolder'   => $model->house,
@@ -242,9 +244,9 @@ use kartik\select2\Select2;
             ],
             [
                 'attribute' => 'house_price',
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function( $model, $id ) {
+                'filter'    => false,
+                'format'    => 'raw',
+                'value'     => function( $model, $id ) {
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[house_price]['.$id.']', count($model->nD)?$model->nD[0]->house_price:null, [
                             'placeHolder'   => $model->house_price,
@@ -259,9 +261,9 @@ use kartik\select2\Select2;
             ],
             [
                 'attribute' => 'house_price_real',
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function( $model, $id ) {
+                'filter'    => false,
+                'format'    => 'raw',
+                'value'     => function( $model, $id ) {
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[house_price_real]['.$id.']', count($model->nD)?$model->nD[0]->house_price_real:null, [
                             'placeHolder'   => $model->house_price_real,

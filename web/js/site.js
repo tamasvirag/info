@@ -33,14 +33,15 @@
                 block        = 0;
                 blockPrice   = $('#block-price-'+$(this).val()).val();
                 blockPricePH = $('#block-price-'+$(this).val()).attr('placeholder');
-                if ( isNumeric( blockPrice ) && blockPrice > 0 || blockPrice == "" && isNumeric( blockPricePH ) && blockPricePH > 0 ) {
-                    if ( isNumeric( $('#block-'+$(this).val()).val() ) ) {
-                        block = $('#block-'+$(this).val()).val();
-                    }
-                    else if ( isNumeric( $('#block-'+$(this).val()).attr('placeholder') ) ) {
-                        block = $('#block-'+$(this).val()).attr('placeholder');
-                    }
+                
+                if ( isNumeric( $('#block-'+$(this).val()).val() ) ) {
+                    block = $('#block-'+$(this).val()).val();
+                }
+                else if ( isNumeric( $('#block-'+$(this).val()).attr('placeholder') ) ) {
+                    block = $('#block-'+$(this).val()).attr('placeholder');
+                }
                     
+                if ( isNumeric( blockPrice ) && blockPrice > 0 || blockPrice == "" && isNumeric( blockPricePH ) && blockPricePH > 0 ) {
                     if ( isNumeric( blockPrice ) && blockPrice > 0 ) {
                         blockRevenue = block * blockPrice;
                     }
@@ -61,20 +62,20 @@
                         blockCost = block * blockPriceRealPH;
                     }
                 }
-                
 
                 houseRevenue = 0;
                 house        = 0;
                 housePrice   = $('#house-price-'+$(this).val()).val();
                 housePricePH = $('#house-price-'+$(this).val()).attr('placeholder');
-                if ( isNumeric( housePrice ) && housePrice > 0 || housePrice == "" && isNumeric( housePricePH ) && housePricePH > 0 ) {
-                    if ( isNumeric( $('#house-'+$(this).val()).val() ) ) {
-                        house = $('#house-'+$(this).val()).val();
-                    }
-                    else if ( isNumeric( $('#house-'+$(this).val()).attr('placeholder') ) ) {
-                        house = $('#house-'+$(this).val()).attr('placeholder');
-                    }
+                
+                if ( isNumeric( $('#house-'+$(this).val()).val() ) ) {
+                    house = $('#house-'+$(this).val()).val();
+                }
+                else if ( isNumeric( $('#house-'+$(this).val()).attr('placeholder') ) ) {
+                    house = $('#house-'+$(this).val()).attr('placeholder');
+                }
                     
+                if ( isNumeric( housePrice ) && housePrice > 0 || housePrice == "" && isNumeric( housePricePH ) && housePricePH > 0 ) {                    
                     if ( isNumeric( housePrice ) && housePrice > 0 ) {
                         houseRevenue = house * housePrice;
                     }
@@ -86,7 +87,7 @@
                 houseCost        = 0;
                 housePriceReal   = $('#house-price-real-'+$(this).val()).val();
                 housePriceRealPH = $('#house-price-real-'+$(this).val()).attr('placeholder');
-                
+
                 if ( isNumeric( house ) && house > 0 ) {
                     if ( isNumeric( housePriceReal ) ) {
                         houseCost = house * housePriceReal;
