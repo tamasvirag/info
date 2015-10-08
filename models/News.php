@@ -176,12 +176,18 @@ class News extends \yii\db\ActiveRecord
     
     public function getNewsCount() { // példányszám
         $all = 0;
-        $data_set = self::getInvoiceData([$this->id]);
-        if ( isset($data_set['items']) && count($data_set['items']) ) {
-            foreach($data_set['items'] as $item) {
-                $all += $item['amount'];
+        if ( count( $this->newsDistricts ) ) {
+            foreach ( $this->newsDistricts as $newsDistrict ) {
+                $district = $newsDistrict->district;
+                
+                // főkategóriákat nem vesszük bele
+                if ($district->parent_id != null) {
+                    $all += $newsDistrict->block;
+                    $all += $newsDistrict->house;
+                }
+                
             }
-        }
+        }        
         return $all;
     }
     

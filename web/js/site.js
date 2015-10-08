@@ -258,6 +258,16 @@
             }); 
             
         });
+        
+        
+        // district edit, calculate amount = block + house
+        $(document).on('change', '#district-block', function(){
+            $('#district-amount').val( $('#district-block').val()*1+$('#district-house').val()*1);
+        });
+        $(document).on('change', '#district-house', function(){
+            $('#district-amount').val( $('#district-block').val()*1+$('#district-house').val()*1);
+        });
+        
 
         if ( typeof disableNews !== 'undefined' ) {
             $("input").attr('disabled', 'disabled');

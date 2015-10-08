@@ -193,6 +193,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php endif; ?>
     <hr>
+    <pagebreak sheet-size="A4-P" resetpagenum="1" />
     <?php endforeach; ?>
     <?php endif; ?>
     

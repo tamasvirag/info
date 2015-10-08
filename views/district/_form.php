@@ -26,7 +26,7 @@ use kartik\select2\Select2;
             <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
         </div>
         <div class="col-md-2">
-            <?= $form->field($model, 'amount')->textInput() ?>
+            <?= $form->field($model, 'amount')->textInput(['readonly' => true]) ?>
         </div>
     </div>
     

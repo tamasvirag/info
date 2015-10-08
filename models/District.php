@@ -100,6 +100,16 @@ class District extends \yii\db\ActiveRecord
         return $this->hasMany(NewsDistrict::className(), ['district_id' => 'id']);
     }
     
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->amount = $this->block + $this->house;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         if ( $this->parent_id !== null ) {
