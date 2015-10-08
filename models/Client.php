@@ -16,7 +16,7 @@ class Client extends \yii\db\ActiveRecord
         return [
             [['name'],'required'],
             [['user_id', 'payment_method_id'], 'integer'],
-            [['name', 'pcode', 'city', 'address', 'post_pcode', 'post_city', 'post_address', 'web', 'regnumber', 'taxnumber', 'company_name', 'company_pcode', 'company_city', 'company_address', 'contact_name', 'contact_phone', 'company_phone'], 'string', 'max' => 255]
+            [['name', 'pcode', 'city', 'address', 'post_pcode', 'post_city', 'post_address', 'web', 'regnumber', 'taxnumber', 'contact_name', 'contact_phone'], 'string', 'max' => 255]
         ];
     }
 
@@ -34,11 +34,6 @@ class Client extends \yii\db\ActiveRecord
             'web' => Yii::t('app', 'Web'),
             'regnumber' => Yii::t('app', 'Regnumber'),
             'taxnumber' => Yii::t('app', 'Taxnumber'),
-            'company_name' => Yii::t('app', 'Company Name'),
-            'company_pcode' => Yii::t('app', 'Company Pcode'),
-            'company_city' => Yii::t('app', 'Company City'),
-            'company_address' => Yii::t('app', 'Company Address'),
-            'company_phone' => Yii::t('app', 'Company Phone'),
             'contact_name' => Yii::t('app', 'Contact Name'),
             'contact_phone' => Yii::t('app', 'Contact Phone'),
             'user_id' => Yii::t('app', 'User ID'),
@@ -86,6 +81,16 @@ class Client extends \yii\db\ActiveRecord
         else {
             return "";
         }
+    }
+    
+    public function getClientCompanies()
+    {
+        return $this->hasMany(ClientCompany::className(), ['client_id' => 'id']);
+    }
+    
+    public function getInvoices()
+    {
+        return $this->hasMany(Invoice::className(), ['client_id' => 'id']);
     }
     
 }

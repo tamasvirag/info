@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Add' => 'Új hozzáadása',
     'Auth Key' => '',
     'Block Price Real' => '',
     'Created By' => '',
@@ -61,6 +62,7 @@ return [
     'Client' => 'Partner',
     'Client ID' => 'Partner',
     'Clients' => 'Partnerek',
+    'Client companies' => 'Üzletek',
     'Comment' => 'Megjegyzés',
     'Company Address' => 'Üzlet cím',
     'Company City' => 'Üzlet város',

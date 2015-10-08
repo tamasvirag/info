@@ -32,6 +32,11 @@ class RbacController extends Controller
         $manageDealer->description = 'manage Dealer';
         $auth->add($manageDealer);
         
+        // add "dealerControl" permission
+        $manageDealer = $auth->createPermission('manageDealerControl');
+        $manageDealer->description = 'manage Dealer Control';
+        $auth->add($manageDealer);
+        
         // add "user" permission
         $manageUser = $auth->createPermission('manageUser');
         $manageUser->description = 'manage User';
@@ -61,6 +66,10 @@ class RbacController extends Controller
         $auth->add($dealerManager);
         $auth->addChild($dealerManager, $manageDealer);
         
+        $dealerControlManager = $auth->createRole('dealerControlManager');
+        $auth->add($dealerControlManager);
+        $auth->addChild($dealerControlManager, $manageDealerControl);
+        
         $userManager = $auth->createRole('userManager');
         $auth->add($userManager);
         $auth->addChild($userManager, $manageUser);
@@ -77,6 +86,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $clientManager);
         $auth->addChild($admin, $districtManager);
         $auth->addChild($admin, $dealerManager);
+        $auth->addChild($admin, $dealerControlManager);
         $auth->addChild($admin, $userManager);
         $auth->addChild($admin, $invoiceManager);
         

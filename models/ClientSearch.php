@@ -19,7 +19,7 @@ class ClientSearch extends Client
     {
         return [
             [['id', 'user_id'], 'integer'],
-            [['name', 'pcode', 'city', 'address', 'post_address', 'web', 'regnumber', 'taxnumber', 'company_name', 'company_pcode', 'company_city', 'company_address', 'contact_name', 'contact_phone'], 'safe'],
+            [['name', 'pcode', 'city', 'address', 'post_address', 'web', 'regnumber', 'taxnumber', 'contact_name', 'contact_phone'], 'safe'],
         ];
     }
 
@@ -68,10 +68,6 @@ class ClientSearch extends Client
             ->andFilterWhere(['like', 'web', $this->web])
             ->andFilterWhere(['like', 'regnumber', $this->regnumber])
             ->andFilterWhere(['like', 'taxnumber', $this->taxnumber])
-            ->andFilterWhere(['like', 'company_name', $this->company_name])
-            ->andFilterWhere(['like', 'company_pcode', $this->company_pcode])
-            ->andFilterWhere(['like', 'company_city', $this->company_city])
-            ->andFilterWhere(['like', 'company_address', $this->company_address])
             ->andFilterWhere(['like', 'contact_name', $this->contact_name])
             ->andFilterWhere(['like', 'contact_phone', $this->contact_phone]);
 

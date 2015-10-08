@@ -37,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return HTML::a( HTML::encode( $model->name ),['update', 'id'=>$model->id] );
                 }
             ],
-            'company_name',
             'pcode',
             'city',
             'address',

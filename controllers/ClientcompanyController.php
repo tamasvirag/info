@@ -3,20 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Client;
 use app\models\ClientCompany;
-use app\models\ClientSearch;
+use app\models\ClientCompanySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\components\BaseController;
 use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
 
 /**
- * ClientController implements the CRUD actions for Client model.
+ * ClientCompanyController implements the CRUD actions for ClientCompany model.
  */
-class ClientController extends BaseController
+class ClientcompanyController extends Controller
 {
     public function behaviors()
     {
@@ -32,10 +29,14 @@ class ClientController extends BaseController
             ],
         ];
     }
-    
+
+    /**
+     * Lists all ClientCompany models.
+     * @return mixed
+     */
     public function actionIndex()
     {
-        $searchModel = new ClientSearch();
+        $searchModel = new ClientCompanySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +46,7 @@ class ClientController extends BaseController
     }
 
     /**
-     * Displays a single Client model.
+     * Displays a single ClientCompany model.
      * @param integer $id
      * @return mixed
      */
@@ -57,16 +58,16 @@ class ClientController extends BaseController
     }
 
     /**
-     * Creates a new Client model.
+     * Creates a new ClientCompany model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Client();
+        $model = new ClientCompany();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update','id'=>$model->id]);
+            return $this->redirect(['client/update', 'id' => $model->client_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,65 +76,50 @@ class ClientController extends BaseController
     }
 
     /**
-     * Updates an existing Client model.
+     * Updates an existing ClientCompany model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $companymodel = new ClientCompany();
-        $companiesDataProvider = new ActiveDataProvider([
-            'query' => ClientCompany::find()->where('client_id = '.$model->id),
-            'pagination' => [
-                'pageSize' => 100,
-            ],
-        ]);
+        $companymodel = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update','id'=>$model->id]);
+        if ($companymodel->load(Yii::$app->request->post()) && $companymodel->save()) {
+            return $this->redirect(['client/update', 'id' => $companymodel->client_id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
                 'companymodel' => $companymodel,
-                'companiesDataProvider' => $companiesDataProvider,
             ]);
         }
     }
 
     /**
-     * Deletes an existing Client model.
+     * Deletes an existing ClientCompany model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
+        $client_id = $this->findModel($id)->client_id;
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->redirect(['client/update', 'id' => $client_id]);
     }
 
     /**
-     * Finds the Client model based on its primary key value.
+     * Finds the ClientCompany model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Client the loaded model
+     * @return ClientCompany the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Client::findOne($id)) !== null) {
+        if (($model = ClientCompany::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-    
-    public function actionGetclientjsonbyid($id) {
-        $model = $this->findModel($id);
-        $ret = ['payment_method_id'=>$model->payment_method_id];
-        echo json_encode($ret);
     }
 }
