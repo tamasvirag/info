@@ -23,7 +23,7 @@ class ComplainController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['dealerManager'],
+                        'roles' => ['dealerControlManager'],
                     ],
                 ],
             ],
