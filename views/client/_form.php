@@ -24,6 +24,9 @@ use app\models\PaymentMethod;
         <div class="col-md-2">
             <?= $form->field($model, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
         </div>
+        <div class="col-md-2">
+            <?= $form->field($model, 'payment_deadline')->textInput(['maxlength' => 255, 'value' => $model->isNewRecord?"8":$model->payment_deadline]) ?>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-1">

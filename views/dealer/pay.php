@@ -109,92 +109,104 @@ $this->params['breadcrumbs'][] = $this->title;
 
   
     <?php if( count($dataset) ): ?>
-    <?php foreach( $dataset as $dealerdata ): ?>
     
-    <?php
-        $summa          = $dealerdata['summa'];
-        $change         = $dealerdata['change'];
-        $dataProvider   = $dealerdata['dataProvider'];
-        $dealer         = $dealerdata['dealer'];
-    ?>
-    
-    <h5><strong><?=$dealer->name?></strong></h5>
-    <?=\Yii::t('app','All')?>: <strong><?=$summa?> Ft</strong>
-    
-    <?php if ($dataProvider->getCount()): ?>
-    
-    <?php if(count($change)): ?>
-    <table class="table">
-    <thead>
-    <tr><th colspan="2"><?=\Yii::t('app','Banknotes')?>:</th></tr>
-    </thead>
-    
-    <?php foreach( $change as $note => $count ): ?>
-        <tr><td width="15%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
-    <?php endforeach; ?>
-    </table>
-    <?php endif; ?>
-    
-    <?= GridView::widget([
-        'tableOptions'=>['class'=>'table table-simple table-bordered'],
-        'dataProvider' => $dataProvider,
-        'layout'=>'{pager}{items}{pager}',
-        'columns' => [
-            [
-                'label'     => \Yii::t('app','News'),
-                'attribute' => 'news_name',
-                'enableSorting' => false,
-            ],
-            [
-                'label'     => \Yii::t('app','Distribution Date'),
-                'attribute' => 'distribution_date',
-                'enableSorting' => false,
-            ],
-            [
-                'label'     => \Yii::t('app','Districts'),
-                'attribute' => 'district_name',
-                'enableSorting' => false,
-            ],
+        <?php foreach( $dataset as $dealerdata ): ?>
             
-            [
-                'label'     => \Yii::t('app','Block'),
-                'attribute' => 'block',
-                'enableSorting' => false,
-            ],
-            [
-                'label'     => \Yii::t('app','Block Price real'),
-                'attribute' => 'block_price_real',
-                'enableSorting' => false,
-            ],
-            [
-                'label'     => \Yii::t('app','Block Price All'),
-                'attribute' => 'block_all',
-                'enableSorting' => false,
-            ],
+            <?php
+                $summa          = $dealerdata['summa'];
+                $change         = $dealerdata['change'];
+                $dataProvider   = $dealerdata['dataProvider'];
+                $dealer         = $dealerdata['dealer'];
+            ?>
             
-            [
-                'label'     => \Yii::t('app','House'),
-                'attribute' => 'house',
-                'enableSorting' => false,
-            ],
-            [
-                'label'     => \Yii::t('app','House Price real'),
-                'attribute' => 'house_price_real',
-                'enableSorting' => false,
-            ],
-            [
-                'label'     => \Yii::t('app','House Price All'),
-                'attribute' => 'house_all',
-                'enableSorting' => false,
-            ],
-
-        ],
-    ]); ?>
+            
+            
+            
+            <?php if ($format == 'pdf' && $summa == 0): // pdf-ből kihagyhatóak a nullás terjesztők ?>
+            <?php continue; ?>
+            <?php endif; ?>
+        
+            
+            
+            <h5><strong><?=$dealer->name?></strong></h5>
+            <?=\Yii::t('app','All')?>: <strong><?=$summa?> Ft</strong>
+            
+            <?php if ($dataProvider->getCount()): ?>
+            
+            <?php if(count($change)): ?>
+            <table class="table">
+            <thead>
+            <tr><th colspan="2"><?=\Yii::t('app','Banknotes')?>:</th></tr>
+            </thead>
+            
+            <?php foreach( $change as $note => $count ): ?>
+                <tr><td width="15%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
+            <?php endforeach; ?>
+            </table>
+            <?php endif; ?>
+            
+            <?= GridView::widget([
+                'tableOptions'=>['class'=>'table table-simple table-bordered'],
+                'dataProvider' => $dataProvider,
+                'layout'=>'{pager}{items}{pager}',
+                'columns' => [
+                    [
+                        'label'     => \Yii::t('app','News'),
+                        'attribute' => 'news_name',
+                        'enableSorting' => false,
+                    ],
+                    [
+                        'label'     => \Yii::t('app','Distribution Date'),
+                        'attribute' => 'distribution_date',
+                        'enableSorting' => false,
+                    ],
+                    [
+                        'label'     => \Yii::t('app','Districts'),
+                        'attribute' => 'district_name',
+                        'enableSorting' => false,
+                    ],
+                    
+                    [
+                        'label'     => \Yii::t('app','Block'),
+                        'attribute' => 'block',
+                        'enableSorting' => false,
+                    ],
+                    [
+                        'label'     => \Yii::t('app','Block Price real'),
+                        'attribute' => 'block_price_real',
+                        'enableSorting' => false,
+                    ],
+                    [
+                        'label'     => \Yii::t('app','Block Price All'),
+                        'attribute' => 'block_all',
+                        'enableSorting' => false,
+                    ],
+                    
+                    [
+                        'label'     => \Yii::t('app','House'),
+                        'attribute' => 'house',
+                        'enableSorting' => false,
+                    ],
+                    [
+                        'label'     => \Yii::t('app','House Price real'),
+                        'attribute' => 'house_price_real',
+                        'enableSorting' => false,
+                    ],
+                    [
+                        'label'     => \Yii::t('app','House Price All'),
+                        'attribute' => 'house_all',
+                        'enableSorting' => false,
+                    ],
+        
+                ],
+            ]); ?>
+            
+            <?php endif; ?>
+            <hr>
+            <pagebreak sheet-size="A4-P" resetpagenum="1" />
+            
+        <?php endforeach; ?>
     
-    <?php endif; ?>
-    <hr>
-    <pagebreak sheet-size="A4-P" resetpagenum="1" />
-    <?php endforeach; ?>
     <?php endif; ?>
     
     

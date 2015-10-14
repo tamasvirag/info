@@ -147,7 +147,7 @@ class DealerController extends BaseController
         $model = new Dealer();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -161,7 +161,7 @@ class DealerController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -173,7 +173,7 @@ class DealerController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('success', Yii::t('app','success_delete'));
         return $this->redirect(['index']);
     }
 

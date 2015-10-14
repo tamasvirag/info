@@ -67,6 +67,7 @@ class ComplainController extends Controller
         $model = new Complain();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -86,6 +87,7 @@ class ComplainController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -103,7 +105,7 @@ class ComplainController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('success', Yii::t('app','success_delete'));
         return $this->redirect(['index']);
     }
 

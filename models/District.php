@@ -112,7 +112,7 @@ class District extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
-        if ( $this->parent_id !== null ) {
+        if ( $this->parent_id !== null && $this->parent_id != "" ) {
             $children = self::find()->where('parent_id = '.$this->parent_id)->all();
             $block = 0;
             $house = 0;

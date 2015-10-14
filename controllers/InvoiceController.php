@@ -111,8 +111,15 @@ class InvoiceController extends BaseController
             // Teljesítés dátuma = utolsó Terjesztési időpont a terjesztések közül
             $invoice->settle_date           = News::getLastDistributionDate($newsIds);
             
+            // Ha van beállítva az ügyfélnek fizetési határidő, akkor azt veszi figyelembe, különben 8 nap
+            if ( isset( $data_set['client']->payment_deadline ) && is_numeric( $data_set['client']->payment_deadline )  ) {
+                $now_date->add(new \DateInterval('P'.$data_set['client']->payment_deadline.'D'));
+            }
             // Fizetési határidő = Számla kelte + 8 nap
-            $now_date->add(new \DateInterval('P8D'));
+            else {
+                $now_date->add(new \DateInterval('P8D'));
+            }
+
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
         }
         elseif ($payment_method_id == PaymentMethod::CASH) {

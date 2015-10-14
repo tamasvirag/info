@@ -15,7 +15,7 @@ class Client extends \yii\db\ActiveRecord
     {
         return [
             [['name'],'required'],
-            [['user_id', 'payment_method_id'], 'integer'],
+            [['user_id', 'payment_method_id', 'payment_deadline'], 'integer'],
             [['name', 'pcode', 'city', 'address', 'post_pcode', 'post_city', 'post_address', 'web', 'regnumber', 'taxnumber', 'contact_name', 'contact_phone'], 'string', 'max' => 255]
         ];
     }
@@ -38,6 +38,7 @@ class Client extends \yii\db\ActiveRecord
             'contact_phone' => Yii::t('app', 'Contact Phone'),
             'user_id' => Yii::t('app', 'User ID'),
             'payment_method_id' => Yii::t('app', 'Payment Method'),
+            'payment_deadline' => Yii::t('app', 'Payment Deadline'),
         ];
     }
     

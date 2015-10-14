@@ -58,6 +58,7 @@ class UserController extends BaseController
                     $auth->assign($role, $model->id);
                 }
             }
+            Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
             return $this->redirect(['index']);
         } else {
             $auth = Yii::$app->authManager;
@@ -84,6 +85,7 @@ class UserController extends BaseController
                     $auth->assign($role, $model->id);
                 }
             }
+            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['index']);
         } else {
             $auth = Yii::$app->authManager;
@@ -100,6 +102,7 @@ class UserController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        Yii::$app->session->setFlash('success', Yii::t('app','success_delete'));
         return $this->redirect(['index']);
     }
 

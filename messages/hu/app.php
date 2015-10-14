@@ -133,6 +133,7 @@ return [
     'Payment Method' => 'Fizetési mód',
     'Payment Method ID' => 'Fizetési mód',
     'Payment Methods' => 'Fizetési módok',
+    'Payment Deadline' => 'Fizetési határidő',
     'Pcode' => 'Irányítószám',
     'Period' => 'Időszak',
     'Phone' => 'Telefon',
@@ -193,6 +194,17 @@ return [
     'success_copy' => 'Sikeresen létrehozva.',
     'success_delete' => 'Sikeres törlés.',
     'success_save' => 'Sikeres mentés.',
+    'success_create' => 'Sikeres létrehozás.',
     'uninvestigated' => 'kivizsgálatlan',
     'users' => 'Értékesítők',
+    
+    'admin' => 'Admin',
+    'clientManager' => 'Partnerek',
+    'dealerControlManager' => 'Ellenőrzés',
+    'dealerManager' => 'Terjesztők',
+    'districtManager' => 'Terjesztési körzetek',
+    'invoiceManager' => 'Számlázás',
+    'newsManager' => 'Szórólapok',
+    'userManager' => 'Értékesítők',
+    
 ];

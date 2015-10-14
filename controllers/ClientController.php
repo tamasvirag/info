@@ -66,6 +66,7 @@ class ClientController extends BaseController
         $model = new Client();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
             return $this->redirect(['update','id'=>$model->id]);
         } else {
             return $this->render('create', [
@@ -92,6 +93,7 @@ class ClientController extends BaseController
         ]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['update','id'=>$model->id]);
         } else {
             return $this->render('update', [
@@ -111,7 +113,7 @@ class ClientController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('success', Yii::t('app','success_delete'));
         return $this->redirect(['index']);
     }
 
