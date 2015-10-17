@@ -34,13 +34,20 @@ class InvoiceController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'allow' => true,
-                        'roles' => ['invoiceManager'],
+                        'actions'   => ['update','index','copy','storno','transfer','cash','execute','pdf','paymentdemand','view'],
+                        'allow'     => true,
+                        'roles'     => ['invoiceManager'],
+                    ],
+                    [
+                        'actions'   => ['update','copy','storno','cash','execute','pdf'],
+                        'allow'     => true,
+                        'roles'     => ['newsManager'],
                     ],
                 ],
             ],
         ];
     }
+
     
     public function actionUpdate($id)
     {

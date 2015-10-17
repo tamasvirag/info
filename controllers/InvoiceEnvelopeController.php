@@ -28,7 +28,7 @@ class InvoiceenvelopeController extends BaseController
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['invoiceManager'],
+                        'roles' => ['invoiceManager','newsManager'],
                     ],
                 ],
             ],
