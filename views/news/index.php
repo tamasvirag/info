@@ -143,6 +143,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <?php ActiveForm::end(); ?>
+    
+    <p>
+    <strong><?=\Yii::t('app','newscount_all')?>:</strong> <span><?=$newscount_total?></span> db<br>
+    <strong><?=\Yii::t('app','Net Revenue')?>:</strong> <span><?=$net_revenue_total?></span> Ft<br>
+    </p>
 
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
@@ -168,6 +173,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'newsCount',
                 'format'    => 'raw',
                 'value'     => 'newsCount',
+                'filter'    => false
+            ],
+            
+            [
+                'attribute' => 'overall_price',
+                'format'    => 'raw',
+                'value'     => 'overall_price',
                 'filter'    => false
             ],
             

@@ -43,4 +43,15 @@ class NewsDistrict extends \yii\db\ActiveRecord
     {
         return $this->hasOne(News::className(), ['id' => 'news_id']);
     }
+    
+    public function afterSave($insert, $changedAttributes)
+    {
+/*
+        $news = News::findOne($this->news_id);
+        if ( $news instanceof News ) {
+            $news->updateNewscountRevenue();
+        }
+*/
+        return parent::afterSave($insert, $changedAttributes);
+    }
 }

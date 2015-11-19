@@ -40,21 +40,34 @@ class NewsController extends BaseController
     {
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $dataProvider2      = $searchModel->search(Yii::$app->request->queryParams, 999999); // pagesize
+        $net_revenue_total  = 0;
+        $newscount_total    = 0;
+        $news               = $dataProvider2->getModels();
+        if ( count( $news ) ) {
+            foreach($news as $onenews) {
+                $net_revenue_total  += $onenews->net_revenue;
+                $newscount_total    += $onenews->newscount;
+            }
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'net_revenue_total' => $net_revenue_total,
+            'newscount_total'   => $newscount_total,
         ]);
     }
     
     public function actionIndexinvoice()
     {
-        $searchModel = new NewsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel    = new NewsSearch();
+        $dataProvider   = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('invoice-index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel'   => $searchModel,
+            'dataProvider'  => $dataProvider,
         ]);
     }
 
@@ -72,6 +85,7 @@ class NewsController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->status_id = News::STATUS_NEW;
             $model->save();
+            $model->updateNewscountRevenue();
             Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
             return $this->redirect(['update','id'=>$model->id]);
         } else {
@@ -137,6 +151,7 @@ class NewsController extends BaseController
         }
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->updateNewscountRevenue();
             Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['update','id'=>$model->id]);
         } else {

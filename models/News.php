@@ -26,7 +26,7 @@ class News extends \yii\db\ActiveRecord
             [['name','payment_method_id', 'user_id', 'client_id'],'required'],
             [['client_id', 'status_id', 'payment_method_id' ,'user_id', 'created_by', 'updated_by'], 'integer'],
             [['description'], 'string'],
-            [['overall_price','overall_cost'], 'number'],
+            [['overall_price','overall_cost','net_revenue','cost','newscount',], 'number'],
             [['distribution_date', 'invoice_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
         ];
@@ -60,6 +60,9 @@ class News extends \yii\db\ActiveRecord
             'newsCount' => Yii::t('app', 'News Count'),
             'overall_price' => Yii::t('app', 'Overall price'),
             'overall_cost' => Yii::t('app', 'Overall cost'),
+            'newscount' => Yii::t('app', 'News Count'),
+            'cost' => Yii::t('app', 'Cost'),
+            'net_revenue' => Yii::t('app', 'Net revenue'),
         ];
     }
     
@@ -87,6 +90,7 @@ class News extends \yii\db\ActiveRecord
             $data_set   = array();
             $items      = [];
             $clients    = []; // there must be ONE from all news
+            $cost       = 0;
         
             /**
             * walkthrough the news, collect items, group same prices
@@ -124,6 +128,11 @@ class News extends \yii\db\ActiveRecord
                                     $items[strval($house_price)] += $house;
                                 }
                             }
+                            
+                            $block_price_real = $newsDistrict->block_price_real!==null?floatval($newsDistrict->block_price_real):floatval($district->block_price_real);
+                            $house_price_real = $newsDistrict->house_price_real!==null?floatval($newsDistrict->house_price_real):floatval($district->house_price_real);
+                            $cost += $block * $block_price_real;
+                            $cost += $house * $house_price_real;
                         }
                                                 
                     } 
@@ -132,7 +141,7 @@ class News extends \yii\db\ActiveRecord
                 $client = $news->client;
             }
             
-            if ( count($clients) > 1) die();
+            if ( count($clients) > 1 ) die();
         
             $base = 1;
             if ( $invoice_type == 'storno' ) {
@@ -166,6 +175,7 @@ class News extends \yii\db\ActiveRecord
             $data_set['tax_summa']          = $tax_summa;
             $data_set['all_summa']          = $all_summa;
             $data_set['all_summa_string']   = $all_summa_string;
+            $data_set['cost']               = $cost;
             
             return $data_set;
         }
@@ -322,5 +332,14 @@ class News extends \yii\db\ActiveRecord
     
     public function getLabel() {
         return $this->name;
+    }
+    
+    public function updateNewscountRevenue()
+    {
+        $this->newscount    = $this->getNewsCount();
+        $invoiceData        = self::getInvoiceData([$this->id]);
+        $this->net_revenue  = $invoiceData['price_summa'];
+        $this->cost         = $invoiceData['cost'];
+        $this->save();
     }
 }

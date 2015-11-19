@@ -40,10 +40,18 @@ class DistrictSearch extends District
             $news = News::findOne($this->news_id);
             if ( $news instanceof News ) {
                 $district_ids = $news->newsDistrictIds;
-                $query->where(
-                    'parent_id IS NULL OR
+                if ( count( $district_ids ) ) {
+                    $query->where(
+                        'parent_id IS NULL OR
                         ( id IN ('.implode(",", $district_ids).') AND news_id = '.$this->news_id.') OR
-                    deleted = 0'  );
+                        deleted = 0'  );
+                }
+                else {
+                    $query->where(
+                        'parent_id IS NULL OR
+                        ( news_id = '.$this->news_id.') OR
+                        deleted = 0'  );
+                }
             }
         }
 

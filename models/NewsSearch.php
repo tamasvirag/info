@@ -38,7 +38,7 @@ class NewsSearch extends News
         return Model::scenarios();
     }
 
-    public function search($params = null)
+    public function search($params = null, $pageSize = 25)
     {
         $query = News::find();
 
@@ -50,7 +50,7 @@ class NewsSearch extends News
                 ]
             ],
             'pagination' => [
-                'pageSize' => 25,
+                'pageSize' => $pageSize,
             ],
         ]);
 
