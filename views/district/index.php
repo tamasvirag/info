@@ -79,7 +79,6 @@ $dealerData = ArrayHelper::map( Dealer::find()->orderBy(['name' => SORT_ASC])->a
                 'attribute' => 'house_price_real',
                 'filter' => false,
             ],
-            
             [
                 'attribute' => 'dealer_id',
                 'format'    => 'raw',
@@ -115,6 +114,13 @@ $dealerData = ArrayHelper::map( Dealer::find()->orderBy(['name' => SORT_ASC])->a
                             },
                             
                 'filter' => $dealerData
+            ],
+            [
+                'attribute' => 'deleted',
+                'format'    => 'raw',
+                'label'     => \Yii::t('app','status'),
+                'value'     => 'deletedLabel',
+                'filter'    => ArrayHelper::map( [ [ 'id' => 0, 'name' => \Yii::t('app','active') ], [ 'id' => 1, 'name' => \Yii::t('app','deleted') ] ], 'id', 'name' ),
             ],
 
             ['class' => 'yii\grid\ActionColumn','template'=>'<nobr>{update} {delete}</nobr>'],

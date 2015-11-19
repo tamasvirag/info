@@ -302,6 +302,18 @@ class News extends \yii\db\ActiveRecord
         return $this->hasMany(NewsDistrict::className(), ['news_id' => 'id']);
     }
     
+    public function getNewsDistrictIds()
+    {
+        $ret = [];
+        $nds = $this->newsDistricts;
+        if ( count( $nds ) ) {
+            foreach( $nds as $nd ) {
+                $ret[] = $nd->district_id;
+            }
+        }
+        return $ret;
+    }
+    
     public function deleteDistricts()
     {
         $connection = Yii::$app->db;

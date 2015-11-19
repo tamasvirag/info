@@ -65,6 +65,9 @@ use kartik\select2\Select2;
         <div class="col-md-3">
             <?= $form->field($model, 'parent_id')->dropDownList( ArrayHelper::map( District::find()->where( 'parent_id IS NULL' )->all(), 'id', 'fullLabel' ), ['prompt' => '']  ) ?>
         </div>
+        <div class="col-md-2">
+            <?= $form->field($model, 'deleted')->dropDownList( ArrayHelper::map( [ [ 'id' => 0, 'name' => \Yii::t('app','active') ], [ 'id' => 1, 'name' => \Yii::t('app','deleted') ] ], 'id', 'name' ) ) ?>
+        </div>
     </div>
     
 </div>

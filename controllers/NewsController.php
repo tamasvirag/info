@@ -144,9 +144,9 @@ class NewsController extends BaseController
             $searchModel->news_id = $id;
             $dataProvider = $searchModel->search();
             return $this->render('update', [
-                'model' => $model,
-                'news_id' => $id,
-                'dataProvider' => $dataProvider,
+                'model'         => $model,
+                'news_id'       => $id,
+                'dataProvider'  => $dataProvider,
             ]);
         }
     }

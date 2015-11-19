@@ -17,7 +17,7 @@ class District extends \yii\db\ActiveRecord
     {
         return [
             [['area_id', 'name', 'block', 'house'],'required'],
-            [['area_id', 'amount', 'block', 'house', 'dealer_id', 'parent_id'], 'integer'],
+            [['area_id', 'amount', 'block', 'house', 'dealer_id', 'parent_id','deleted'], 'integer'],
             [['block_price', 'house_price', 'block_price_real', 'house_price_real'], 'number'],
             [['name'], 'string', 'max' => 255]
         ];
@@ -38,6 +38,7 @@ class District extends \yii\db\ActiveRecord
             'house_price_real' => Yii::t('app', 'House Price real'),
             'dealer_id' => Yii::t('app', 'Dealer ID'),
             'parent_id' => Yii::t('app', 'District Parent ID'),
+            'deleted' => Yii::t('app', 'status'),
         ];
     }
     
@@ -83,6 +84,16 @@ class District extends \yii\db\ActiveRecord
         }
         else {
             return "";
+        }
+    }
+    
+    public function getDeletedLabel()
+    {
+        if ( $this->deleted ) {
+            return \Yii::t('app','deleted');
+        }
+        else {
+            return \Yii::t('app','active');
         }
     }
     

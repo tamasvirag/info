@@ -8,11 +8,12 @@ use yii\data\ActiveDataProvider;
 use app\models\District;
 
 class DistrictSearch extends District
-{   
+{
+    
     public function rules()
     {
         return [
-            [['area_id', 'amount', 'block', 'house', 'dealer_id', 'parent_id'], 'integer'],
+            [['area_id', 'amount', 'block', 'house', 'dealer_id', 'parent_id','deleted'], 'integer'],
             [['block_price', 'house_price', 'block_price_real', 'house_price_real'], 'number'],
             [['name'], 'string', 'max' => 255]
         ];
@@ -34,6 +35,17 @@ class DistrictSearch extends District
         if (!$this->validate()) {
             return $dataProvider;
         }
+        
+        if ( isset( $this->news_id ) ) {
+            $news = News::findOne($this->news_id);
+            if ( $news instanceof News ) {
+                $district_ids = $news->newsDistrictIds;
+                $query->where(
+                    'parent_id IS NULL OR
+                        ( id IN ('.implode(",", $district_ids).') AND news_id = '.$this->news_id.') OR
+                    deleted = 0'  );
+            }
+        }
 
         $query->andFilterWhere([
             'id' => $this->id,
@@ -44,6 +56,7 @@ class DistrictSearch extends District
             'house' => $this->house,
             'house_price' => $this->house_price,
             'dealer_id' => $this->dealer_id,
+            'deleted' => $this->deleted,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
