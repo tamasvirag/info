@@ -44,11 +44,13 @@ class NewsController extends BaseController
         $dataProvider2      = $searchModel->search(Yii::$app->request->queryParams, 999999); // pagesize
         $net_revenue_total  = 0;
         $newscount_total    = 0;
+        $cost               = 0;
         $news               = $dataProvider2->getModels();
         if ( count( $news ) ) {
             foreach($news as $onenews) {
                 $net_revenue_total  += $onenews->net_revenue;
                 $newscount_total    += $onenews->newscount;
+                $cost               += $onenews->cost;
             }
         }
 
@@ -57,6 +59,7 @@ class NewsController extends BaseController
             'dataProvider' => $dataProvider,
             'net_revenue_total' => $net_revenue_total,
             'newscount_total'   => $newscount_total,
+            'cost'   => $cost,
         ]);
     }
     

@@ -147,6 +147,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
     <strong><?=\Yii::t('app','newscount_all')?>:</strong> <span><?=$newscount_total?></span> db<br>
     <strong><?=\Yii::t('app','Net Revenue')?>:</strong> <span><?=$net_revenue_total?></span> Ft<br>
+    <strong><?=\Yii::t('app','Cost')?>:</strong> <span><?=$cost?></span> Ft<br>
     </p>
 
     <?= GridView::widget([
