@@ -150,7 +150,7 @@ foreach($dataArray as $client_id => $invoices):
                     Tisztelt Partnerünk!<br>
                     Kérjük szíveskedjen feltüntetni, hogy milyen számlaszámra vonatkozik átutalása.<br>
                     Késedelmes fizetés esetén 20% késedelmi kamatot számítunk fel!<br>
-                    Reklamáció esetén levelezési cím: 2700 Cegléd, Múzeum u. 3. tel.: 53/500-030<br>
+                    Reklamáció esetén levelezési cím: 2700 Cegléd, Múzeum u. 3. tel.: 53/317-422<br>
                     Köszönjük, hogy igénybe vette cégünk szolgáltatását!<br>
                 </p>
             </td>
