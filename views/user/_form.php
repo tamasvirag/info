@@ -4,6 +4,9 @@ use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
 use yii\bootstrap\ActiveForm;
+use app\models\Office;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -15,7 +18,7 @@ use yii\bootstrap\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     <div class="well">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <?= $form->field($model, 'full_name')->textInput(['maxlength' => 255]) ?>
             </div>
         
@@ -24,6 +27,16 @@ use yii\bootstrap\ActiveForm;
             </div>
             <div class="col-md-2">
                 <?= $form->field($model, 'password')->textInput(['maxlength' => 255]) ?>
+            </div>
+            <div class="col-md-2">
+            <?= $form->field($model, 'office_id')->widget( Select2::classname(), [
+                'data' => ArrayHelper::map( Office::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
+                'language' => 'hu',
+                'options' => ['placeholder' => Yii::t('app','please choose')],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
             </div>
             <div class="col-md-2">
                 <?= $form->field($model, 'active')->checkbox() ?>

@@ -109,6 +109,7 @@ class InvoiceController extends BaseController
         $storno_data_set = News::getInvoiceData($newsIds,'storno');
         
         $invoice = new Invoice();
+        $invoice->office_id = \Yii::$app->user->identity->office_id;
         
         $now_date               = new \DateTime( date( 'Y-m-d', time() ) );
         $invoice->invoice_date  = $now_date->format('Y-m-d');

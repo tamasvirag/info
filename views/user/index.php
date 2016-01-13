@@ -47,6 +47,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             [
+                'attribute' => 'office_id',
+                'format'    => 'raw',
+                'value'     => 'officeLabel',
+            ],
+            
+            [
                 'attribute' => 'active',
                 'format'    => 'raw',
                 'value'     => function( $model ) {

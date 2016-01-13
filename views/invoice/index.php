@@ -9,6 +9,7 @@ use app\models\User;
 use app\models\Invoice;
 use app\models\InvoiceSearch;
 use app\models\PaymentMethod;
+use app\models\Office;
 use dosamigos\datepicker\DatePicker;
 use dosamigos\datepicker\DateRangePicker;
 use yii\helpers\StringHelper;
@@ -46,6 +47,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-2">
                 <?= $form->field($searchModel, 'created_by')->widget( Select2::classname(), [
                     'data' => ArrayHelper::map( User::find()->orderBy(['full_name' => SORT_ASC])->all(), 'id', 'full_name' ),
+                    'language' => 'hu',
+                    'options' => ['placeholder' => Yii::t('app','please choose')],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]); ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($searchModel, 'office_id')->widget( Select2::classname(), [
+                    'data' => ArrayHelper::map( Office::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
                     'language' => 'hu',
                     'options' => ['placeholder' => Yii::t('app','please choose')],
                     'pluginOptions' => [
@@ -201,6 +212,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'allowClear' => true
                                 ],
                             ]),
+                'options' => ['width'=>'10%'],
+            ],
+            [
+                'attribute' => 'office_id',
+                'format'    => 'raw',
+                'value' => 'officeLabel',
                 'options' => ['width'=>'10%'],
             ],
             

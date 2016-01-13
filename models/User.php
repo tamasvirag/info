@@ -97,6 +97,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasOne(Office::className(), ['id' => 'office_id']);
     }
     
+    public function getOfficeLabel()
+    {
+        if ( isset( $this->office ) ) {
+            return $this->office->name;
+        }
+        else {
+            return "";
+        }
+    }
+    
     public function search($params)
     {
         $query = User::find();
