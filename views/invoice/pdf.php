@@ -203,7 +203,13 @@ foreach($dataArray as $client_id => $invoices):
     </tr>
     <tr>
         <td align="left"></td>
-        <td class="sign" align="center" width="30%"><p class="small">aláírás</p></td>
+        <td <?php if( $invoice->payment_method_id != 2 ): ?>class="sign"<?php endif; ?> align="center" width="30%">
+        <?php if( $invoice->payment_method_id == 2 ): ?>
+            <p class="small">A számla pecsét és aláírás nélkül is érvényes.</p>
+        <?php else: ?>
+            <p class="small">aláírás</p>
+        <?php endif; ?>
+        </td>
     </tr>
 </table>
 
