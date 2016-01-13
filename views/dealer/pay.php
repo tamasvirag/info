@@ -132,18 +132,23 @@ $this->params['breadcrumbs'][] = $this->title;
             <?=\Yii::t('app','All')?>: <strong><?=$summa?> Ft</strong>
             
             <?php if ($dataProvider->getCount()): ?>
-            
+
+            <?php /*  dealer részletezés
+                        
             <?php if(count($change)): ?>
             <table class="table">
             <thead>
             <tr><th colspan="2"><?=\Yii::t('app','Banknotes')?>:</th></tr>
             </thead>
             
+
             <?php foreach( $change as $note => $count ): ?>
                 <tr><td width="15%"><?=$note?> Ft</td><td><?=$count?> db</td></tr>
             <?php endforeach; ?>
             </table>
             <?php endif; ?>
+            
+            */ ?>
             
             <?= GridView::widget([
                 'tableOptions'=>['class'=>'table table-simple table-bordered'],
