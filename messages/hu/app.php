@@ -122,6 +122,7 @@ return [
     'Name' => 'Név',
     'Net Revenue' => 'Nettó árbevétel',
     'News' => 'Szórólapok',
+    'News Name' => 'Szórólap megnevezése',
     'News Count' => 'Példányszám',
     'Office' => 'Iroda',
     'Office ID' => 'Iroda',

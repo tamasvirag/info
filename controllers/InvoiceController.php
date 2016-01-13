@@ -430,7 +430,7 @@ class InvoiceController extends BaseController
             'options' => ['title' => ''],
             'methods' => [
                 'SetHeader' => ['<p class="small">{nbpg} / {PAGENO}. oldal</p>'],
-                'SetFooter' => ['<p align="left" class="small">Terjesztés - A számlaprogram megfelel a PM 34/1999 (XII.26) rendeletnek</p>'],
+                'SetFooter' => ['<p align="left" class="small">Indigo 1.0 - A számlaprogram megfelel a PM 34/1999 (XII.26) rendeletnek</p>'],
             ]
         ]);
 

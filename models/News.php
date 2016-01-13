@@ -46,7 +46,7 @@ class News extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'client_id' => Yii::t('app', 'Client ID'),
             'payment_method_id' => Yii::t('app', 'Payment Method'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'News Name'),
             'description' => Yii::t('app', 'Description'),
             'distribution_date' => Yii::t('app', 'Distribution Date'),
             'status_id' => Yii::t('app', 'Status ID'),
