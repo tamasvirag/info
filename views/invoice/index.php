@@ -192,6 +192,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'label' => \Yii::t('app','completion_date_abb'),
+                'attribute'=>'completion_date',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return '<nobr>'.$model->completion_date.'</nobr>';
+                }
+            ],
+            [
                 'label' => \Yii::t('app','invoice_deadline_date_abb'),
                 'attribute'=>'invoice_deadline_date',
             ],

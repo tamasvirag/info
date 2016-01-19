@@ -19,7 +19,8 @@ use app\models\Client;
             <strong><?=\Yii::t('app','Invoice Number')?>:</strong><br><?=$model->invoice_number?>
         </div>
         <div class="col-md-2">
-            <strong><?=\Yii::t('app','Invoice Date')?>:</strong><br><?=$model->invoice_date?>
+            <strong><?=\Yii::t('app','Invoice Date')?>:</strong><br><?=$model->invoice_date?><br>
+            <strong><?=\Yii::t('app','Completion Date')?>:</strong><br><?=$model->completion_date?>
         </div>
         <div class="col-md-2">
             <strong><?=\Yii::t('app','Invoice Deadline Date')?>:</strong><br><?=$model->invoice_deadline_date?>

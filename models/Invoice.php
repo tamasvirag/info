@@ -20,7 +20,7 @@ class Invoice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['invoice_date', 'invoice_data', 'storno_invoice_data'], 'string'],
+            [['invoice_date', 'completion_date', 'invoice_data', 'storno_invoice_data'], 'string'],
             [['invoice_deadline_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
             [['copy_count', 'payment_method_id', 'office_id', 'client_id', 'price_summa', 'tax_summa', 'all_summa', 'created_by', 'updated_by'], 'integer'],
             [['invoice_number', 'storno_invoice_number', 'storno_invoice_date'], 'string', 'max' => 255]
@@ -41,6 +41,7 @@ class Invoice extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'invoice_number' => Yii::t('app', 'Invoice Number'),
             'invoice_date' => Yii::t('app', 'Invoice Date'),
+            'completion_date' => Yii::t('app', 'Completion Date'),
             'invoice_deadline_date' => Yii::t('app', 'Invoice Deadline Date'),
             'invoice_data' => Yii::t('app', 'Invoice Data'),
             'storno_invoice_number' => Yii::t('app', 'Storno Invoice Number'),

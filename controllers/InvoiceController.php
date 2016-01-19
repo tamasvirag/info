@@ -117,7 +117,7 @@ class InvoiceController extends BaseController
         if ($payment_method_id == PaymentMethod::TRANSFER) {
             
             // Teljesítés dátuma = utolsó Terjesztési időpont a terjesztések közül
-            $invoice->settle_date           = News::getLastDistributionDate($newsIds);
+            $invoice->completion_date           = News::getLastDistributionDate($newsIds);
             
             // Ha van beállítva az ügyfélnek fizetési határidő, akkor azt veszi figyelembe, különben 8 nap
             if ( isset( $data_set['client']->payment_deadline ) && is_numeric( $data_set['client']->payment_deadline )  ) {
@@ -133,7 +133,7 @@ class InvoiceController extends BaseController
         elseif ($payment_method_id == PaymentMethod::CASH) {
         
             // Teljesítés dátuma = Számla kelte
-            $invoice->settle_date           = $now_date->format('Y-m-d');
+            $invoice->completion_date           = $now_date->format('Y-m-d');
             
             // Fizetési határidő = Számla kelte
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
@@ -411,7 +411,7 @@ class InvoiceController extends BaseController
             $dataArray[$dataSet['client']->id] = [$invoiceData];
             
             // második példány
-            if ($invoice_type == "normal") {
+            if ( $invoice_type == "normal" || $invoice_type == "storno" ) {
                 $invoiceData['copy'] = 2;
                 $dataArray[$dataSet['client']->id][] = $invoiceData;
             }

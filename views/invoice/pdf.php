@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 $invoiceCount = count($dataArray);
-if ( isset($_REQUEST['type'] ) && $_REQUEST['type'] == 'normal' ) {
+if ( isset($_REQUEST['type'] ) && ( $_REQUEST['type'] == 'normal' || $_REQUEST['type'] == 'storno' ) ) {
     $invoiceCount = $invoiceCount*2;
 }
 $i = 0;
@@ -64,7 +64,7 @@ foreach($dataArray as $client_id => $invoices):
                 <p>Fizetés módja<br><?=$invoice->paymentMethodLabel?></p>
             </td>
             <td width="20%" align="center">
-                <p>Teljesítés dátuma<br><?=$invoice->settle_date?></p>
+                <p>Teljesítés dátuma<br><?=$invoice->completion_date?></p>
             </td>
             <td width="20%" align="center">
                 <p>Számla kelte<br><?=$invoice->invoice_date?></p>
