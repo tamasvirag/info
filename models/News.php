@@ -342,4 +342,12 @@ class News extends \yii\db\ActiveRecord
         $this->cost         = $invoiceData['cost'];
         $this->save();
     }
+    
+    public function undoInvoice()
+    {
+        $this->status_id    = self::STATUS_NEW;
+        $this->invoice_date = null;
+        $this->settle_date  = null;
+        $this->save();
+    }
 }

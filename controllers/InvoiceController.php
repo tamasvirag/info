@@ -53,6 +53,17 @@ class InvoiceController extends BaseController
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            // update items settle_date (pl.: news)
+            $invoiceItems = $model->invoiceItems;
+            if ( count($invoiceItems) ) {
+                foreach($invoiceItems as $item) {
+                    $itemModel = $item->model;
+                    $itemModel->settle_date = $model->settle_date;
+                    $itemModel->save();
+                }
+            }
+            
             Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['index']);
         } else {
@@ -95,6 +106,15 @@ class InvoiceController extends BaseController
             $invoice->storno_invoice_date = date("Y-m-d");
             $invoice->storno_invoice_number = $invoice->getNextInvoiceNumber(Invoice::TYPE_STORNO);
             $invoice->save();
+            
+            // undo invoice items (pl.: news)
+            $invoiceItems = $invoice->invoiceItems;
+            if ( count($invoiceItems) ) {
+                foreach($invoiceItems as $item) {
+                    $model = $item->model;
+                    $model->undoInvoice();
+                }
+            }
         }
         return $this->redirect(['invoice/pdf','id'=>$invoice->id, 'type'=>'storno']);
     }
