@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="user-form">
+<div class="user-form"> 
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="well">
