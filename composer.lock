@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "28572aa99e0036b3c3240350e3ff2bd8",
+    "content-hash": "d45fe41aa6dbdfc6d428f6844df3b68e",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
