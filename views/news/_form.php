@@ -18,6 +18,17 @@ use kartik\select2\Select2;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<?php
+$disabled = false;
+if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ):
+    $disabled = true;
+?>
+<script>
+    disableNews = true;
+</script>
+<?php endif; ?>
+
+
 <div class="news-form">
 
     <?php $form = ActiveForm::begin( ['options'=>['id'=>'edit-news-districts']] ); ?>
@@ -72,16 +83,33 @@ use kartik\select2\Select2;
             <strong><?=\Yii::t('app','Status ID')?></strong><br><?=$model->statusLabel?>
         </div>
         <div class="col-md-2">
-            <?=\Yii::t('app','Invoice Date')?>:<br><?=$model->invoice_date?$model->invoice_date:"-"?><br>
-            <?=\Yii::t('app','Settle Date')?>:<br><?=$model->settle_date?$model->settle_date:"-"?>
+            <?php if ( $disabled ): ?>
+                <?= $form->field($model, 'invoice_date')->textInput(['disabled' => true]) ?>
+            <?php else: ?>
+                <?= $form->field($model, 'invoice_date')->widget(DatePicker::className(), [
+                'language' => 'hu',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                    ],
+                ]); ?>
+            <?php endif; ?>
         </div>
         <div class="col-md-2">
-            <?=\Yii::t('app','Created')?>:<br><?=$model->created_at?date('Y-m-d H:i:s',$model->created_at):"-"?><br>
-            <?=$model->created_by?$model->createdByLabel:""?><br>
+            <?= $form->field($model, 'invoice_number')->textInput(['maxlength' => 255, 'disabled' => $disabled]) ?>
         </div>
         <div class="col-md-2">
-            <?=\Yii::t('app','Updated')?>:<br><?=$model->updated_at?date('Y-m-d H:i:s',$model->updated_at):"-"?><br>
-            <?=$model->updated_by?$model->updatedByLabel:""?><br>
+            <?php if ( $disabled ): ?>
+                <?= $form->field($model, 'settle_date')->textInput(['disabled' => true]) ?>
+            <?php else: ?>
+                <?= $form->field($model, 'settle_date')->widget(DatePicker::className(), [
+                    'language' => 'hu',
+                    'clientOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd'
+                        ]
+                    ]); ?>
+            <?php endif; ?>
         </div>
         <?php endif; ?>
     </div>
@@ -92,6 +120,16 @@ use kartik\select2\Select2;
         </div>
         <div class="col-md-2">
             <?= $form->field($model, 'overall_cost')->textInput(['maxlength' => 255]) ?>
+        </div>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-2">
+            <?=\Yii::t('app','Created')?>:<br><?=$model->created_at?date('Y-m-d H:i:s',$model->created_at):"-"?><br>
+            <?=$model->created_by?$model->createdByLabel:""?><br>
+        </div>
+        <div class="col-md-2">
+            <?=\Yii::t('app','Updated')?>:<br><?=$model->updated_at?date('Y-m-d H:i:s',$model->updated_at):"-"?><br>
+            <?=$model->updated_by?$model->updatedByLabel:""?><br>
         </div>
     </div>
     </div>
@@ -300,12 +338,6 @@ use kartik\select2\Select2;
     <?php ActiveForm::end(); ?>
 
 </div>
-
-<?php if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ): ?>
-<script>
-    disableNews = true;
-</script>
-<?php endif; ?>
 
 
 

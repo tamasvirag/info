@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use app\models\PaymentMethod;
 $invoiceCount = count($dataArray);
 if ( isset($_REQUEST['type'] ) && ( $_REQUEST['type'] == 'normal' || $_REQUEST['type'] == 'storno' ) ) {
     $invoiceCount = $invoiceCount*2;
@@ -147,11 +148,13 @@ foreach($dataArray as $client_id => $invoices):
         <tr>
             <td width="55%" valign="top">
                 <p class="small">
+                    <?php if( $invoice->payment_method_id == PaymentMethod::TRANSFER ): ?>
                     Tisztelt Partnerünk!<br>
                     Kérjük szíveskedjen feltüntetni, hogy milyen számlaszámra vonatkozik átutalása.<br>
                     Késedelmes fizetés esetén 20% késedelmi kamatot számítunk fel!<br>
                     Reklamáció esetén levelezési cím: 2700 Cegléd, Múzeum u. 3. tel.: 53/317-422<br>
                     Köszönjük, hogy igénybe vette cégünk szolgáltatását!<br>
+                    <?php endif; ?>
                 </p>
             </td>
             <td width="45%">
@@ -203,8 +206,8 @@ foreach($dataArray as $client_id => $invoices):
     </tr>
     <tr>
         <td align="left"></td>
-        <td <?php if( $invoice->payment_method_id != 2 ): ?>class="sign"<?php endif; ?> align="center" width="30%">
-        <?php if( $invoice->payment_method_id == 2 ): ?>
+        <td <?php if( $invoice->payment_method_id != PaymentMethod::TRANSFER ): ?>class="sign"<?php endif; ?> align="center" width="30%">
+        <?php if( $invoice->payment_method_id == PaymentMethod::TRANSFER ): ?>
             <p class="small">A számla pecsét és aláírás nélkül is érvényes.</p>
         <?php else: ?>
             <p class="small">aláírás</p>
