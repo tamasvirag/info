@@ -17,6 +17,9 @@ p {
         font-weight: bold;
         font-size: 14px;
     }
+    &.big {
+        font-size: 16px;
+    }
 }
 
 table {
@@ -85,4 +88,7 @@ table {
 			}
 	   }
 	}
+}
+.dij-hitelezve {
+    border: 2px solid black;
 }

@@ -155,6 +155,19 @@ class NewsController extends BaseController
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->updateNewscountRevenue();
+            
+            
+            // manual news update
+            /*if ( isset($model->invoice_date) && $model->status = News::STATUS_NEW ) {
+                $model->status_id = News::STATUS_INVOICED
+                $model->save();
+            }
+            if ( isset($model->settle_date) ) {
+                $model->status_id = News::STATUS_SETTLED
+                $model->save();
+            }*/
+            
+            
             Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['update','id'=>$model->id]);
         } else {

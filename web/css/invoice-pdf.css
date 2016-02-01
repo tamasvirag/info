@@ -13,6 +13,8 @@ p {
   p.title {
     font-weight: bold;
     font-size: 14px; }
+  p.big {
+    font-size: 16px; }
 
 table {
   width: 100%; }
@@ -54,3 +56,6 @@ table tr td {
     padding: 10px 10px;
     border-bottom: 1px solid #bbb;
     border-top: 1px solid #bbb; }
+
+.dij-hitelezve {
+  border: 2px solid black; }
