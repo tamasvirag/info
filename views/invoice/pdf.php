@@ -68,7 +68,13 @@ foreach($dataArray as $client_id => $invoices):
                 <p>Teljesítés dátuma<br><?=$invoice->completion_date?></p>
             </td>
             <td width="20%" align="center">
-                <p>Számla kelte<br><?=$invoice->invoice_date?></p>
+                <p>Számla kelte<br>
+                <?php if ($data['type']=='storno'): ?>
+                    <?=$invoice->storno_invoice_date?>
+                <?php else: ?>
+                    <?=$invoice->invoice_date?>
+                <?php endif; ?>
+                </p>
             </td>
             <td width="20%" align="center">
                 <p>Fizetési határidő<br><?=$invoice->invoice_deadline_date?></p>
