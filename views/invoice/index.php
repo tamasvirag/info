@@ -243,7 +243,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => Yii::t('app','invoice_storno'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno')] );
+                    return HTML::a( HTML::encode( isset($model->storno_invoice_date)?Yii::t('app','Print Storno Invoice Again'):Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno')] );
                 }
             ],
             [

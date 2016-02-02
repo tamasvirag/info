@@ -67,7 +67,7 @@ use app\models\Client;
     <div class="well">
     <div class="row">
         <div class="col-md-2">
-            <?= HTML::a( HTML::encode( Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno'), 'class' => 'btn btn-block btn-primary inline-block'] ) ?>
+            <?= HTML::a( HTML::encode( isset($model->storno_invoice_date)?Yii::t('app','Print Storno Invoice Again'):Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno'), 'class' => 'btn btn-block btn-primary inline-block'] ) ?>
         </div>
         <div class="col-md-2">
             <strong><?=\Yii::t('app','Storno Invoice Number')?>:</strong><br><?=$model->storno_invoice_number?$model->storno_invoice_number:"-"?>

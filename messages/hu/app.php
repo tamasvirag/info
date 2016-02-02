@@ -154,6 +154,7 @@ return [
     'Price' => 'Ár',
     'Print Invoice Copy' => 'Másolat nyomtatása',
     'Print Storno Invoice' => 'Stornozás',
+    'Print Storno Invoice Again' => 'Storno újranyomtatása',
     'Regnumber' => 'Cégjegyzékszám',
     'Result' => 'Kivizsgálás eredménye',
     'Roles' => 'Hozzáférési szint',
