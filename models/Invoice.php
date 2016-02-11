@@ -22,7 +22,7 @@ class Invoice extends \yii\db\ActiveRecord
         return [
             [['invoice_date', 'completion_date', 'invoice_data', 'storno_invoice_data'], 'string'],
             [['invoice_deadline_date', 'settle_date', 'created_at', 'updated_at'], 'safe'],
-            [['copy_count', 'payment_method_id', 'office_id', 'client_id', 'price_summa', 'tax_summa', 'all_summa', 'created_by', 'updated_by'], 'integer'],
+            [['copy_count', 'payment_method_id', 'office_id', 'client_id', 'price_summa', 'tax_summa', 'all_summa', 'created_by', 'updated_by', 'partial_settlement'], 'integer'],
             [['invoice_number', 'storno_invoice_number', 'storno_invoice_date'], 'string', 'max' => 255]
         ];
     }
@@ -48,6 +48,7 @@ class Invoice extends \yii\db\ActiveRecord
             'storno_invoice_date' => Yii::t('app', 'Storno Invoice Date'),
             'storno_invoice_data' => Yii::t('app', 'Storno Invoice Data'),
             'copy_count' => Yii::t('app', 'Copy Count'),
+            'partial_settlement' => Yii::t('app', 'Partial Settlement'),
             'settle_date' => Yii::t('app', 'Settle Date'),
             'payment_method_id' => Yii::t('app', 'Payment Method ID'),
             'user_id' => Yii::t('app', 'User ID'),

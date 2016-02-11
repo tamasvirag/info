@@ -26,13 +26,7 @@ use app\models\Client;
             <strong><?=\Yii::t('app','Invoice Deadline Date')?>:</strong><br><?=$model->invoice_deadline_date?>
         </div>
         <div class="col-md-2">
-            <?= $form->field($model, 'settle_date')->widget(DatePicker::className(), [
-                'language' => 'hu',
-                'clientOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                    ]
-                ]); ?>
+            <?= $form->field($model, 'partial_settlement')->textInput(['maxlength' => 255]) ?>
         </div>
         <div class="col-md-2">
             <strong><?=\Yii::t('app','Payment Method')?>:</strong><br><?=$model->paymentMethodLabel?>
@@ -52,8 +46,16 @@ use app\models\Client;
         <div class="col-md-1">
             <strong><?=\Yii::t('app','All')?>:</strong><br><?=$model->all_summa?> Ft
         </div>
-        
-        <div class="col-md-2 col-md-offset-5">
+        <div class="col-md-2 col-md-offset-3">
+            <?= $form->field($model, 'settle_date')->widget(DatePicker::className(), [
+                'language' => 'hu',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                    ]
+                ]); ?>
+        </div>
+        <div class="col-md-2">
             <strong><?=\Yii::t('app','Created')?>:</strong><br><?=$model->created_at?date('Y-m-d H:i:s',$model->created_at):"-"?><br>
             <?=$model->created_by?$model->createdByLabel:""?><br>
         </div>

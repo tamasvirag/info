@@ -161,6 +161,7 @@ return [
     'Save' => 'Mentés',
     'Search' => 'Keresés',
     'Settle Date' => 'Kiegyenlítés dátuma',
+    'Partial Settlement' => 'Részleges kiegyenlítés',
     'Status ID' => 'Státusz',
     'Statuses' => 'Szórólap státuszok',
     'Storno Invoice Date' => 'Storno dátuma',
