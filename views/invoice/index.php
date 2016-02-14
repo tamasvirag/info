@@ -206,6 +206,15 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => \Yii::t('app','settle_date_abb'),
                 'attribute'=>'settle_date',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    if ( isset($model->settle_date) ) {
+                        return '<nobr>'.$model->completion_date.'</nobr>';
+                    }
+                    elseif ( isset($model->partial_settlement) ) {
+                        return \Yii::t('app','Partial Settlement').'<br>'.$model->partial_settlement." Ft";
+                    }
+                }
             ],
             [
                 'attribute' => 'created_by',
