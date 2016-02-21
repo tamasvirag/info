@@ -131,6 +131,14 @@ class NewsController extends BaseController
     {
         $model = $this->findModel($id);
         
+        /*if ( count( Yii::$app->request->post('News') ) && in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ) { // overall_cost update, news is already invoiced
+            $model->overall_cost = Yii::$app->request->post('News')['overall_cost'];
+            $model->save();
+            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+            return $this->redirect(['update','id'=>$model->id]);
+        }*/
+        
+        
         if ( count( Yii::$app->request->post('News') ) ) {
         
             $model->deleteDistricts();
@@ -151,26 +159,35 @@ class NewsController extends BaseController
                     $newsDistrict->save();
                 }
             }
+            
+            if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ) { // overall_cost update, news is already invoiced
+                $model->overall_cost = Yii::$app->request->post('News')['overall_cost'];
+                $model->save();
+                $model->updateNewscountRevenue();
+                Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+                return $this->redirect(['update','id'=>$model->id]);
+            }
+            elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $model->updateNewscountRevenue();
+                
+                
+                // manual news update
+                /*if ( isset($model->invoice_date) && $model->status = News::STATUS_NEW ) {
+                    $model->status_id = News::STATUS_INVOICED
+                    $model->save();
+                }
+                if ( isset($model->settle_date) ) {
+                    $model->status_id = News::STATUS_SETTLED
+                    $model->save();
+                }*/
+                
+                
+                Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+                return $this->redirect(['update','id'=>$model->id]);
+            }
         }
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->updateNewscountRevenue();
-            
-            
-            // manual news update
-            /*if ( isset($model->invoice_date) && $model->status = News::STATUS_NEW ) {
-                $model->status_id = News::STATUS_INVOICED
-                $model->save();
-            }
-            if ( isset($model->settle_date) ) {
-                $model->status_id = News::STATUS_SETTLED
-                $model->save();
-            }*/
-            
-            
-            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
-            return $this->redirect(['update','id'=>$model->id]);
-        } else {
+        else {
             $searchModel = new DistrictSearch();
             $searchModel->news_id = $id;
             $dataProvider = $searchModel->search();

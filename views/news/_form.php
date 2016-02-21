@@ -19,12 +19,12 @@ use kartik\select2\Select2;
 ?>
 
 <?php
-$disabled = false;
+$disabledByInvoiced = false;
 if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ):
-    $disabled = true;
+    $disabledByInvoiced = true;
 ?>
 <script>
-    disableNews = true;
+    disableNews = true; // site.js row 272
 </script>
 <?php endif; ?>
 
@@ -69,13 +69,17 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
             <?= $form->field($model, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
         </div>
         <div class="col-md-2">
-            <?= $form->field($model, 'distribution_date')->widget(DatePicker::className(), [
-                'language' => 'hu',
-                'clientOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                    ]
-                ]); ?>
+            <?php if ( $disabledByInvoiced ): ?>
+                <?= $form->field($model, 'distribution_date')->textInput(['disabled' => true]) ?>
+            <?php else: ?>
+                <?= $form->field($model, 'distribution_date')->widget(DatePicker::className(), [
+                    'language' => 'hu',
+                    'clientOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd'
+                        ]
+                    ]); ?>
+            <?php endif; ?>
         </div>
         
         <?php if(isset($model->id)): ?>
@@ -83,7 +87,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
             <strong><?=\Yii::t('app','Status ID')?></strong><br><?=$model->statusLabel?>
         </div>
         <div class="col-md-2">
-            <?php if ( $disabled ): ?>
+            <?php if ( $disabledByInvoiced ): ?>
                 <?= $form->field($model, 'invoice_date')->textInput(['disabled' => true]) ?>
             <?php else: ?>
                 <?= $form->field($model, 'invoice_date')->widget(DatePicker::className(), [
@@ -96,10 +100,10 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
             <?php endif; ?>
         </div>
         <div class="col-md-2">
-            <?= $form->field($model, 'invoice_number')->textInput(['maxlength' => 255, 'disabled' => $disabled]) ?>
+            <?= $form->field($model, 'invoice_number')->textInput(['maxlength' => 255, 'disabled' => $disabledByInvoiced]) ?>
         </div>
         <div class="col-md-2">
-            <?php if ( $disabled ): ?>
+            <?php if ( $disabledByInvoiced ): ?>
                 <?= $form->field($model, 'settle_date')->textInput(['disabled' => true]) ?>
             <?php else: ?>
                 <?= $form->field($model, 'settle_date')->widget(DatePicker::className(), [
@@ -119,7 +123,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
             <?= $form->field($model, 'overall_price')->textInput(['maxlength' => 255]) ?>
         </div>
         <div class="col-md-2">
-            <?= $form->field($model, 'overall_cost')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'overall_cost')->textInput(['maxlength' => 255, 'class'=> 'form-control active-field']) ?>
         </div>
         <div class="col-md-4">
         </div>
@@ -158,26 +162,26 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
             [
                 'header'            => '',
                 'class'             => 'yii\grid\CheckboxColumn',
-                'checkboxOptions'   => function($model, $key, $index, $column) use ($news_id) {
+                'checkboxOptions'   => function($model, $key, $index, $column) use ($news_id, $disabledByInvoiced) {
                     /**
                      * Set news_id for District
                      */
                     $model->news_id = $news_id;
                     
+                    $ret = [];
+                    $ret['checked'] = count($model->nD)?'checked':'';
+                    $ret['value']   = $model['id'];
+                    if ( $disabledByInvoiced ) {
+                        $ret['onClick'] = 'return false';
+                    }
                     if (isset($model->parent_id)){
-                        return [
-                            'checked'   => count($model->nD)?'checked':'',
-                            'value'     => $model['id'],
-                            'class'     => 'visible group-'.$model->parent_id,
-                        ];
+                        $ret['class']   = 'visible group-'.$model->parent_id;
                     }
                     else {
-                        return [
-                            'checked'   => count($model->nD)?'checked':'',
-                            'value'     => $model['id'],
-                            'class'     => 'visible group-parent',
-                        ];
+                        $ret['class']   = 'visible group-parent';
+
                     }
+                    return $ret;
                 },
                 'contentOptions' => ['width'=>'3%'],
             ],
@@ -322,9 +326,9 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
     <?php endif; ?>
     
     <div class="form-group">
-        <?php if (!in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED])): ?>
+        <?php // if (!in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED])): ?>
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?php endif; ?>
+        <?php // endif; ?>
         
         <?php if(isset($model->id)): ?>
         <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm_create_from_this')]) ?>

@@ -269,14 +269,21 @@
         });
         
 
+        
+        
         if ( typeof disableNews !== 'undefined' ) {
-            $("input").attr('disabled', 'disabled');
-            $("input").attr('readonly', 'true');
+            //$(":text").attr('disabled', 'disabled');
+            $(":text").attr('readonly', 'true');
             $("select").attr('disabled', 'disabled');
             $("select").attr('readonly', 'true');
-            $("textarea").attr('disabled', 'disabled');
+            //$("textarea").attr('disabled', 'disabled');
             $("textarea").attr('readonly', 'true');
         }
+        
+        // .active-fields are always editable, for instance: news.overall_cost
+        $(".active-field").removeAttr('disabled');
+        $(".active-field").removeAttr('readonly');
+
         
     });
 })(jQuery);
