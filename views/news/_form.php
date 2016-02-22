@@ -258,7 +258,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[block_price_real]['.$id.']', count($model->nD)?$model->nD[0]->block_price_real:null, [
                             'placeHolder'   => $model->block_price_real,
-                            'class'         => 'form-control newscount-trigger cost_input',
+                            'class'         => 'form-control newscount-trigger cost_input active-field',
                             'id'            => 'block-price-real-'.$id,
                         ] );
                     } else {
@@ -309,7 +309,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                     if (isset($model->parent_id)){                    
                         return HTML::textInput( 'newsDistrict[house_price_real]['.$id.']', count($model->nD)?$model->nD[0]->house_price_real:null, [
                             'placeHolder'   => $model->house_price_real,
-                            'class'         => 'form-control newscount-trigger cost_input',
+                            'class'         => 'form-control newscount-trigger cost_input active-field',
                             'id'            => 'house-price-real-'.$id,
                         ] );
                     } else {
