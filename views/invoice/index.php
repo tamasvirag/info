@@ -209,7 +209,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'    => 'raw',
                 'value' => function( $model ) {
                     if ( isset($model->settle_date) ) {
-                        return '<nobr>'.$model->completion_date.'</nobr>';
+                        return '<nobr>'.$model->settle_date.'</nobr>';
                     }
                     elseif ( isset($model->partial_settlement) ) {
                         return \Yii::t('app','Partial Settlement').'<br>'.$model->partial_settlement." Ft";
