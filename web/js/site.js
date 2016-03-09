@@ -278,6 +278,10 @@
             $("select").attr('readonly', 'true');
             //$("textarea").attr('disabled', 'disabled');
             $("textarea").attr('readonly', 'true');
+            
+            var js = "if ( $('#newscount-all').html() != originalNewsCountAll ) { alert('Megváltozott az összpéldányszám! Eredeti példányszám: '+originalNewsCountAll); return false; } else { return true; }";
+            var validateNewsCountAll = new Function(js);
+            $("#news-submit-button").click(validateNewsCountAll);
         }
         
         // .active-fields are always editable, for instance: news.overall_cost

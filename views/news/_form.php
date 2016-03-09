@@ -25,6 +25,9 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
 ?>
 <script>
     disableNews = true; // site.js row 272
+    window.onload = function() {
+        originalNewsCountAll = $('#newscount-all').html();
+    };
 </script>
 <?php endif; ?>
 
@@ -224,7 +227,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block]['.$id.']', count($model->nD)?$model->nD[0]->block:null, [
                             'placeHolder'   => $model->block,
-                            'class'         => 'form-control newscount-trigger',
+                            'class'         => 'form-control newscount-trigger active-field',
                             'id'            => 'block-'.$id,
                         ] );
                     } else {
@@ -275,7 +278,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                     if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[house]['.$id.']', count($model->nD)?$model->nD[0]->house:null, [
                             'placeHolder'   => $model->house,
-                            'class'         => 'form-control newscount-trigger',
+                            'class'         => 'form-control newscount-trigger active-field',
                             'id'            => 'house-'.$id,
                         ] );
                     } else {
@@ -327,7 +330,12 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
     
     <div class="form-group">
         <?php // if (!in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED])): ?>
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'),
+                [
+                    'class'     => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+                    'id'        => 'news-submit-button',
+                ]
+            ) ?>
         <?php // endif; ?>
         
         <?php if(isset($model->id)): ?>
