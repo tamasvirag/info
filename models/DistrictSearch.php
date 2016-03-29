@@ -25,7 +25,7 @@ class DistrictSearch extends District
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize'=>2000],
+            'pagination' => ['pageSize'=>200000],
         ]);
         
         $dataProvider->setSort(['attributes'=>[''=>'']]);
