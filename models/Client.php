@@ -41,7 +41,7 @@ class Client extends \yii\db\ActiveRecord
             'payment_deadline' => Yii::t('app', 'Payment Deadline'),
         ];
     }
-    
+
     public function getUserLabel()
     {
         if ( isset( $this->user ) ) {
@@ -68,12 +68,12 @@ class Client extends \yii\db\ActiveRecord
     {
         return $this->hasMany(News::className(), ['client_id' => 'id']);
     }
-    
+
     public function getPaymentMethod()
     {
         return $this->hasOne(PaymentMethod::className(), ['id' => 'payment_method_id']);
     }
-    
+
     public function getPaymentMethodLabel()
     {
         if ( isset( $this->paymentMethod ) ) {
@@ -83,15 +83,15 @@ class Client extends \yii\db\ActiveRecord
             return "";
         }
     }
-    
+
     public function getClientCompanies()
     {
         return $this->hasMany(ClientCompany::className(), ['client_id' => 'id']);
     }
-    
+
     public function getInvoices()
     {
         return $this->hasMany(Invoice::className(), ['client_id' => 'id']);
     }
-    
+
 }

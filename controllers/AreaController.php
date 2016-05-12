@@ -31,7 +31,7 @@ class AreaController extends BaseController
             ],
         ];
     }
-    
+
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([

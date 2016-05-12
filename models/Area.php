@@ -52,10 +52,9 @@ class Area extends \yii\db\ActiveRecord
     
     public function getOfficeLabel()
     {
-        if ( isset( $this->office ) ) {
+        if (isset($this->office)) {
             return $this->office->name;
-        }
-        else {
+        } else {
             return "";
         }
     }
