@@ -70,16 +70,16 @@
         },
         {
             "name": "bower-asset/bootbox",
-            "version": "v4.0.0",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/makeusabrew/bootbox.git",
-                "reference": "2b236a96a27d5b225b595de1f3ffd44a2435836f"
+                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/makeusabrew/bootbox/zipball/2b236a96a27d5b225b595de1f3ffd44a2435836f",
-                "reference": "2b236a96a27d5b225b595de1f3ffd44a2435836f",
+                "url": "https://api.github.com/repos/makeusabrew/bootbox/zipball/cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
+                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
                 "shasum": ""
             },
             "require": {
@@ -89,7 +89,13 @@
             "extra": {
                 "bower-asset-main": "./bootbox.js",
                 "bower-asset-ignore": [
-                    "**/.*"
+                    "CHANGELOG.md",
+                    "CONTRIBUTING",
+                    "Gruntfile.js",
+                    "header.txt",
+                    "karma*.js",
+                    "build",
+                    "tests"
                 ]
             }
         },
@@ -175,16 +181,16 @@
         },
         {
             "name": "bower-asset/jquery",
-            "version": "2.2.3",
+            "version": "2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jquery/jquery-dist.git",
-                "reference": "af22a351b2ea5801ffb1695abb3bb34d5bed9198"
+                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/af22a351b2ea5801ffb1695abb3bb34d5bed9198",
-                "reference": "af22a351b2ea5801ffb1695abb3bb34d5bed9198",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/c0185ab7c75aab88762c5aae780b9d83b80eda72",
+                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72",
                 "shasum": ""
             },
             "type": "bower-asset-library",
@@ -752,20 +758,20 @@
         },
         {
             "name": "xj/yii2-bootbox-widget",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xjflyttp/yii2-bootbox-widget.git",
-                "reference": "6fb8b05112f3579a41c4821a9c4cb5aeb13a1153"
+                "reference": "e4aafa44cc6fa3f9473d98196c06861b95eb495a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xjflyttp/yii2-bootbox-widget/zipball/6fb8b05112f3579a41c4821a9c4cb5aeb13a1153",
-                "reference": "6fb8b05112f3579a41c4821a9c4cb5aeb13a1153",
+                "url": "https://api.github.com/repos/xjflyttp/yii2-bootbox-widget/zipball/e4aafa44cc6fa3f9473d98196c06861b95eb495a",
+                "reference": "e4aafa44cc6fa3f9473d98196c06861b95eb495a",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/bootbox": "~4.0.0",
+                "bower-asset/bootbox": "~4.4.0",
                 "yiisoft/yii2": "*",
                 "yiisoft/yii2-bootstrap": "~2.0.0"
             },
@@ -786,7 +792,7 @@
                 }
             ],
             "description": "yii2-bootbox-widget",
-            "time": "2015-05-21 08:39:46"
+            "time": "2016-06-03 11:21:47"
         },
         {
             "name": "yiisoft/yii2",
