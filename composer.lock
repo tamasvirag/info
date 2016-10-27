@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "28572aa99e0036b3c3240350e3ff2bd8",
-    "content-hash": "d45fe41aa6dbdfc6d428f6844df3b68e",
+    "hash": "58cd566e34fb2ac2c0988f4ee14d62e1",
+    "content-hash": "2e4f895b3cf7df2a1d2bd607e2c835ab",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -758,22 +758,22 @@
         },
         {
             "name": "xj/yii2-bootbox-widget",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xjflyttp/yii2-bootbox-widget.git",
-                "reference": "e4aafa44cc6fa3f9473d98196c06861b95eb495a"
+                "reference": "e1fcb161fa7bb0d0b50962636a6b1bf6ca6788e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xjflyttp/yii2-bootbox-widget/zipball/e4aafa44cc6fa3f9473d98196c06861b95eb495a",
-                "reference": "e4aafa44cc6fa3f9473d98196c06861b95eb495a",
+                "url": "https://api.github.com/repos/xjflyttp/yii2-bootbox-widget/zipball/e1fcb161fa7bb0d0b50962636a6b1bf6ca6788e9",
+                "reference": "e1fcb161fa7bb0d0b50962636a6b1bf6ca6788e9",
                 "shasum": ""
             },
             "require": {
                 "bower-asset/bootbox": "~4.4.0",
                 "yiisoft/yii2": "*",
-                "yiisoft/yii2-bootstrap": "~2.0.0"
+                "yiisoft/yii2-bootstrap": "~2.0.0 || ~2.1.0"
             },
             "type": "library",
             "autoload": {
@@ -792,20 +792,20 @@
                 }
             ],
             "description": "yii2-bootbox-widget",
-            "time": "2016-06-03 11:21:47"
+            "time": "2016-10-02 14:49:21"
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.9",
+            "version": "2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "2b75151ea60e1fd820046416eee2e89c3dda1133"
+                "reference": "5bfcb7a6dfa9771e2248eb8c4448613330f343ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/2b75151ea60e1fd820046416eee2e89c3dda1133",
-                "reference": "2b75151ea60e1fd820046416eee2e89c3dda1133",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5bfcb7a6dfa9771e2248eb8c4448613330f343ff",
+                "reference": "5bfcb7a6dfa9771e2248eb8c4448613330f343ff",
                 "shasum": ""
             },
             "require": {
@@ -886,7 +886,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-07-11 13:36:42"
+            "time": "2016-10-20 12:02:50"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1243,6 +1243,7 @@
                 "codeception",
                 "yii2"
             ],
+            "abandoned": "codeception/codeception",
             "time": "2016-03-17 03:41:26"
         },
         {
