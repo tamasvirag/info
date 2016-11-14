@@ -22,6 +22,7 @@ use app\models\InvoiceGroupItem;
 use kartik\mpdf\Pdf;
 use app\components\NumberToString;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 use yii\db\Query;
 
@@ -43,17 +44,22 @@ class InvoiceController extends BaseController
                         'allow'     => true,
                         'roles'     => ['newsManager'],
                     ],
+                    [
+                        'actions'   => ['nav-index', 'view', 'export'],
+                        'allow'     => true,
+                        'roles'     => ['navInvoiceManager'],
+                    ],
                 ],
             ],
         ];
     }
 
-    
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
+
             // update items settle_date (pl.: news)
             $invoiceItems = $model->invoiceItems;
             if ( count($invoiceItems) ) {
@@ -63,7 +69,7 @@ class InvoiceController extends BaseController
                     $itemModel->save();
                 }
             }
-            
+
             Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['index']);
         } else {
@@ -72,9 +78,9 @@ class InvoiceController extends BaseController
             ]);
         }
     }
-    
+
     public function actionIndex()
-    {        
+    {
         $searchModel = new InvoiceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -83,7 +89,64 @@ class InvoiceController extends BaseController
             'dataProvider' => $dataProvider,
         ]);
     }
-    
+
+    public function actionNavIndex()
+    {
+        $searchModel = new InvoiceSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('nav-index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionExport()
+    {
+        $searchModel = new InvoiceSearch();
+
+        $query = Invoice::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort'  => [
+                'defaultOrder' => 'invoice_date DESC',
+            ],
+            'pagination' => [
+                'pageSize' => 0,
+            ],
+        ]);
+
+        return $this->renderPartial('export', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+        // $name = strftime('szamla_export_%m%d%Y.xml');
+        // header('Content-Disposition: attachment;filename=' . $name);
+        // header('Content-Type: text/xml');
+        //
+        // $invoices = $dataProvider->getModels();
+        // $invoice = array();
+        //
+        // for ($i = 0; $i < count($invoices); $i++) {
+        //
+        //   array_push($invoice, ['szamla' => [
+        //     'invoice_number' => ($invoices[$i]["invoice_number"]),
+        //     'invoice_date' => ($invoices[$i]["invoice_date"]),
+        //     'invoice_deadline_date' => ($invoices[$i]["invoice_deadline_date"]),         'payment_method_id' => ($invoices[$i]["payment_method_id"]),
+        //     'client_name' => (unserialize($invoices[$i]["invoice_data"])["client"]["name"]),
+        //     'price_summa' => ($invoices[$i]["price_summa"]),
+        //     'tax_summa' => ($invoices[$i]["tax_summa"]),
+        //     'all_summa' => ($invoices[$i]["all_summa"]),
+        //     'storno_invoice_number' => ($invoices[$i]["storno_invoice_number"]),
+        //     'city' => (unserialize($invoices[$i]["invoice_data"])["client"]["city"])
+        //   ]]);
+        // }
+        //
+        // return $invoice;
+    }
+
+
     public function actionCopy($id)
     {
         $invoice = $this->findModel($id);
@@ -91,7 +154,7 @@ class InvoiceController extends BaseController
         $invoice->save();
         return $this->redirect(['invoice/pdf','id'=>$invoice->id, 'type'=>'copy']);
     }
-    
+
     public function actionStorno($id)
     {
         $invoice = $this->findModel($id);
@@ -106,7 +169,7 @@ class InvoiceController extends BaseController
             $invoice->storno_invoice_date = date("Y-m-d");
             $invoice->storno_invoice_number = $invoice->getNextInvoiceNumber(Invoice::TYPE_STORNO);
             $invoice->save();
-            
+
             // undo invoice items (pl.: news)
             $invoiceItems = $invoice->invoiceItems;
             if ( count($invoiceItems) ) {
@@ -118,7 +181,7 @@ class InvoiceController extends BaseController
         }
         return $this->redirect(['invoice/pdf','id'=>$invoice->id, 'type'=>'storno']);
     }
-    
+
     public function getInvoiceData($newsIds,$payment_method_id,$preview = true) {
         // check whether NEW all of them
         if ( !News::isNew($newsIds) ) {
@@ -127,18 +190,18 @@ class InvoiceController extends BaseController
         $data_set = News::getInvoiceData($newsIds);
         // preparing for storno invoice
         $storno_data_set = News::getInvoiceData($newsIds,'storno');
-        
+
         $invoice = new Invoice();
         $invoice->office_id = \Yii::$app->user->identity->office_id;
-        
+
         $now_date               = new \DateTime( date( 'Y-m-d', time() ) );
         $invoice->invoice_date  = $now_date->format('Y-m-d');
-        
+
         if ($payment_method_id == PaymentMethod::TRANSFER) {
-            
+
             // Teljesítés dátuma = utolsó Terjesztési időpont a terjesztések közül
             $invoice->completion_date           = News::getLastDistributionDate($newsIds);
-            
+
             // Ha van beállítva az ügyfélnek fizetési határidő, akkor azt veszi figyelembe, különben 8 nap
             if ( isset( $data_set['client']->payment_deadline ) && is_numeric( $data_set['client']->payment_deadline )  ) {
                 $now_date->add(new \DateInterval('P'.$data_set['client']->payment_deadline.'D'));
@@ -151,20 +214,20 @@ class InvoiceController extends BaseController
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
         }
         elseif ($payment_method_id == PaymentMethod::CASH) {
-        
+
             // Teljesítés dátuma = Számla kelte
             $invoice->completion_date           = $now_date->format('Y-m-d');
-            
+
             // Fizetési határidő = Számla kelte
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');
         }
-                
+
         $invoice->payment_method_id     = $payment_method_id;
         $invoice->client_id             = $data_set['client']->id;
         $invoice->price_summa           = $data_set['price_summa'];
         $invoice->tax_summa             = $data_set['tax_summa'];
         $invoice->all_summa             = $data_set['all_summa'];
-        
+
         if ($preview) {
             $invoice->invoice_number    = "...";
         }
@@ -176,17 +239,17 @@ class InvoiceController extends BaseController
                 $invoice->invoice_number    = $invoice->getNextInvoiceNumber(Invoice::TYPE_CASH);
             }
         }
-        
+
         if ($payment_method_id == PaymentMethod::CASH) {
             // round to 5 Ft CASH
             $data_set['all_summa']      = round($data_set['all_summa']/5, 0) * 5;
         }
         $invoice->invoice_data          = serialize($data_set);
         $invoice->storno_invoice_data   = serialize($storno_data_set);
-        
+
         return $invoice;
     }
-    
+
     public function actionTransfer()
     {
         /**
@@ -209,7 +272,7 @@ class InvoiceController extends BaseController
                 $period_from = "";
             }
         }
-        
+
         $q = Client::find()
                     ->joinWith('news')
                     ->andWhere('news.payment_method_id='.PaymentMethod::TRANSFER)
@@ -221,14 +284,14 @@ class InvoiceController extends BaseController
             $q->andWhere("distribution_date <='".$period_to."'");
         }
         $clients = $q->all();
-        
+
         return $this->render('transfer', [
             'period_from'   => $period_from,
             'period_to'     => $period_to,
             'clients'       => $clients,
         ]);
     }
-    
+
     public function actionCash()
     {
         $searchModel = new NewsSearch();
@@ -244,7 +307,7 @@ class InvoiceController extends BaseController
         }
         $searchModel->payment_method_id = PaymentMethod::CASH;
         $searchModel->status_id         = News::STATUS_NEW;
-        
+
         /**
         * Step 2 / client's news only
         */
@@ -254,7 +317,7 @@ class InvoiceController extends BaseController
             }
             $client = $newsModel->client;
             $searchModel->client_id = $client->id;
-            
+
             $dataProvider = $searchModel->search();
             return $this->render('cash2', [
                 'searchModel'   => $searchModel,
@@ -276,9 +339,9 @@ class InvoiceController extends BaseController
                 'period_from'   => $period_from,
                 'period_to'     => $period_to,
             ]);
-        }        
+        }
     }
-    
+
     public function actionExecute() {
         if ( isset($_REQUEST['selection']) && $_REQUEST['selection'] && $_REQUEST['payment_method_id'] ) {
             $newsIds = $_REQUEST['selection'];
@@ -286,27 +349,27 @@ class InvoiceController extends BaseController
             if ( isset($_REQUEST['preview']) && $_REQUEST['preview'] ) {
                 $preview = true;
             }
-            
+
             // collect news by clients into groups
             $newsByClientArray = [];
             foreach( $newsIds as $news_id ) {
                 $news = News::findOne($news_id);
                 if ( !isset($newsByClientArray[$news->client_id]) ) {
-                    $newsByClientArray[$news->client_id] = [];    
+                    $newsByClientArray[$news->client_id] = [];
                 }
                 $newsByClientArray[$news->client_id][] = $news->id;
             }
-            
+
             $invoiceDataByClientArray = [];
             // walkthrough by clients
             foreach( $newsByClientArray as $client_id => $newsIds ) {
                 $invoice = $this->getInvoiceData($newsIds, $_REQUEST['payment_method_id'], $preview);
-                                
+
                 $dataSet        = unserialize($invoice->invoice_data);
                 $copy           = 1;
                 $copy_count     = "";
                 $invoice_type   = 'normal';
-                
+
                 $invoiceData = [
                     'copy'              => $copy,
                     'copy_count'        => $copy_count,
@@ -320,7 +383,7 @@ class InvoiceController extends BaseController
                     'all_summa_string'  => $dataSet['all_summa_string'],
                     'type'              => $invoice_type,
                 ];
-                
+
                 // pdf-ben []-be kerülnek a példányok
                 if ($preview) {
                     $invoiceDataByClientArray[$client_id] = [$invoiceData];
@@ -329,17 +392,17 @@ class InvoiceController extends BaseController
                 else {
                     $invoiceDataByClientArray[$client_id] = $invoiceData;
                 }
-                
+
             }
 
-            
+
             if ($preview) {
                 return $this->render('pdf',['dataArray'=>$invoiceDataByClientArray]);
             }
-            else {                
+            else {
                 $invoiceGroup = new InvoiceGroup;
                 $invoiceGroup->save();
-                
+
                 foreach($invoiceDataByClientArray as $client_id => $invoiceData) {
                     $invoice = $invoiceData['invoice'];
                     $invoice->save();
@@ -349,7 +412,7 @@ class InvoiceController extends BaseController
                         $invoiceItem->item_id       = $news_id;
                         $invoiceItem->item_class    = 'News';
                         $invoiceItem->save();
-                        
+
                         $news = News::findOne($news_id);
                         $news->invoice_date = $invoice->invoice_date;
                         $news->settle_date  = $invoice->settle_date;
@@ -379,7 +442,7 @@ class InvoiceController extends BaseController
                 throw new NotFoundHttpException('The requested page does not exist.');
             }
         }
-        
+
         if (!count($invoiceIds)) {
             Yii::$app->getSession()->setFlash('danger', Yii::t('app','Invalid invoice id') );
             return $this->render('pdf-error');
@@ -387,20 +450,20 @@ class InvoiceController extends BaseController
 
         // számlamásolatok száma
         $copy_count = "";
-        
+
         if ( isset($_REQUEST['type']) && in_array($_REQUEST['type'], ['storno','copy']) ) {
             $invoice_type = $_REQUEST['type'];
         }
         else {
             $invoice_type = 'normal';
         }
-                
+
         $this->layout = 'invoice-pdf';
-        
+
         $dataArray = [];
         foreach( $invoiceIds as $invoice_id ) {
             $invoice = Invoice::findOne($invoice_id);
-            
+
             switch ($invoice_type) {
                 case "storno":
                     $dataSet    = unserialize($invoice->storno_invoice_data);
@@ -413,7 +476,7 @@ class InvoiceController extends BaseController
                     $dataSet    = unserialize($invoice->invoice_data);
                     break;
             }
-            
+
             $invoiceData = [
                 'copy'              => 1,
                 'copy_count'        => $copy_count,
@@ -426,20 +489,20 @@ class InvoiceController extends BaseController
                 'all_summa_string'  => $dataSet['all_summa_string'],
                 'type'              => $invoice_type,
             ];
-            
+
             // első példány
             $dataArray[$dataSet['client']->id] = [$invoiceData];
-            
+
             // második példány
             if ( $invoice_type == "normal" || $invoice_type == "storno" ) {
                 $invoiceData['copy'] = 2;
                 $dataArray[$dataSet['client']->id][] = $invoiceData;
             }
-            
+
         }
 
         $content = $this->render('pdf',['dataArray'=>$dataArray]);
-        
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
             'format' => Pdf::FORMAT_A4,
@@ -458,19 +521,19 @@ class InvoiceController extends BaseController
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'application/pdf');
-        
+
         //$invoice->printed = 1;
         //$invoice->save();
-        
+
         return $pdf->render();
     }
-    
+
     public function actionPaymentdemand($id)
-    {   
+    {
         $this->layout = 'invoice-payment-demand';
         $news = $this->findModel($id);
         $items = [];
-        
+
         $copy = 1;
 
         $invoice_data = [
@@ -485,7 +548,7 @@ class InvoiceController extends BaseController
             'type'              => $invoice_type,
         ];
         $content = $this->render('invoice-pdf',['data'=>$invoice_data]);
-        
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
             'format' => Pdf::FORMAT_A4,
@@ -504,16 +567,16 @@ class InvoiceController extends BaseController
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'application/pdf');
-        
+
         return $pdf->render();
     }
-    
+
     public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-        
+
     }
 
     protected function findModel($id)

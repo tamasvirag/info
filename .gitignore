@@ -33,6 +33,7 @@ node_modules
 # local configurations
 config/ENV
 config/*/*.local.php
+config/db.php
 
 # codeception code coverage
 c3tmp

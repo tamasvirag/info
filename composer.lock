@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "58cd566e34fb2ac2c0988f4ee14d62e1",
-    "content-hash": "2e4f895b3cf7df2a1d2bd607e2c835ab",
+    "hash": "db8a56e131c8df1e4ccfc332e3d3c5b3",
+    "content-hash": "d45fe41aa6dbdfc6d428f6844df3b68e",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -153,12 +153,12 @@
             "version": "v1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/eternicode/bootstrap-datepicker.git",
+                "url": "https://github.com/uxsolutions/bootstrap-datepicker.git",
                 "reference": "e7ca6bb94dc483817f2ff10fc2b723b2b935e016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eternicode/bootstrap-datepicker/zipball/e7ca6bb94dc483817f2ff10fc2b723b2b935e016",
+                "url": "https://api.github.com/repos/uxsolutions/bootstrap-datepicker/zipball/e7ca6bb94dc483817f2ff10fc2b723b2b935e016",
                 "reference": "e7ca6bb94dc483817f2ff10fc2b723b2b935e016",
                 "shasum": ""
             },
@@ -240,12 +240,12 @@
             "version": "3.2.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
+                "url": "https://github.com/RobinHerbots/Inputmask.git",
                 "reference": "5a72c563b502b8e05958a524cdfffafe9987be38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/5a72c563b502b8e05958a524cdfffafe9987be38",
+                "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/5a72c563b502b8e05958a524cdfffafe9987be38",
                 "reference": "5a72c563b502b8e05958a524cdfffafe9987be38",
                 "shasum": ""
             },
@@ -504,12 +504,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-mpdf.git",
-                "reference": "c9a888f5755d09bb10a9e5c0675e13565262a1bb"
+                "reference": "94de4fd901036bb086bf86e10509649345b462a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/c9a888f5755d09bb10a9e5c0675e13565262a1bb",
-                "reference": "c9a888f5755d09bb10a9e5c0675e13565262a1bb",
+                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/94de4fd901036bb086bf86e10509649345b462a0",
+                "reference": "94de4fd901036bb086bf86e10509649345b462a0",
                 "shasum": ""
             },
             "require": {
@@ -548,7 +548,7 @@
                 "utf8",
                 "yii2"
             ],
-            "time": "2016-09-11 05:41:04"
+            "time": "2016-11-03 17:25:48"
         },
         {
             "name": "kartik-v/yii2-widget-select2",

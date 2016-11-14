@@ -12,7 +12,7 @@ class MenuHelper
         $newsMenuItems      = [];
         $invoiceMenuItems   = [];
         $dealerMenuItems    = [];
-        
+
         if (\Yii::$app->user->can('newsManager')) {
             $newsMenuItems[] = ['label' => \Yii::t('app', 'Add new'), 'url' => Url::to(['news/create'])];
             $newsMenuItems[] = ['label' => \Yii::t('app', 'Listing'), 'url' => Url::to(['news/index'])];
@@ -20,23 +20,27 @@ class MenuHelper
         }
         if (\Yii::$app->user->can('invoiceManager')) {
             $newsMenuItems[] = ['label' => \Yii::t('app', 'Invoicing transfer'), 'url' => Url::to(['invoice/transfer'])];
-            
+
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing cash')." ".strtolower(\Yii::t('app', 'News')), 'url' => Url::to(['invoice/cash'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing transfer')." ".strtolower(\Yii::t('app', 'News')), 'url' => Url::to(['invoice/transfer'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoices'), 'url' => Url::to(['invoice/index'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing history'), 'url' => Url::to(['invoicegroup/index'])];
             $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Demand for payment'), 'url' => Url::to(['invoicedemand/index'])];
         }
-        
+
+        if (\Yii::$app->user->can('navInvoiceManager')) {
+            $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoices'), 'url' => Url::to(['invoice/nav-index'])];
+        }
+
         if (\Yii::$app->user->can('invoiceManager')||\Yii::$app->user->can('newsManager')) {
             $items[] = [
                 'label' => \Yii::t('app','News'),
                 'url' => ['/news'],
                 'active' => in_array(\Yii::$app->controller->id,['news']),
-                'items' =>  $newsMenuItems,   
+                'items' =>  $newsMenuItems,
             ];
         }
-        
+
         if (\Yii::$app->user->can('invoiceManager')) {
             $items[] = [
                 'label' => \Yii::t('app','Invoicing'),
@@ -45,7 +49,16 @@ class MenuHelper
                 'items' =>  $invoiceMenuItems,
             ];
         }
-        
+
+        if (\Yii::$app->user->can('navInvoiceManager')) {
+            $items[] = [
+                'label' => \Yii::t('app','Invoicing for NAV'),
+                'url' => ['/invoice'],
+                'active' => in_array(\Yii::$app->controller->id,['invoice','invoicegroup','invoicedemand']),
+                'items' =>  $invoiceMenuItems,
+            ];
+        }
+
         if (\Yii::$app->user->can('clientManager')) {
             $items[] = ['label' => \Yii::t('app','clients'), 'url' => ['/client'], 'active' => in_array(\Yii::$app->controller->id, ['client'])];
         }
@@ -69,7 +82,7 @@ class MenuHelper
         if (\Yii::$app->user->can('userManager')) {
             $items[] = ['label' => \Yii::t('app','users'), 'url' => ['/user'], 'active' => in_array(\Yii::$app->controller->id, ['user'])];
         }
-        
+
         /*
 if (\Yii::$app->user->can('admin')) {
             $items[] = [
@@ -82,15 +95,15 @@ if (\Yii::$app->user->can('admin')) {
                 ],
             ];
         }
-*/        
-        
+*/
+
         $items[] = \Yii::$app->user->isGuest ?
                 ['label' => \Yii::t('app','login'), 'url' => ['/site/login']] :
                 ['label' => \Yii::t('app','logout').' (' . \Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']];
 
-        
+
         return $items;
     }
 }

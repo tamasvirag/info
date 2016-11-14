@@ -7,7 +7,9 @@ use yii\widgets\DetailView;
 /* @var $model app\models\News */
 
 $this->title = $model->invoice_number;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Invoices'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = (\Yii::$app->user->can('navInvoiceManager')) ?
+['label' => Yii::t('app', 'Invoices'), 'url' => ['nav-index']] :
+['label' => Yii::t('app', 'Invoices'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-view">
@@ -35,25 +37,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'settle_date',
             'paymentMethodLabel',
             'clientLabel',
-            
+
             'price_summa',
             'tax_summa',
             'all_summa',
-            
+
             'storno_invoice_number',
             'storno_invoice_date',
-            
+
             'copy_count',
             'printed',
-            
+
             'createdByLabel',
             'updatedByLabel',
             'officeLabel',
-            
+
             'created_at',
         ],
     ]) ?>
-    
+
     <?php if(count($model->invoiceItems)): ?>
         <?php foreach($model->invoiceItems as $item): ?>
             <p><?=Yii::t('app',$item->item_class)?> - <?=$item->model->label?></p>

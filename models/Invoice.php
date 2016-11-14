@@ -11,7 +11,7 @@ class Invoice extends \yii\db\ActiveRecord
     const TYPE_CASH     = 1;
     const TYPE_TRANSFER = 2;
     const TYPE_STORNO   = 3;
-    
+
     public static function tableName()
     {
         return 'invoice';
@@ -26,7 +26,7 @@ class Invoice extends \yii\db\ActiveRecord
             [['invoice_number', 'storno_invoice_number', 'storno_invoice_date'], 'string', 'max' => 255]
         ];
     }
-    
+
     public function behaviors()
     {
         return [
@@ -69,7 +69,7 @@ class Invoice extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Office::className(), ['id' => 'office_id']);
     }
-    
+
     public function getOfficeLabel()
     {
         if ( isset( $this->office ) ) {
@@ -85,7 +85,7 @@ class Invoice extends \yii\db\ActiveRecord
     {
         return $this->hasOne(PaymentMethod::className(), ['id' => 'payment_method_id']);
     }
-    
+
     public function getPaymentMethodLabel()
     {
         if ( isset( $this->paymentMethod ) ) {
@@ -101,7 +101,7 @@ class Invoice extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
-    
+
     public function getCreatedByLabel()
     {
         if ( isset( $this->createdBy ) ) {
@@ -111,12 +111,12 @@ class Invoice extends \yii\db\ActiveRecord
             return "";
         }
     }
-    
+
     public function getUpdatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
-    
+
     public function getUpdatedByLabel()
     {
         if ( isset( $this->updatedBy ) ) {
@@ -126,13 +126,13 @@ class Invoice extends \yii\db\ActiveRecord
             return "";
         }
     }
-    
-    
+
+
     public function getClient()
     {
         return $this->hasOne(Client::className(), ['id' => 'client_id']);
     }
-    
+
     public function getClientLabel()
     {
         if ( isset( $this->client ) ) {
@@ -148,7 +148,7 @@ class Invoice extends \yii\db\ActiveRecord
     {
         return $this->hasMany(InvoiceItem::className(), ['invoice_id' => 'id']);
     }
-    
+
     public function getNextInvoiceNumber($type) {
         if ( $type == self::TYPE_CASH) {
             $seq = 'seq_news_invoice_number_cash';
@@ -165,7 +165,7 @@ class Invoice extends \yii\db\ActiveRecord
         else {
             die('Invalid type');
         }
-        
+
         $connection = \Yii::$app->db;
         $result = $connection->createCommand("SELECT nextval('".$seq."') as invoice_number")->queryAll();
         return $pre.$result[0]['invoice_number'];

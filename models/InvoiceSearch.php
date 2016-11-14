@@ -19,7 +19,7 @@ class InvoiceSearch extends Invoice
     public $settle_date_to;
     public $created_from;
     public $created_to;
-    
+
     public function rules()
     {
         return [
@@ -27,9 +27,9 @@ class InvoiceSearch extends Invoice
             [['invoice_date', 'invoice_date_from', 'invoice_date_to',
                 'invoice_data', 'storno_invoice_data',
                 'storno_invoice_date', 'storno_invoice_date_from', 'storno_invoice_date_to',
-                'invoice_deadline_date', 'invoice_deadline_date_from', 'invoice_deadline_date_to', 
+                'invoice_deadline_date', 'invoice_deadline_date_from', 'invoice_deadline_date_to',
                 'settle_date', 'settle_date_from', 'settle_date_to',
-                'invoice_number', 'storno_invoice_number', 
+                'invoice_number', 'storno_invoice_number',
                 'created_at', 'created_from', 'created_to',
                 'updated_at'], 'safe'],
         ];
@@ -68,13 +68,13 @@ class InvoiceSearch extends Invoice
             'client_id' => $this->client_id,
             'office_id' => $this->office_id,
         ]);
-            
+
         $query->andFilterWhere([
             'or',
             ['like', 'invoice_number', $this->invoice_number],
             ['like', 'storno_invoice_number', $this->invoice_number],
         ]);
-            
+
         $query->andFilterWhere(['>=', 'invoice_date', $this->invoice_date_from])
             ->andFilterWhere(['<=', 'invoice_date', $this->invoice_date_to]);
         $query->andFilterWhere(['>=', 'invoice_deadline_date', $this->invoice_deadline_date_from])
@@ -85,14 +85,14 @@ class InvoiceSearch extends Invoice
             ->andFilterWhere(['<=', 'settle_date', $this->settle_date_to]);
         $query->andFilterWhere(['>=', 'created_at', $this->created_from])
             ->andFilterWhere(['<=', 'created_at', $this->created_to]);
-        
+
         if ($this->client_id) {
             $query->innerJoinWith('client')->onCondition('client.id = '.$this->client_id);
         }
 
         return $dataProvider;
     }
-    
+
     public function attributeLabels()
     {
         return array_merge([

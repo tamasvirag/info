@@ -34,36 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="well">
         <div class="row">
             <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number')->textInput(['maxlength' => 255]) ?></div>
-            <div class="col-md-2"><?= $form->field($searchModel, 'client_id')->widget( Select2::classname(), [
-                                            'data' => ArrayHelper::map( Client::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
-                                            'language' => 'hu',
-                                            'options' => ['placeholder' => Yii::t('app','please choose')],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]); ?></div>
 
             <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div>
-            <div class="col-md-2">
-                <?= $form->field($searchModel, 'created_by')->widget( Select2::classname(), [
-                    'data' => ArrayHelper::map( User::find()->orderBy(['full_name' => SORT_ASC])->all(), 'id', 'full_name' ),
-                    'language' => 'hu',
-                    'options' => ['placeholder' => Yii::t('app','please choose')],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]); ?>
-            </div>
-            <div class="col-md-2">
-                <?= $form->field($searchModel, 'office_id')->widget( Select2::classname(), [
-                    'data' => ArrayHelper::map( Office::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
-                    'language' => 'hu',
-                    'options' => ['placeholder' => Yii::t('app','please choose')],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]); ?>
-            </div>
+
         </div>
         <div class="row">
 
@@ -124,6 +97,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php ActiveForm::end(); ?>
 
+    <?= Html::a('Számlák exportálása (.xml)', ['/invoice/export'], ['class'=>'btn btn-primary export']) ?>
+
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -134,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'invoice_number',
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( $model->invoice_number ),['update', 'id'=>$model->id] );
+                    return HTML::a( HTML::encode( $model->invoice_number ),['view', 'id'=>$model->id] );
                 }
             ],
 
@@ -262,5 +237,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
         ],
     ]); ?>
+
+    <?= Html::a('Számlák exportálása (.xml)', ['/invoice/export'], ['class'=>'btn btn-primary export export-bottom']) ?>
 
 </div>

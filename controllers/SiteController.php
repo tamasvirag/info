@@ -60,6 +60,9 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if (\Yii::$app->user->can('navInvoiceManager')) {
+                return $this->redirect(['invoice/nav-index']);
+            }
             return $this->goBack();
         } else {
             return $this->render('login', [
