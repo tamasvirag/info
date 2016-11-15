@@ -95,57 +95,20 @@ class InvoiceController extends BaseController
         $searchModel = new InvoiceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('nav-index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        if ( isset($_REQUEST["search-destination"]) &&  $_REQUEST["search-destination"] == 'xml' ) {
+            $dataProvider->setPagination(false);
+            return $this->renderPartial('export', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else {
+            return $this->render('nav-index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
-
-    public function actionExport()
-    {
-        $searchModel = new InvoiceSearch();
-
-        $query = Invoice::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort'  => [
-                'defaultOrder' => 'invoice_date DESC',
-            ],
-            'pagination' => [
-                'pageSize' => 0,
-            ],
-        ]);
-
-        return $this->renderPartial('export', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-
-        // $name = strftime('szamla_export_%m%d%Y.xml');
-        // header('Content-Disposition: attachment;filename=' . $name);
-        // header('Content-Type: text/xml');
-        //
-        // $invoices = $dataProvider->getModels();
-        // $invoice = array();
-        //
-        // for ($i = 0; $i < count($invoices); $i++) {
-        //
-        //   array_push($invoice, ['szamla' => [
-        //     'invoice_number' => ($invoices[$i]["invoice_number"]),
-        //     'invoice_date' => ($invoices[$i]["invoice_date"]),
-        //     'invoice_deadline_date' => ($invoices[$i]["invoice_deadline_date"]),         'payment_method_id' => ($invoices[$i]["payment_method_id"]),
-        //     'client_name' => (unserialize($invoices[$i]["invoice_data"])["client"]["name"]),
-        //     'price_summa' => ($invoices[$i]["price_summa"]),
-        //     'tax_summa' => ($invoices[$i]["tax_summa"]),
-        //     'all_summa' => ($invoices[$i]["all_summa"]),
-        //     'storno_invoice_number' => ($invoices[$i]["storno_invoice_number"]),
-        //     'city' => (unserialize($invoices[$i]["invoice_data"])["client"]["city"])
-        //   ]]);
-        // }
-        //
-        // return $invoice;
-    }
-
 
     public function actionCopy($id)
     {

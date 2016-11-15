@@ -34,13 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="well">
         <div class="row">
             <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number')->textInput(['maxlength' => 255]) ?></div>
-
             <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div>
-
         </div>
         <div class="row">
-
-
 
             <div class="col-md-3"><?= $form->field($searchModel, 'invoice_date_from')->widget(
                                                 DateRangePicker::classname(), [
@@ -90,15 +86,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     ]
                                                     ); ?>
             </div>
+            <div class="col-md-1">
+                <?= Html::hiddenInput('search-destination', 'screen', ['id' => 'search-destination']) ?>
+                <?= Html::buttonInput(Yii::t('app', 'Search'), ['class' => 'btn btn-primary mt-21 btn-nav-submit']) ?>
+            </div>
             <div class="col-md-2">
-                <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary mt-21']) ?>
+                <?= Html::buttonInput('Számlák export (.xml)', ['class'=>'btn btn-primary mt-21 btn-nav-export']) ?>
             </div>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
 
-    <?= Html::a('Számlák exportálása (.xml)', ['/invoice/export'], ['class'=>'btn btn-primary export']) ?>
-
+    <div class="row">
+    <div class="col-md-12">
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -192,52 +192,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'created_by',
-                'format'    => 'raw',
-                'value' => 'createdByLabel',
-                'filter' => Select2::widget([
-                                'name' => StringHelper::basename($searchModel::className()).'[created_by]',
-                                'value' => $searchModel->created_by,
-                                'data' => ArrayHelper::merge([''=>''], ArrayHelper::map( User::find()->all(), 'id', 'full_name' )),
-                                'language' => 'hu',
-                                'pluginOptions' => [
-                                    'allowClear' => true
-                                ],
-                            ]),
-                'options' => ['width'=>'10%'],
-            ],
-            [
-                'attribute' => 'office_id',
-                'format'    => 'raw',
-                'value' => 'officeLabel',
-                'options' => ['width'=>'10%'],
-            ],
-
-            [
-                'attribute' => Yii::t('app','invoice_copy'),
-                'format'    => 'raw',
-                'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','Print Invoice Copy') ),['copy', 'id'=>$model->id, 'type'=>'copy'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','Are you sure?')] );
-                }
-            ],
-            [
                 'attribute'=>'copy_count',
-            ],
-            [
-                'attribute' => Yii::t('app','invoice_storno'),
-                'format'    => 'raw',
-                'value' => function( $model ) {
-                    return HTML::a( HTML::encode( isset($model->storno_invoice_date)?Yii::t('app','Print Storno Invoice Again'):Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno')] );
-                }
             ],
             [
                 'attribute'=>'storno_invoice_date',
             ],
-
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
         ],
     ]); ?>
-
-    <?= Html::a('Számlák exportálása (.xml)', ['/invoice/export'], ['class'=>'btn btn-primary export export-bottom']) ?>
-
+    </div>
+    </div>
 </div>

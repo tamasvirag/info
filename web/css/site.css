@@ -210,13 +210,3 @@ h6 {
 .dealers label {
   font-weight: normal;
   padding-right: 10px; }
-
-a.export {
-  float: right;
-  padding: 6px 10px;
-  margin-bottom: 10px;
-}
-
-.export-bottom {
-  transform: translateY(-45px);
-}

@@ -29,7 +29,7 @@ class MenuHelper
         }
 
         if (\Yii::$app->user->can('navInvoiceManager')) {
-            $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoices'), 'url' => Url::to(['invoice/nav-index'])];
+            $invoiceMenuItems[] = ['label' => \Yii::t('app', 'Invoicing for NAV'), 'url' => Url::to(['invoice/nav-index'])];
         }
 
         if (\Yii::$app->user->can('invoiceManager')||\Yii::$app->user->can('newsManager')) {
@@ -53,9 +53,8 @@ class MenuHelper
         if (\Yii::$app->user->can('navInvoiceManager')) {
             $items[] = [
                 'label' => \Yii::t('app','Invoicing for NAV'),
-                'url' => ['/invoice'],
-                'active' => in_array(\Yii::$app->controller->id,['invoice','invoicegroup','invoicedemand']),
-                'items' =>  $invoiceMenuItems,
+                'url' => ['/invoice/nav-index'],
+                'active' => in_array(\Yii::$app->controller->id,['invoice'])&&in_array(\Yii::$app->controller->action->id,['nav-index']),
             ];
         }
 
