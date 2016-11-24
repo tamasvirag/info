@@ -138,7 +138,11 @@ class InvoiceController extends BaseController
             if ( count($invoiceItems) ) {
                 foreach($invoiceItems as $item) {
                     $model = $item->model;
-                    $model->undoInvoice();
+
+                    // the related object might be deleted earlier
+                    if ( isset($model) ) {
+                        $model->undoInvoice();
+                    }
                 }
             }
         }
