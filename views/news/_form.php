@@ -63,11 +63,11 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
-        </div>    
+        </div>
     </div>
-    
 
-    <div class="row">        
+
+    <div class="row">
         <div class="col-md-2">
             <?= $form->field($model, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
         </div>
@@ -84,7 +84,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                     ]); ?>
             <?php endif; ?>
         </div>
-        
+
         <?php if(isset($model->id)): ?>
         <div class="col-md-2">
             <strong><?=\Yii::t('app','Status ID')?></strong><br><?=$model->statusLabel?>
@@ -120,8 +120,8 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
         </div>
         <?php endif; ?>
     </div>
-    
-    <div class="row">        
+
+    <div class="row">
         <div class="col-md-2">
             <?= $form->field($model, 'overall_price')->textInput(['maxlength' => 255]) ?>
         </div>
@@ -140,9 +140,9 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
         </div>
     </div>
     </div>
-    
+
     <?php if(isset($model->id)): ?>
-    
+
     <h3><?=\Yii::t('app','districts')?></h3>
     <p>
     <strong><?=\Yii::t('app','newscount_all')?>:</strong> <span id="newscount-all"></span> db<br>
@@ -170,7 +170,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                      * Set news_id for District
                      */
                     $model->news_id = $news_id;
-                    
+
                     $ret = [];
                     $ret['checked'] = count($model->nD)?'checked':'';
                     $ret['value']   = $model['id'];
@@ -206,7 +206,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                 'attribute'      => 'name',
                 'contentOptions' => ['width'=>'12%'],
             ],
-            
+
             [
                 'label'     => \Yii::t('app','newscount'),
                 'attribute' => 'amount',
@@ -258,7 +258,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                 'filter'    => false,
                 'format'    => 'raw',
                 'value'     => function( $model, $id ) {
-                    if (isset($model->parent_id)){                    
+                    if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[block_price_real]['.$id.']', count($model->nD)?$model->nD[0]->block_price_real:null, [
                             'placeHolder'   => $model->block_price_real,
                             'class'         => 'form-control newscount-trigger cost_input active-field',
@@ -309,7 +309,7 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                 'filter'    => false,
                 'format'    => 'raw',
                 'value'     => function( $model, $id ) {
-                    if (isset($model->parent_id)){                    
+                    if (isset($model->parent_id)){
                         return HTML::textInput( 'newsDistrict[house_price_real]['.$id.']', count($model->nD)?$model->nD[0]->house_price_real:null, [
                             'placeHolder'   => $model->house_price_real,
                             'class'         => 'form-control newscount-trigger cost_input active-field',
@@ -323,11 +323,11 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
             ],
         ],
     ]); ?>
-    
+
     <?php else: ?>
     <p><?= Yii::t('app','districts_after_save'); ?></p>
     <?php endif; ?>
-    
+
     <div class="form-group">
         <?php // if (!in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED])): ?>
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'),
@@ -337,16 +337,32 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
                 ]
             ) ?>
         <?php // endif; ?>
-        
+
         <?php if(isset($model->id)): ?>
-        <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm_create_from_this')]) ?>
-        
+            <?= Html::a(Yii::t('app','create_from_this'), ['news/createfrom', 'id' => $model->id], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm_create_from_this')]) ?>
+
             <?php if ($model->payment_method_id == PaymentMethod::CASH && $model->status_id == News::STATUS_NEW ): ?>
-            <?= Html::a(Yii::t('app', 'Invoicing'), ['invoice/cash', 'news_id' => $model->id, 'type'=>'normal'], ['class' => 'btn btn-block btn-primary', 'data-confirm' => Yii::t('app', 'confirm_invoicing')]) ?>
+            <?= Html::hiddenInput('toInvoicing', 0, ['id'=>'toInvoicing']); ?>
+            <?= Html::a(
+                Yii::t('app', 'Invoicing'),
+                    ['#'],
+                    [
+                        'class' => 'btn btn-block btn-primary',
+                        'onclick' => '
+                                    obj = this;
+                                    event.preventDefault();
+                                    bootbox.confirm("'.Yii::t('app', 'confirm_invoicing').'", function(result) {
+                                        if (result) {
+                                            $("#toInvoicing").val("1");
+                                            $("#edit-news-districts").submit();
+                                        }
+                                    });
+                                '
+                    ]) ?>
             <?php endif; ?>
         <?php endif; ?>
     </div>
-    
+
     <?php ActiveForm::end(); ?>
 
 </div>

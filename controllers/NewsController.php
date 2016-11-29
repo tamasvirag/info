@@ -35,12 +35,12 @@ class NewsController extends BaseController
             ],
         ];
     }
-    
+
     public function actionIndex()
     {
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+
         $dataProvider2      = $searchModel->search(Yii::$app->request->queryParams, 999999); // pagesize
         $net_revenue_total  = 0;
         $newscount_total    = 0;
@@ -62,7 +62,7 @@ class NewsController extends BaseController
             'cost'   => $cost,
         ]);
     }
-    
+
     public function actionIndexinvoice()
     {
         $searchModel    = new NewsSearch();
@@ -101,12 +101,12 @@ class NewsController extends BaseController
             ]);
         }
     }
-    
+
     public function actionCreatefrom($id)
     {
         $model                  = $this->findModel($id);
         $newsDistricts          = $model->newsDistricts;
-        
+
         $newModel               = new News();
         $newModel->attributes   = $model->attributes;
         $newModel->id           = null;
@@ -114,7 +114,7 @@ class NewsController extends BaseController
         $newModel->invoice_date = null;
         $newModel->settle_date  = null;
         $newModel->save();
-        
+
         if (count($newsDistricts)) {
             foreach($newsDistricts as $nD) {
                 $newsDistrictModel              = new NewsDistrict();
@@ -126,21 +126,21 @@ class NewsController extends BaseController
         Yii::$app->session->setFlash('success', Yii::t('app','success_copy'));
         return $this->redirect(['update','id' => $newModel->id]);
     }
-    
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        
+
         /*if ( count( Yii::$app->request->post('News') ) && in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ) { // overall_cost update, news is already invoiced
             $model->overall_cost = Yii::$app->request->post('News')['overall_cost'];
             $model->save();
             Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             return $this->redirect(['update','id'=>$model->id]);
         }*/
-        
-        
+
+
         if ( count( Yii::$app->request->post('News') ) ) {
-        
+
             $model->deleteDistricts();
             if ( count( Yii::$app->request->post('selection') ) ) {
                 $newsDistrictPost = Yii::$app->request->post('newsDistrict');
@@ -159,7 +159,7 @@ class NewsController extends BaseController
                     $newsDistrict->save();
                 }
             }
-            
+
             if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) ) { // overall_cost update, news is already invoiced
                 $model->overall_cost = Yii::$app->request->post('News')['overall_cost'];
                 $model->save();
@@ -169,8 +169,8 @@ class NewsController extends BaseController
             }
             elseif ($model->load(Yii::$app->request->post()) && $model->save()) {
                 $model->updateNewscountRevenue();
-                
-                
+
+
                 // manual news update
                 /*if ( isset($model->invoice_date) && $model->status = News::STATUS_NEW ) {
                     $model->status_id = News::STATUS_INVOICED
@@ -180,13 +180,17 @@ class NewsController extends BaseController
                     $model->status_id = News::STATUS_SETTLED
                     $model->save();
                 }*/
-                
-                
-                Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
-                return $this->redirect(['update','id'=>$model->id]);
+
+                if ( isset( $_REQUEST['toInvoicing'] ) && $_REQUEST['toInvoicing'] == '1') {
+                    return $this->redirect(['invoice/cash', 'news_id' => $model->id, 'type'=>'normal']);
+                }
+                else {
+                    Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+                    return $this->redirect(['update','id'=>$model->id]);
+                }
             }
         }
-        
+
         else {
             $searchModel = new DistrictSearch();
             $searchModel->news_id = $id;
@@ -205,7 +209,7 @@ class NewsController extends BaseController
         Yii::$app->session->setFlash('success', Yii::t('app','success_delete'));
         return $this->redirect(['index']);
     }
-    
+
     public function actionInvoicepdf($id)
     {
         if ( isset($_REQUEST['type']) && $_REQUEST['type'] == 'storno' ) {
@@ -217,17 +221,17 @@ class NewsController extends BaseController
         else {
             $invoice_type = 'normal';
         }
-        
+
         $this->layout = 'invoice-pdf';
         $news = $this->findModel($id);
-        
+
         $news_invoice_data  = $news->setInvoiceData($invoice_type);
         $items              = $news_invoice_data['items'];
         $price_summa        = $news_invoice_data['price_summa'];
         $tax_summa          = $news_invoice_data['tax_summa'];
         $all_summa          = $news_invoice_data['all_summa'];
         $all_summa_string   = $news_invoice_data['all_summa_string'];
-        
+
         $copy = 1;
 
         $invoice_data = [
@@ -241,9 +245,9 @@ class NewsController extends BaseController
             'all_summa_string'  => $all_summa_string,
             'type'              => $invoice_type,
         ];
-        
+
         $content = $this->render('invoice-pdf',['data'=>$invoice_data]);
-        
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
             'format' => Pdf::FORMAT_A4,
@@ -262,17 +266,17 @@ class NewsController extends BaseController
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'application/pdf');
-        
+
         return $pdf->render();
     }
-    
+
     public function actionInvoicepaymentdemand($id)
-    {   
+    {
         $this->layout = 'invoice-payment-demand';
         $news = $this->findModel($id);
         $items = [];
-        
-        
+
+
         $copy = 1;
 
         $invoice_data = [
@@ -287,7 +291,7 @@ class NewsController extends BaseController
             'type'              => $invoice_type,
         ];
         $content = $this->render('invoice-pdf',['data'=>$invoice_data]);
-        
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
             'format' => Pdf::FORMAT_A4,
@@ -306,7 +310,7 @@ class NewsController extends BaseController
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'application/pdf');
-        
+
         return $pdf->render();
     }
 
