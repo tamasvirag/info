@@ -11,6 +11,7 @@ use app\models\Dealer;
 use app\models\District;
 use app\models\DistrictSearch;
 use app\models\PaymentMethod;
+use app\models\News;
 use dosamigos\datepicker\DatePicker;
 use dosamigos\datepicker\DateRangePicker;
 use yii\helpers\StringHelper;
@@ -33,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'modelClass' => 'News',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    
+
     <?php $form = ActiveForm::begin([
                                         'options'=>['id'=>'search-news'],
                                         'method'=>'get',
@@ -49,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'allowClear' => true
                                             ],
                                         ]); ?></div>
-            
+
             <div class="col-md-2">
                 <?= $form->field($searchModel, 'dealer_id')->widget( Select2::classname(), [
                         'data' => ArrayHelper::map( Dealer::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name' ),
@@ -84,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'format' => 'yyyy-mm-dd'
                                                             ]
                                                     ]
-                                                    ); ?>    
+                                                    ); ?>
             </div>
         </div>
         <div class="row">
@@ -102,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
             </div>
-            
+
             <div class="col-md-3"><?= $form->field($searchModel, 'invoice_date_from')->widget(
                                                 DateRangePicker::classname(), [
                                                         'model' => $searchModel,
@@ -117,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'format' => 'yyyy-mm-dd'
                                                             ]
                                                     ]
-                                                    ); ?>    
+                                                    ); ?>
             </div>
             <div class="col-md-3"><?= $form->field($searchModel, 'settle_date_from')->widget(
                                                 DateRangePicker::classname(), [
@@ -133,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'format' => 'yyyy-mm-dd'
                                                             ]
                                                     ]
-                                                    ); ?>    
+                                                    ); ?>
             </div>
         </div>
         <div class="row">
@@ -143,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <?php ActiveForm::end(); ?>
-    
+
     <p>
     <strong><?=\Yii::t('app','newscount_all')?>:</strong> <span><?=$newscount_total?></span> db<br>
     <strong><?=\Yii::t('app','Net Revenue')?>:</strong> <span><?=$net_revenue_total?></span> Ft<br>
@@ -162,57 +163,57 @@ $this->params['breadcrumbs'][] = $this->title;
                     return HTML::a( HTML::encode( $model->name ),['update', 'id'=>$model->id] );
                 }
             ],
-            
+
             [
                 'attribute' => 'client_id',
                 'format'    => 'raw',
                 'value'     => 'clientLabel',
                 'options'   => ['width'=>'15%'],
             ],
-            
+
             [
                 'attribute' => 'newsCount',
                 'format'    => 'raw',
                 'value'     => 'newsCount',
                 'filter'    => false
             ],
-            
+
             [
                 'attribute' => 'overall_price',
                 'format'    => 'raw',
                 'value'     => 'overall_price',
                 'filter'    => false
             ],
-            
+
             [
                 'attribute' => 'payment_method_id',
                 'format'    => 'raw',
                 'value'     => 'paymentMethodLabel',
                 'filter'    => ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' )
             ],
-            
+
             [
                 'label'     => \Yii::t('app','distribution_date_abb'),
                 'attribute' =>'distribution_date',
             ],
-            
+
             [
                 'attribute' => 'status_id',
                 'format'    => 'raw',
                 'value'     => 'statusLabel',
                 'filter'    => ArrayHelper::map( Status::find()->all(), 'id', 'name' )
             ],
-            
+
             [
                 'label'     => \Yii::t('app','invoice_date_abb'),
                 'attribute' =>'invoice_date',
             ],
-            
+
             [
                 'label'     => \Yii::t('app','settle_date_abb'),
                 'attribute' =>'settle_date',
             ],
-            
+
             [
                 'attribute' => 'user_id',
                 'format'    => 'raw',
@@ -227,7 +228,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
 
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}'],
+            [
+                'class'     => 'yii\grid\ActionColumn',
+                'template'  => '{update} {delete}',
+                'buttons'   => [
+                    'delete' => function ($url, $model, $key) {
+                        if ($model->status_id !== News::STATUS_INVOICED) {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], ['data-confirm'=>\Yii::t('app','Are you sure you want to delete this item?')] );
+                        }
+                        return null;
+                    },
+                ],
+            ],
         ],
     ]); ?>
 
