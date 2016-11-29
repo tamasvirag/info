@@ -47,7 +47,7 @@ class InvoiceSearch extends Invoice
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort'  => [
-                'defaultOrder' => 'invoice_date DESC',
+                'defaultOrder' => ['invoice_date' => 'DESC'],
             ],
             'pagination' => [
                 'pageSize' => 50,
