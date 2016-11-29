@@ -13,7 +13,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
 {
     public $created_from;
     public $created_to;
-    
+
     public static function tableName()
     {
         return 'invoice_group';
@@ -26,7 +26,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
             [['created_at', 'created_from', 'created_to'], 'safe'],
         ];
     }
-    
+
     public function behaviors()
     {
         return [
@@ -34,7 +34,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
             BlameableBehavior::className(),
         ];
     }
-    
+
     public function search($params = null)
     {
         $query = self::find();
@@ -42,7 +42,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort'  => [
-                'defaultOrder' => 'created_at DESC',
+                'defaultOrder' => ['created_at' => 'DESC'],
             ],
             'pagination' => [
                 'pageSize' => 50,
@@ -79,7 +79,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
             'created_by'    => Yii::t('app', 'Invoicing user'),
             'updated_by'    => Yii::t('app', 'Updated By'),
             'created_from'  => Yii::t('app', 'Invoice Date'),
-            
+
             'invoices'      => Yii::t('app', 'Invoices'),
         ];
     }
@@ -88,7 +88,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
-    
+
     public function getCreatedByLabel()
     {
         if ( isset( $this->createdBy ) ) {
@@ -108,7 +108,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
     {
         return $this->hasMany(InvoiceGroupItem::className(), ['invoice_group_id' => 'id']);
     }
-    
+
     public function getInvoiceIds() {
         $invoiceIds = [];
         $groupItems = $this->invoiceGroupItems;
@@ -119,7 +119,7 @@ class InvoiceGroup extends \yii\db\ActiveRecord
         }
         return $invoiceIds;
     }
-    
+
     public function getInvoicesLinks() {
         $invoiceIds = $this->invoiceIds;
         $ret = "";
