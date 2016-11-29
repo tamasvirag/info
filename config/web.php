@@ -1,6 +1,7 @@
 <?php
 
 $params = require(__DIR__ . '/params.php');
+$params = require(__DIR__ . '/params-local.php');
 
 $config = [
     'id' => 'basic',

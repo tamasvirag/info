@@ -58,17 +58,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 'brandLabel' => 'Szuperinfó terjesztés',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-default navbar-fixed-top', //
+                    'class' => 'navbar-default navbar-fixed-top '.(isset(\Yii::$app->params['navbar-color'])?'navbar-test':''), //
                 ],
             ]);
-            
+
             if ( !Yii::$app->user->isGuest ) {
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-left'],
                     'items' => MenuHelper::getAssignedMenu(),
                 ]);
             }
-            
+
             NavBar::end();
         ?>
 
