@@ -366,18 +366,3 @@ if ( in_array($model->status_id, [News::STATUS_INVOICED,News::STATUS_SETTLED]) )
     <?php ActiveForm::end(); ?>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

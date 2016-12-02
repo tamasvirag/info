@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="Invoice-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    
+
     <?php $form = ActiveForm::begin([
                                         'options'=>['id'=>'search-invoice'],
                                         'method'=>'get',
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             'format' => 'yyyy-mm-dd'
                                                         ]
                                                     ]
-                                                    ); ?>    
+                                                    ); ?>
             </div>
             <div class="col-md-2">
                 <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary mt-21']) ?>
@@ -101,6 +101,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'label' => Yii::t('app','Invoice sample'),
+                'attribute' => '',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    return HTML::a( 'Pdf', Url::to(['invoice/pdf','invoice_group_id'=>$model->id,'type'=>'sample']), ['target'=>'_blank']  );
+                },
+                'options' => ['width'=>'15%'],
+            ],
+            [
+                'label' => Yii::t('app','Envelope'),
                 'attribute' => '',
                 'format'    => 'raw',
                 'value' => function( $model ) {

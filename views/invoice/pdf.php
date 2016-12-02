@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use app\models\PaymentMethod;
 $invoiceCount = count($dataArray);
-if ( isset($_REQUEST['type'] ) && ( $_REQUEST['type'] == 'normal' || $_REQUEST['type'] == 'storno' ) ) {
+if ( isset($_REQUEST['type'] ) && ( $_REQUEST['type'] == 'normal' || $_REQUEST['type'] == 'sample' || $_REQUEST['type'] == 'storno' ) ) {
     $invoiceCount = $invoiceCount*2;
 }
 $i = 0;
@@ -10,17 +10,21 @@ $i = 0;
 foreach($dataArray as $client_id => $invoices):
     foreach($invoices as $data):
         $i++;
-        
+
         $items      = $data['items'];
         $invoice    = $data['invoice'];
         $client     = $data['client'];
 ?>
 
+<?php if ( isset($_REQUEST['type'] ) && ( $_REQUEST['type'] == 'sample' ) ): ?>
+<div class="invoice-over">Eredeti számla minta,<br>csak megtekintésre!</div>
+<?php endif; ?>
+
 <table class="table">
     <tbody>
         <tr>
             <td width="33%">
-                <?php if ($data['type']=='normal' || $data['type']=='storno'): ?>
+                <?php if ($data['type']=='normal' || $data['type']=='sample' || $data['type']=='storno'): ?>
                     <p>A számla 2 példányban készült.<br><?=$data['copy']?>. példány
                 <?php elseif($data['type']=='copy'): ?>
                     <p><?=$data['copy_count']?>. számla másolat<br>A számla 2 példányban készült.</p>
@@ -136,7 +140,7 @@ foreach($dataArray as $client_id => $invoices):
             <td align="right"><p class="small"><?=$item['summa']?> Ft</p></p></td>
         </tr>
         <?php endforeach; ?>
-        
+
     </tbody>
     <tfoot>
         <tr>
@@ -199,7 +203,7 @@ foreach($dataArray as $client_id => $invoices):
                         </tr>
                     </tfoot>
                 </table>
-                
+
             </td>
         </tr>
     </tbody>

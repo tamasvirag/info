@@ -92,3 +92,15 @@ table {
 .dij-hitelezve {
     border: 2px solid black;
 }
+
+.invoice-over {
+    position: absolute;
+    opacity: 0.6;
+    z-index: 100;
+    font-size: 38px;
+    color: #f55;
+    transform: rotate(20deg);
+    border: 1px solid black;
+    padding: 20px;
+    margin-top: 800px;
+}
