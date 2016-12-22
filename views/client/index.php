@@ -6,6 +6,7 @@ use app\models\User;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 use kartik\select2\Select2;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ClientSearch */
@@ -24,11 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'filterPosition'   => GridView::FILTER_POS_HEADER,
+        'layout'=>'{summary}{pager}{items}{pager}',
         'columns' => [
             [
                 'attribute' => 'name',
@@ -60,5 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}'],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
 </div>

@@ -17,6 +17,7 @@ use dosamigos\datepicker\DateRangePicker;
 use yii\helpers\StringHelper;
 use kartik\select2\Select2;
 use yii\bootstrap\ActiveForm;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\NewsSearch */
@@ -151,6 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <strong><?=\Yii::t('app','Cost')?>:</strong> <span><?=$cost?></span> Ft<br>
     </p>
 
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -242,5 +244,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
 </div>

@@ -8,6 +8,7 @@ use app\models\Dealer;
 use yii\helpers\StringHelper;
 use kartik\select2\Select2;
 use dosamigos\datepicker\DateRangePicker;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ComplainSearch */
@@ -19,20 +20,21 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="complain-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    
+
     <p>
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Complain',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    
+
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    
 
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
+        'layout'=>'{summary}{pager}{items}{pager}',
         'columns' => [
             [
                 'attribute' => 'name',
@@ -61,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options'   => ['width'=>'25%'],
 
             ],
-            
+
             [
                 'attribute' => 'created_at',
                 'format'    => 'raw',
@@ -80,10 +82,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'    => false,
                 'options' => ['width'=>'10%'],
             ],
-            
+
 
             ['class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}'],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
 </div>
