@@ -183,7 +183,7 @@ class InvoiceController extends BaseController
         elseif ($payment_method_id == PaymentMethod::CASH) {
 
             // Teljesítés dátuma = Számla kelte
-            $invoice->completion_date           = $now_date->format('Y-m-d');
+            $invoice->completion_date       = $now_date->format('Y-m-d');
 
             // Fizetési határidő = Számla kelte
             $invoice->invoice_deadline_date = $now_date->format('Y-m-d');

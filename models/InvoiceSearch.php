@@ -9,6 +9,8 @@ use app\models\Invoice;
 
 class InvoiceSearch extends Invoice
 {
+    public $invoice_number_from;
+    public $invoice_number_to;
     public $invoice_date_from;
     public $invoice_date_to;
     public $invoice_deadline_date_from;
@@ -29,7 +31,7 @@ class InvoiceSearch extends Invoice
                 'storno_invoice_date', 'storno_invoice_date_from', 'storno_invoice_date_to',
                 'invoice_deadline_date', 'invoice_deadline_date_from', 'invoice_deadline_date_to',
                 'settle_date', 'settle_date_from', 'settle_date_to',
-                'invoice_number', 'storno_invoice_number',
+                'invoice_number', 'storno_invoice_number', 'invoice_number_from', 'invoice_number_to',
                 'created_at', 'created_from', 'created_to',
                 'updated_at'], 'safe'],
         ];
@@ -75,6 +77,13 @@ class InvoiceSearch extends Invoice
             ['like', 'storno_invoice_number', $this->invoice_number],
         ]);
 
+        if ( isset($this->invoice_number_from) && $this->invoice_number_from != "" ) {
+            $query->andWhere('id >= (SELECT id FROM invoice WHERE invoice_number = "'.$this->invoice_number_from.'")');
+        }
+        if ( isset($this->invoice_number_to) && $this->invoice_number_to != "" ) {
+            $query->andWhere('id <= (SELECT id FROM invoice WHERE invoice_number = "'.$this->invoice_number_to.'")');
+        }
+
         $query->andFilterWhere(['>=', 'invoice_date', $this->invoice_date_from])
             ->andFilterWhere(['<=', 'invoice_date', $this->invoice_date_to]);
         $query->andFilterWhere(['>=', 'invoice_deadline_date', $this->invoice_deadline_date_from])
@@ -100,6 +109,8 @@ class InvoiceSearch extends Invoice
             'distribution_date_to'      => Yii::t('app', 'Distribution Date to'),
             'invoice_date_from'         => Yii::t('app', 'Invoice Date'),
             'invoice_date_to'           => Yii::t('app', 'Invoice Date to'),
+            'invoice_number_from'       => Yii::t('app', 'Invoice Number from'),
+            'invoice_number_to'         => Yii::t('app', 'Invoice Number to'),
             'invoice_deadline_date_from'=> Yii::t('app', 'Invoice Deadline Date'),
             'invoice_deadline_date_to'  => Yii::t('app', 'Invoice Deadline Date to'),
             'storno_invoice_date_from'  => Yii::t('app', 'Storno Invoice Date'),

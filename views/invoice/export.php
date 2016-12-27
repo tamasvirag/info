@@ -3,36 +3,101 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
-?>
+$name = strftime('szamla_export_%m%d%Y.xml');
+header('Content-Disposition: attachment;filename='.$name);
+header('Content-Type: text/xml');
 
-  <?php
-    $name = strftime('szamla_export_%m%d%Y.xml');
-    header('Content-Disposition: attachment;filename=' . $name);
-    header('Content-Type: text/xml');
+$invoices = $dataProvider->getModels();
 
-    $invoices = $dataProvider->getModels();
+$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+$xml .= "
+<szamlak>
+<export_datuma>".date("Y-m-d")."</export_datuma>
+  <export_szla_db>".count($invoices)."</export_szla_db>
+  <kezdo_ido>".$searchModel->invoice_date_from."</kezdo_ido>
+  <zaro_ido>".$searchModel->invoice_date_to."</zaro_ido>
+  <kezdo_szla_szam></kezdo_szla_szam>
+  <zaro_szla_szam></zaro_szla_szam>";
 
-    $xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-    $xml .= "<szamlak>";
+foreach ($invoices as $invoice) {
+  $dataSet = unserialize($invoice->invoice_data);
 
-    for ($i = 0; $i < count($invoices); $i++) {
+  $xml .= "
+  <szamla>
+    <fejlec>
+      <szlasorszam>".$invoice["invoice_number"]."</szlasorszam>
+      <szlatipus>"."</szlatipus>
+      <szladatum>".$invoice["invoice_date"]."</szladatum>
+      <teljdatum>".$invoice["settle_date"]."</teljdatum>
+    </fejlec>
 
-      $xml .= "<szamla><invoice_number>".($invoices[$i]["invoice_number"])."</invoice_number>".
-      "<invoice_date>".($invoices[$i]["invoice_date"])."</invoice_date>".
-      "<invoice_deadline_date>".($invoices[$i]["invoice_deadline_date"])."</invoice_deadline_date>".
-      "<payment_method_id>".($invoices[$i]["payment_method_id"])."</payment_method_id>".
-      "<client_name>".(unserialize($invoices[$i]["invoice_data"])["client"]["name"])."</client_name>".
-      "<price_summa>".($invoices[$i]["price_summa"])."</price_summa>".
-      "<tax_summa>".($invoices[$i]["tax_summa"])."</tax_summa>".
-      "<price_summa>".($invoices[$i]["price_summa"])."</price_summa>".
-      "<all_summa>".($invoices[$i]["all_summa"])."</all_summa>".
-      "<storno_invoice_number>".($invoices[$i]["storno_invoice_number"])."</storno_invoice_number>".
-      "<city>".(unserialize($invoices[$i]["invoice_data"])["client"]["city"])."</city></szamla>";
+    <szamlakibocsato>
+      <adoszam>".\Yii::$app->params['company']['taxNumber']."</adoszam>
+      <nev>".\Yii::$app->params['company']['name']."</nev>
+      <cim>
+        <iranyitoszam>".\Yii::$app->params['company']['postcode']."</iranyitoszam>
+        <telepules>".\Yii::$app->params['company']['city']."</telepules>
+        <kozterulet_neve>".\Yii::$app->params['company']['street']."</kozterulet_neve>
+        <kozterulet_jellege>".\Yii::$app->params['company']['streetType']."</kozterulet_jellege>
+        <hazszam>".\Yii::$app->params['company']['houseNumber']."</hazszam>
+      </cim>
+    </szamlakibocsato>
+
+    <vevo>
+      <adoszam>".$dataSet['client']->taxnumber."</adoszam>
+      <nev>".$dataSet['client']->name."</nev>
+      <cim>
+        <iranyitoszam>".$dataSet['client']->pcode."</iranyitoszam>
+        <telepules>".$dataSet['client']->city."</telepules>
+        <kozterulet_neve>".$dataSet['client']->address."</kozterulet_neve>
+      </cim>
+    </vevo>";
+
+    foreach ($dataSet['items'] as $nettoegysegar => $items) {
+    $xml .=
+    "<termek_szolgaltatas_tetelek>
+      <termeknev>Szórólap terjesztés</termeknev>
+      <menny>".$items['amount']."</menny>
+      <mertekegys>db</mertekegys>
+      <nettoar>".$items['price']."</nettoar>
+      <nettoegysar>".$nettoegysegar."</nettoegysar>
+      <adokulcs>27</adokulcs>
+      <adoertek>".$items['tax']."</adoertek>
+      <bruttoar>".$items['summa']."</bruttoar>
+    </termek_szolgaltatas_tetelek>";
     }
 
-    $xml .= "</szamlak>";
+/*<modosito_szla>
+      <eredeti_sorszam>str1234</eredeti_sorszam>
+    </modosito_szla>*/
 
-    print $xml;
+    $xml .=
+    "
+    <nem_kotelezo>
+      <fiz_hatarido>".$invoice->invoice_deadline_date."</fiz_hatarido>
+      <fiz_mod>".$invoice->paymentMethodLabel."</fiz_mod>
+      <penznem>HUF</penznem>
+    </nem_kotelezo>
+    <osszesites>
+      <afarovat>
+        <nettoar>".$dataSet['price_summa']."</nettoar>
+        <adokulcs>27</adokulcs>
+        <adoertek>".$dataSet['tax_summa']."</adoertek>
+        <bruttoar>".$dataSet['all_summa']."</bruttoar>
+      </afarovat>
+      <vegosszeg>
+        <nettoarossz>".$dataSet['price_summa']."</nettoarossz>
+        <afaertekossz>".$dataSet['tax_summa']."</afaertekossz>
+        <bruttoarossz>".$dataSet['all_summa']."</bruttoarossz>
+        <afa_tartalom>".$dataSet['tax_summa']."</afa_tartalom>
+      </vegosszeg>
+    </osszesites>
+  </szamla>
 
+";
+  }
 
-  ?>
+$xml .= "</szamlak>";
+print $xml;
+
+?>

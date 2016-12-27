@@ -34,6 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="well">
         <div class="row">
             <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number')->textInput(['maxlength' => 255]) ?></div>
+            <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number_from')->textInput(['maxlength' => 255]) ?></div>
+            <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number_to')->textInput(['maxlength' => 255]) ?></div>
             <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div>
         </div>
         <div class="row">

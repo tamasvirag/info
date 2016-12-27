@@ -1,7 +1,9 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
-$params = require(__DIR__ . '/params-local.php');
+$params = array_merge(
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
+);
 
 $config = [
     'id' => 'basic',

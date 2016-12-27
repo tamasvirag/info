@@ -42,11 +42,11 @@ foreach($dataArray as $client_id => $invoices):
     <tr>
         <td width="50%" valign="top">
             <p class="small">Szállító neve, címe</p>
-            <p class="title">Hírös Modul Kft.</p>
-            <p style="font-family: DejaVuSans;">6000 Kecskemét<br>Kőhíd u. 17.</p>
-            <p>Adószám: 11428046-2-03<br>
-                Bank: UniCredit Bank Hunga<br>
-                Bankszámla: 10918001-00000097-38110009</p>
+            <p class="title"><?=\Yii::$app->params['company']['name']?></p>
+            <p style="font-family: DejaVuSans;"><?=\Yii::$app->params['company']['postcode'].' '.\Yii::$app->params['company']['city']?><br><?=\Yii::$app->params['company']['street'].' '.\Yii::$app->params['company']['streetType'].' '.\Yii::$app->params['company']['houseNumber']?></p>
+            <p>Adószám: <?=\Yii::$app->params['company']['taxNumber']?><br>
+                Bank: <?=\Yii::$app->params['company']['bank']?><br>
+                Bankszámla: <?=\Yii::$app->params['company']['bankAccountNumber']?></p>
         </td>
         <td width="50%" valign="top">
             <p class="small">Vevő neve, címe</p>
