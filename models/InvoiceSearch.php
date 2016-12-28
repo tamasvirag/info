@@ -78,10 +78,10 @@ class InvoiceSearch extends Invoice
         ]);
 
         if ( isset($this->invoice_number_from) && $this->invoice_number_from != "" ) {
-            $query->andWhere('id >= (SELECT id FROM invoice WHERE invoice_number = "'.$this->invoice_number_from.'")');
+            $query->andWhere('created_at >= (SELECT created_at FROM invoice WHERE invoice_number = "'.$this->invoice_number_from.'")');
         }
         if ( isset($this->invoice_number_to) && $this->invoice_number_to != "" ) {
-            $query->andWhere('id <= (SELECT id FROM invoice WHERE invoice_number = "'.$this->invoice_number_to.'")');
+            $query->andWhere('created_at <= (SELECT created_at FROM invoice WHERE invoice_number = "'.$this->invoice_number_to.'")');
         }
 
         $query->andFilterWhere(['>=', 'invoice_date', $this->invoice_date_from])

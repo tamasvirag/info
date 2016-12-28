@@ -15,6 +15,7 @@ use dosamigos\datepicker\DateRangePicker;
 use yii\helpers\StringHelper;
 use kartik\select2\Select2;
 use yii\bootstrap\ActiveForm;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\InvoiceSearch */
@@ -33,14 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ] ); ?>
     <div class="well">
         <div class="row">
-            <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number')->textInput(['maxlength' => 255]) ?></div>
-            <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number_from')->textInput(['maxlength' => 255]) ?></div>
-            <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number_to')->textInput(['maxlength' => 255]) ?></div>
-            <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div>
-        </div>
-        <div class="row">
-
-            <div class="col-md-3"><?= $form->field($searchModel, 'invoice_date_from')->widget(
+            <div class="col-md-4"><?= $form->field($searchModel, 'invoice_date_from')->widget(
                                                 DateRangePicker::classname(), [
                                                         'model' => $searchModel,
                                                         'name' => 'invoice_date_from',
@@ -56,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     ]
                                                     ); ?>
             </div>
+            <?php /*
             <div class="col-md-3"><?= $form->field($searchModel, 'invoice_deadline_date_from')->widget(
                                                 DateRangePicker::classname(), [
                                                         'model' => $searchModel,
@@ -87,7 +82,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             ]
                                                     ]
                                                     ); ?>
-            </div>
+            </div> */ ?>
+        </div>
+        <div class="row">
+            <?php /* <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number')->textInput(['maxlength' => 255]) ?></div> */?>
+            <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number_from')->textInput(['maxlength' => 255]) ?></div>
+            <div class="col-md-2"><?= $form->field($searchModel, 'invoice_number_to')->textInput(['maxlength' => 255]) ?></div>
+            <?php /* <div class="col-md-2"><?= $form->field($searchModel, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?></div> */ ?>
             <div class="col-md-1">
                 <?= Html::hiddenInput('search-destination', 'screen', ['id' => 'search-destination']) ?>
                 <?= Html::buttonInput(Yii::t('app', 'Search'), ['class' => 'btn btn-primary mt-21 btn-nav-submit']) ?>
@@ -101,6 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
     <div class="col-md-12">
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -111,10 +113,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'invoice_number',
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( $model->invoice_number ),['view', 'id'=>$model->id] );
+                    //return HTML::a( HTML::encode( $model->invoice_number ),['view', 'id'=>$model->id] );
+                    return HTML::encode( $model->invoice_number );
                 }
             ],
-
             [
                 'attribute' => 'client_id',
                 'format'    => 'raw',
@@ -130,14 +132,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]),
                 'options' => ['width'=>'15%'],
             ],
-
             [
                 'attribute' => 'payment_method_id',
                 'format'    => 'raw',
                 'value' => 'paymentMethodLabel',
                 'filter' => ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' )
             ],
-
             [
                 'attribute' => 'price_summa',
                 'format'    => 'raw',
@@ -159,7 +159,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return '<nobr>'.$model->all_summa.'</nobr>';
                 }
             ],
-
             [
                 'label' => \Yii::t('app','invoice_date_abb'),
                 'attribute'=>'invoice_date',
@@ -201,6 +200,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
     </div>
     </div>
 </div>

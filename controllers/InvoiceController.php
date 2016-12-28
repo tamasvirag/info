@@ -133,6 +133,24 @@ class InvoiceController extends BaseController
             $invoice->storno_invoice_number = $invoice->getNextInvoiceNumber(Invoice::TYPE_STORNO);
             $invoice->save();
 
+            // insert storno invoice
+            $storno_invoice = new Invoice;
+            $storno_invoice->invoice_type = Invoice::INVOICE_TYPE_STORNO;
+            $storno_invoice->invoice_number = $invoice->storno_invoice_number;
+            $storno_invoice->storno_invoice_number = $invoice->invoice_number;
+            $storno_invoice->invoice_date = $invoice->invoice_date;
+            $storno_invoice->invoice_deadline_date = $invoice->invoice_deadline_date;
+            $storno_invoice->settle_date = $invoice->settle_date;
+            $storno_invoice->completion_date = $invoice->completion_date;
+            $storno_invoice->invoice_data = $invoice->storno_invoice_data;
+            $storno_invoice->payment_method_id = $invoice->payment_method_id;
+            $storno_invoice->office_id = $invoice->office_id;
+            $storno_invoice->client_id = $invoice->client_id;
+            $storno_invoice->price_summa = $invoice->price_summa * (-1);
+            $storno_invoice->tax_summa = $invoice->tax_summa * (-1);
+            $storno_invoice->all_summa = $invoice->all_summa * (-1);
+            $storno_invoice->save();
+
             // undo invoice items (pl.: news)
             $invoiceItems = $invoice->invoiceItems;
             if ( count($invoiceItems) ) {
@@ -213,6 +231,7 @@ class InvoiceController extends BaseController
         }
         $invoice->invoice_data          = serialize($data_set);
         $invoice->storno_invoice_data   = serialize($storno_data_set);
+        $invoice->invoice_type          = Invoice::INVOICE_TYPE_NORMAL;
 
         return $invoice;
     }

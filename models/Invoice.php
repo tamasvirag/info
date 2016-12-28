@@ -12,6 +12,9 @@ class Invoice extends \yii\db\ActiveRecord
     const TYPE_TRANSFER = 2;
     const TYPE_STORNO   = 3;
 
+    const INVOICE_TYPE_NORMAL   = 1;
+    const INVOICE_TYPE_STORNO   = 2;
+
     public static function tableName()
     {
         return 'invoice';

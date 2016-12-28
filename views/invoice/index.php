@@ -133,7 +133,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'invoice_number',
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( $model->invoice_number ),['update', 'id'=>$model->id] );
+                    if ( $model->invoice_type == Invoice::INVOICE_TYPE_NORMAL ) {
+                        return HTML::a( HTML::encode( $model->invoice_number ),['update', 'id'=>$model->id] );
+                    }
+                    elseif ( $model->invoice_type == Invoice::INVOICE_TYPE_STORNO ) {
+                        return HTML::encode( 'STORNO '.$model->invoice_number );
+                    }
                 }
             ],
 
@@ -241,24 +246,46 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => Yii::t('app','invoice_copy'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( Yii::t('app','Print Invoice Copy') ),['copy', 'id'=>$model->id, 'type'=>'copy'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','Are you sure?')] );
+                    if ( $model->invoice_type == Invoice::INVOICE_TYPE_NORMAL ) {
+                        return HTML::a( HTML::encode( Yii::t('app','Print Invoice Copy') ),['copy', 'id'=>$model->id, 'type'=>'copy'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','Are you sure?')] );
+                    }
                 }
             ],
             [
                 'attribute'=>'copy_count',
+                'format'    => 'raw',
+                'value' => function( $model ) {
+                    if ( $model->invoice_type == Invoice::INVOICE_TYPE_NORMAL ) {
+                        return $model->copy_count;
+                    }
+                }
             ],
             [
                 'attribute' => Yii::t('app','invoice_storno'),
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( HTML::encode( isset($model->storno_invoice_date)?Yii::t('app','Print Storno Invoice Again'):Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno')] );
+                    if ( $model->invoice_type == Invoice::INVOICE_TYPE_NORMAL ) {
+                        return HTML::a( HTML::encode( isset($model->storno_invoice_date)?Yii::t('app','Print Storno Invoice Again'):Yii::t('app','Print Storno Invoice') ),['storno', 'id'=>$model->id, 'type'=>'storno'], ['target' => '_blank', 'data-confirm'=>\Yii::t('app','confirm_storno')] );
+                    }
                 }
             ],
             [
                 'attribute'=>'storno_invoice_date',
             ],
-
-            ['class' => 'yii\grid\ActionColumn','template'=>'{update}'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template'=>'{update}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        if ($model->invoice_type === Invoice::INVOICE_TYPE_NORMAL) {
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update', 'id' => $model->id]);
+                        }
+                        else {
+                            return null;
+                        }
+                    },
+                ],
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
