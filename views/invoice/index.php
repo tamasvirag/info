@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return HTML::a( HTML::encode( $model->invoice_number ),['update', 'id'=>$model->id] );
                     }
                     elseif ( $model->invoice_type == Invoice::INVOICE_TYPE_STORNO ) {
-                        return HTML::encode( 'STORNO '.$model->invoice_number );
+                        return HTML::encode( $model->invoice_number.' Storno '.$model->storno_invoice_number );
                     }
                 }
             ],
