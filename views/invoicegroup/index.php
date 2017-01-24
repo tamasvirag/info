@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php ActiveForm::end(); ?>
 
-    <?php Pjax::begin(); ?>
+    <?php //Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => '',
                 'format'    => 'raw',
                 'value' => function( $model ) {
-                    return HTML::a( 'Pdf', Url::to(['invoice/pdf','invoice_group_id'=>$model->id,'type'=>'sample']), ['target'=>'_blank']  );
+                    return HTML::a( 'Pdf', Url::to(['invoice/pdf','invoice_group_id'=>$model->id,'type'=>'sample']), ['target'=>'_blank']  ); //"data-pjax"=>0
                 },
                 'options' => ['width'=>'15%'],
             ],
@@ -123,6 +123,6 @@ $this->params['breadcrumbs'][] = $this->title;
 //            ['class' => 'yii\grid\ActionColumn','template'=>'{view}'],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
+    <?php //Pjax::end(); ?>
 
 </div>
