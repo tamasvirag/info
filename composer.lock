@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8eab5d73b132e25e9323e666c2fbb8cc",
-    "content-hash": "13e5ca3e9a8b27ed0621ea50022116e5",
+    "hash": "89f504045ce5daa203f0a41fb5941d11",
+    "content-hash": "c3b18f7df70cafe23347f362aba373f0",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -503,7 +503,7 @@
         },
         {
             "name": "kartik-v/yii2-mpdf",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-mpdf.git",
@@ -3439,9 +3439,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "kartik-v/yii2-mpdf": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
