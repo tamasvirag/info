@@ -122,7 +122,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php ActiveForm::end(); ?>
 
-    <?php Pjax::begin(); ?>
+    <?php // Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -288,6 +288,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
+    <?php //Pjax::end(); ?>
 
 </div>

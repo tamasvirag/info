@@ -21,7 +21,7 @@
         "yiisoft/yii2-jui": "*",
         "2amigos/yii2-date-picker-widget" : "*",
         "kartik-v/yii2-widget-select2": "*",
-        "kartik-v/yii2-mpdf": "dev-master",
+        "kartik-v/yii2-mpdf": "*",
         "xj/yii2-bootbox-widget": "*"
     },
     "require-dev": {
