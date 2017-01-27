@@ -13,12 +13,12 @@ class m170108_163419_ad extends Migration
             'client_id'         => Schema::TYPE_INTEGER,    // Partner
             'category_id'       => Schema::TYPE_INTEGER,    // Rovat kategória
             'description'       => Schema::TYPE_TEXT,       // Hirdetés szövege
-            'highlight_type'    => Schema::TYPE_INTEGER,    // Kiemelés típusa: vastag, piros keret, sárga háttér
+            'highlight_type_id'    => Schema::TYPE_INTEGER,    // Kiemelés típusa: vastag, piros keret, sárga háttér
             'motto'             => Schema::TYPE_TEXT,       // Jelige
             'business'          => Schema::TYPE_INTEGER,    // Közület: minden, ami nem magán akkor 2x annyiba kerül, keresztnél érkezőnél van használva
                                                             // helyi ar nem kell, a közület kell
 
-            'ad_type'           => Schema::TYPE_INTEGER,    // Hirdetes tipusa: apro, keretes kereszt
+            'ad_type_id'           => Schema::TYPE_INTEGER,    // Hirdetes tipusa: apro, keretes kereszt
             'words'             => Schema::TYPE_INTEGER,    // szavak, Szó
             'letters'           => Schema::TYPE_INTEGER,    // karakterek, Kar.
             'image'             => Schema::TYPE_STRING,
@@ -43,6 +43,19 @@ class m170108_163419_ad extends Migration
         $this->addColumn( 'client', 'payment_period', Schema::TYPE_INTEGER );   // fizetési határidő
         $this->addColumn( 'client', 'balance', Schema::TYPE_INTEGER );          // egyenleg, manual
         $this->addColumn( 'client', 'personal', Schema::TYPE_INTEGER );         // lakossági, automatikus manual aprónál felvitelnél, csak név, cím
+
+        $this->createTable( 'ad_type', [
+            'id'                => 'pk',
+            'name'              => Schema::TYPE_STRING,
+        ]);
+
+        $this->createTable( 'highlight_type', [
+            'id'                => 'pk',
+            'name'              => Schema::TYPE_STRING,
+        ]);
+
+        $this->addForeignKey( 'fk_ad_ad_type_id', 'ad', 'ad_type_id', 'ad_type', 'id', 'SET NULL', 'SET NULL' );
+        $this->addForeignKey( 'fk_ad_highlight_type_id', 'ad', 'highlight_type_id', 'highlight_type', 'id', 'SET NULL', 'SET NULL' );
     }
 
     public function down()
@@ -50,8 +63,12 @@ class m170108_163419_ad extends Migration
         $this->dropForeignKey( 'fk_ad_client_id' );
         $this->dropForeignKey( 'fk_ad_office_id' );
         $this->dropForeignKey( 'fk_ad_category_id' );
+        $this->dropForeignKey( 'fk_ad_ad_type_id' );
+        $this->dropForeignKey( 'fk_ad_highlight_type_id' );
         $this->dropTable('ad');
         $this->dropTable('category');
+        $this->dropTable('ad_type');
+        $this->dropTable('highlight_type');
     }
 
     /*

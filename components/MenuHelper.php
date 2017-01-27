@@ -18,6 +18,7 @@ class MenuHelper
         //if (\Yii::$app->user->can('adManager')) {
             //$adMenuItems[] = '<li role="separator" class="divider"></li>';
             //$adMenuItems[] = '<li class="dropdown-header">'.\Yii::t('app', 'Ads').'</li>';
+            $adMenuItems[] = ['label' => \Yii::t('app', 'Listing'), 'url' => Url::to(['ad/index'])];
             $adMenuItems[] = ['label' => \Yii::t('app', 'Add new'), 'url' => Url::to(['ad/create'])];
         //}
         if (\Yii::$app->user->can('dealerManager')) {

@@ -1,6 +1,8 @@
 <?php
 
 namespace app\models;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 
 use Yii;
 
@@ -44,12 +46,22 @@ class Ad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['office_id', 'client_id', 'category_id', 'highlight_type', 'business', 'ad_type', 'words', 'letters', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['office_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'motto'], 'string'],
             [['image'], 'string', 'max' => 255],
+            [['ad_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdType::className(), 'targetAttribute' => ['ad_type_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
+            [['highlight_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => HighlightType::className(), 'targetAttribute' => ['highlight_type_id' => 'id']],
             [['office_id'], 'exist', 'skipOnError' => true, 'targetClass' => Office::className(), 'targetAttribute' => ['office_id' => 'id']],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className(),
         ];
     }
 
@@ -59,31 +71,67 @@ class Ad extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'office_id' => 'Office ID',
-            'client_id' => 'Client ID',
-            'category_id' => 'Category ID',
-            'description' => 'Description',
-            'highlight_type' => 'Highlight Type',
-            'motto' => 'Motto',
-            'business' => 'Business',
-            'ad_type' => 'Ad Type',
-            'words' => 'Words',
-            'letters' => 'Letters',
-            'image' => 'Image',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'created_by' => 'Created By',
-            'updated_by' => 'Updated By',
+            'id' => Yii::t('app', 'ID'),
+            'office_id' => Yii::t('app', 'Office ID'),
+            'client_id' => Yii::t('app', 'Client ID'),
+            'category_id' => Yii::t('app', 'Category ID'),
+            'description' => Yii::t('app', 'Description'),
+            'highlight_type_id' => Yii::t('app', 'Highlight Type'),
+            'motto' => Yii::t('app', 'Motto'),
+            'business' => Yii::t('app', 'Business'),
+            'ad_type_id' => Yii::t('app', 'Ad Type'),
+            'words' => Yii::t('app', 'Words'),
+            'letters' => Yii::t('app', 'Letters'),
+            'image' => Yii::t('app', 'Image'),
+            'created_at' => Yii::t('app', 'Created'),
+            'updated_at' => Yii::t('app', 'Updated'),
+            'created_by' => Yii::t('app', 'Created by'),
+            'updated_by' => Yii::t('app', 'Updated by'),
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+
+    public function getAdType()
+    {
+        return $this->hasOne(AdType::className(), ['id' => 'ad_type_id']);
+    }
+    public function getAdTypeLabel()
+    {
+        if ( isset( $this->adType ) ) {
+            return $this->adType->name;
+        }
+        else {
+            return "";
+        }
+    }
+
+    public function getHighlightType()
+    {
+        return $this->hasOne(HighlightType::className(), ['id' => 'ad_type_id']);
+    }
+    public function getHighlightTypeLabel()
+    {
+        if ( isset( $this->hightlightType ) ) {
+            return $this->hightlightType->name;
+        }
+        else {
+            return "";
+        }
+    }
+
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+
+    public function getCategoryLabel()
+    {
+        if ( isset( $this->category ) ) {
+            return $this->category->name;
+        }
+        else {
+            return "";
+        }
     }
 
     /**
@@ -94,11 +142,31 @@ class Ad extends \yii\db\ActiveRecord
         return $this->hasOne(Client::className(), ['id' => 'client_id']);
     }
 
+    public function getClientLabel()
+    {
+        if ( isset( $this->client ) ) {
+            return $this->client->name;
+        }
+        else {
+            return "";
+        }
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getOffice()
     {
         return $this->hasOne(Office::className(), ['id' => 'office_id']);
+    }
+
+    public function getOfficeLabel()
+    {
+        if ( isset( $this->office ) ) {
+            return $this->office->name;
+        }
+        else {
+            return "";
+        }
     }
 }
