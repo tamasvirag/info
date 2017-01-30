@@ -15,7 +15,13 @@ use app\models\PaymentMethod;
 
 <div class="client-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(
+        ['options' =>[
+            'id'        => 'create-client',
+            'data-ajax' => Yii::$app->request->isAjax?"true":"",
+        ]]
+    ); ?>
+
     <div class="well">
     <div class="row">
         <div class="col-md-6">
@@ -38,10 +44,10 @@ use app\models\PaymentMethod;
         <div class="col-md-3">
             <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
         </div>
-        <div class="col-md-3">  
+        <div class="col-md-3">
             <?= $form->field($model, 'regnumber')->textInput(['maxlength' => 255]) ?>
         </div>
-        <div class="col-md-3">  
+        <div class="col-md-3">
             <?= $form->field($model, 'taxnumber')->textInput(['maxlength' => 255]) ?>
         </div>
     </div>
@@ -49,13 +55,13 @@ use app\models\PaymentMethod;
         <div class="col-md-2">
             <?= $form->field($model, 'contact_name')->textInput(['maxlength' => 255]) ?>
         </div>
-        <div class="col-md-2">  
+        <div class="col-md-2">
             <?= $form->field($model, 'contact_phone')->textInput(['maxlength' => 255]) ?>
         </div>
         <div class="col-md-2">
             <?= $form->field($model, 'user_id')->dropDownList( ArrayHelper::map( User::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
         </div>
-        <div class="col-md-3">  
+        <div class="col-md-3">
             <?= $form->field($model, 'web')->textInput(['maxlength' => 255]) ?>
         </div>
     </div>
@@ -72,9 +78,18 @@ use app\models\PaymentMethod;
             <?= $form->field($model, 'post_address')->textInput(['maxlength' => 255]) ?>
         </div>
     </div>
-    
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php if (Yii::$app->request->isAjax): ?>
+            <script type="text/javascript"></script>
+            <?= Html::button(
+                    Yii::t('app','Cancel'),
+                    [
+                        'class' => 'hideModalButton btn btn-primary'
+                    ]
+                ); ?>
+        <?php endif;?>
     </div>
     <?php ActiveForm::end(); ?>
     </div>

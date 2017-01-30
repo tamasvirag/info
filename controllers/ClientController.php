@@ -32,7 +32,7 @@ class ClientController extends BaseController
             ],
         ];
     }
-    
+
     public function actionIndex()
     {
         $searchModel = new ClientSearch();
@@ -67,10 +67,25 @@ class ClientController extends BaseController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
-            return $this->redirect(['update','id'=>$model->id]);
+            if (Yii::$app->request->isAjax) {
+                $data = [
+                    'data'      => 'success',
+                    'clientId'  => $model->id,
+                    'clientNameWithAddress'  => $model->nameWithAddress,
+                ];
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return $data;
+            }
+            else {
+                return $this->redirect(['update','id'=>$model->id]);
+            }
+        } elseif (Yii::$app->request->isAjax) {
+            return $this->renderAjax('_form', [
+                'model' => $model
+            ]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model
             ]);
         }
     }
@@ -132,7 +147,7 @@ class ClientController extends BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
+
     public function actionGetclientjsonbyid($id) {
         $model = $this->findModel($id);
         $ret = ['payment_method_id'=>$model->payment_method_id];

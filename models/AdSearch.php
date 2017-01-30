@@ -18,8 +18,8 @@ class AdSearch extends Ad
     public function rules()
     {
         return [
-            [['id', 'office_id', 'client_id', 'category_id', 'highlight_type', 'business', 'ad_type', 'words', 'letters', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['description', 'motto', 'image'], 'safe'],
+            [['id', 'office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'price', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['description', 'motto', 'image', 'publish_date', 'invoice_date', 'settle_date'], 'safe'],
         ];
     }
 
@@ -61,13 +61,19 @@ class AdSearch extends Ad
         $query->andFilterWhere([
             'id' => $this->id,
             'office_id' => $this->office_id,
+            'user_id' => $this->user_id,
             'client_id' => $this->client_id,
             'category_id' => $this->category_id,
-            'highlight_type' => $this->highlight_type,
+            'highlight_type' => $this->highlight_type_id,
             'business' => $this->business,
-            'ad_type' => $this->ad_type,
+            'ad_type' => $this->ad_type_id,
             'words' => $this->words,
             'letters' => $this->letters,
+            'discount' => $this->discount,
+            'price' => $this->price,
+            'status_id' => $this->status_id,
+            'invoice_date' => $this->invoice_date,
+            'settle_date' => $this->settle_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
@@ -76,7 +82,8 @@ class AdSearch extends Ad
 
         $query->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'motto', $this->motto])
-            ->andFilterWhere(['like', 'image', $this->image]);
+            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'publish_date', $this->publish_date]);
 
         return $dataProvider;
     }

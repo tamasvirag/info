@@ -214,3 +214,7 @@ h6 {
 .dealers label {
   font-weight: normal;
   padding-right: 10px; }
+
+@media (min-width: 992px) {
+  .modal-lg {
+    width: 1100px; } }

@@ -14,18 +14,10 @@ use app\models\Category;
 /* @var $searchModel app\models\AdSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Ads');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Ad'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -86,17 +78,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['width'=>'10%'],
             ],
             'description:ntext',
-            // 'highlight_type',
-            // 'motto:ntext',
-            // 'business',
-            // 'ad_type',
-            // 'words',
-            // 'letters',
-            // 'image',
-            // 'created_at',
-            // 'updated_at',
-            // 'created_by',
-            // 'updated_by',
 
             [
                 'class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}',
@@ -104,5 +85,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
+
 </div>

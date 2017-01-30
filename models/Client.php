@@ -42,6 +42,11 @@ class Client extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getNameWithAddress()
+    {
+        return $this->name." - ".$this->pcode." ".$this->city." ".$this->address;
+    }
+
     public function getUserLabel()
     {
         if ( isset( $this->user ) ) {

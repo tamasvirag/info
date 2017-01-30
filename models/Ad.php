@@ -11,6 +11,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $office_id
+ * @property integer $user_id
  * @property integer $client_id
  * @property integer $category_id
  * @property string $description
@@ -21,14 +22,23 @@ use Yii;
  * @property integer $words
  * @property integer $letters
  * @property string $image
+ * @property integer $discount
+ * @property integer $price
+ * @property string $publish_date
+ * @property integer $status_id
+ * @property string $invoice_date
+ * @property string $settle_date
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $created_by
  * @property integer $updated_by
  *
+ * @property AdType $adType
  * @property Category $category
  * @property Client $client
+ * @property HighlightType $highlightType
  * @property Office $office
+ * @property User $user
  */
 class Ad extends \yii\db\ActiveRecord
 {
@@ -46,14 +56,16 @@ class Ad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['office_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'price', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'motto'], 'string'],
-            [['image'], 'string', 'max' => 255],
+            [['invoice_date', 'settle_date'], 'safe'],
+            [['image', 'publish_date'], 'string', 'max' => 255],
             [['ad_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdType::className(), 'targetAttribute' => ['ad_type_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['highlight_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => HighlightType::className(), 'targetAttribute' => ['highlight_type_id' => 'id']],
             [['office_id'], 'exist', 'skipOnError' => true, 'targetClass' => Office::className(), 'targetAttribute' => ['office_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -72,9 +84,10 @@ class Ad extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'office_id' => Yii::t('app', 'Office ID'),
-            'client_id' => Yii::t('app', 'Client ID'),
-            'category_id' => Yii::t('app', 'Category ID'),
+            'office_id' => Yii::t('app', 'Publishing Office'),
+            'user_id' => Yii::t('app', 'User'),
+            'client_id' => Yii::t('app', 'Client'),
+            'category_id' => Yii::t('app', 'Category'),
             'description' => Yii::t('app', 'Description'),
             'highlight_type_id' => Yii::t('app', 'Highlight Type'),
             'motto' => Yii::t('app', 'Motto'),
@@ -83,6 +96,12 @@ class Ad extends \yii\db\ActiveRecord
             'words' => Yii::t('app', 'Words'),
             'letters' => Yii::t('app', 'Letters'),
             'image' => Yii::t('app', 'Image'),
+            'discount' => Yii::t('app', 'Discount'),
+            'price' => Yii::t('app', 'Price'),
+            'publish_date' => Yii::t('app', 'Publish Date'),
+            'status_id' => Yii::t('app', 'Status ID'),
+            'invoice_date' => Yii::t('app', 'Invoice Date'),
+            'settle_date' => Yii::t('app', 'Settle Date'),
             'created_at' => Yii::t('app', 'Created'),
             'updated_at' => Yii::t('app', 'Updated'),
             'created_by' => Yii::t('app', 'Created by'),
@@ -134,9 +153,6 @@ class Ad extends \yii\db\ActiveRecord
         }
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getClient()
     {
         return $this->hasOne(Client::className(), ['id' => 'client_id']);
@@ -152,9 +168,6 @@ class Ad extends \yii\db\ActiveRecord
         }
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getOffice()
     {
         return $this->hasOne(Office::className(), ['id' => 'office_id']);
@@ -164,6 +177,21 @@ class Ad extends \yii\db\ActiveRecord
     {
         if ( isset( $this->office ) ) {
             return $this->office->name;
+        }
+        else {
+            return "";
+        }
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getUserLabel()
+    {
+        if ( isset( $this->user ) ) {
+            return $this->user->name;
         }
         else {
             return "";

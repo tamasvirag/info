@@ -300,6 +300,5 @@
         $(".active-field").removeAttr('disabled');
         $(".active-field").removeAttr('readonly');
 
-
     });
 })(jQuery);

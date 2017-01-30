@@ -44,6 +44,17 @@ class AdController extends Controller
         ]);
     }
 
+    public function actionClientads()
+    {
+        $searchModel = new AdSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('_clientads', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Ad model.
      * @param integer $id
@@ -65,11 +76,16 @@ class AdController extends Controller
     {
         $model = new Ad();
 
+        $searchModel = new AdSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         }
     }
