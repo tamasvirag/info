@@ -188,6 +188,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             [
+                'attribute' => 'overall_cost',
+                'format'    => 'raw',
+                'value'     => 'overall_cost',
+                'filter'    => false
+            ],
+
+            [
+                'attribute' => 'net_revenue',
+                'format'    => 'raw',
+                'value'     => 'net_revenue',
+                'filter'    => false
+            ],
+
+            [
+                'attribute' => 'cost',
+                'format'    => 'raw',
+                'value'     => 'cost',
+                'filter'    => false
+            ],
+
+            [
                 'attribute' => 'payment_method_id',
                 'format'    => 'raw',
                 'value'     => 'paymentMethodLabel',
