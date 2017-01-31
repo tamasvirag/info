@@ -12,6 +12,9 @@ $config = [
     'language' => 'hu',
     'bootstrap' => ['log'],
     'components' => [
+        'assetManager' => [
+            'appendTimestamp' => true,
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
@@ -71,7 +74,10 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = 'yii\debug\Module';
 
     $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*'],
+    ];
 }
 
 return $config;
