@@ -44,17 +44,6 @@ class AdController extends Controller
         ]);
     }
 
-    public function actionClientads()
-    {
-        $searchModel = new AdSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('_clientads', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
     /**
      * Displays a single Ad model.
      * @param integer $id

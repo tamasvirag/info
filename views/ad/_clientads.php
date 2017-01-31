@@ -17,7 +17,7 @@ use app\models\Category;
 ?>
 <div class="">
 
-
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -85,5 +85,5 @@ use app\models\Category;
             ],
         ],
     ]); ?>
-
+    <?php Pjax::end(); ?>
 </div>

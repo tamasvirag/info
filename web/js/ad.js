@@ -67,13 +67,18 @@
 
 
         $(document).on('change', '#ad-client_id', function () {
-            console.log( $('#ad-client_id').val() );
+            //console.log( $('#ad-client_id').val() );
 
-            $.pjax.reload({container:'#client-ads-pjax'});
+            $.pjax.reload({container:'#client-ads-pjax'}).done(function(){
+                $('#client-ads-gridview-client-select').val($('#ad-client_id').val()).change();
+            });
 
+            // $('.grid-view-selector').yiiGridView('applyFilter');
+            // https://github.com/defunkt/jquery-pjax
+
+            //$('#ad-client_id').val()
             //$('#client-ads').load($('#client-ads').data('url'));
         });
-
 
     });
 })(jQuery);

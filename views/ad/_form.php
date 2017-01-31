@@ -60,7 +60,7 @@ use yii\helpers\StringHelper;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'filterPosition'   => GridView::FILTER_POS_HEADER,
-        'layout'=>'{summary}{pager}{items}{pager}',
+        'layout'=>'{summary}{pager}{items}',
         'columns' => [
             [
                 'attribute' => 'id',
@@ -89,7 +89,7 @@ use yii\helpers\StringHelper;
                 'filter' => Select2::widget([
                                 'name' => StringHelper::basename($searchModel::className()).'[client_id]',
                                 'value' => $searchModel->client_id,
-                                'options' => ['placeholder' => Yii::t('app','please choose')],
+                                'options' => ['placeholder' => Yii::t('app','please choose'), 'id' => 'client-ads-gridview-client-select'],
                                 'data' => ArrayHelper::map( Client::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'nameWithAddress' ),
                                 'language' => 'hu',
                                 'pluginOptions' => [
@@ -115,11 +115,13 @@ use yii\helpers\StringHelper;
                 'options' => ['width'=>'10%'],
             ],
             'description:ntext',
-
             [
-                'class' => 'yii\grid\ActionColumn','template'=>'{update} {delete}',
-                'options' => ['width'=>'5%'],
+                'attribute' => 'price',
+                'format'    => 'raw',
+                'value'     => 'price',
+                'filter'    => false
             ],
+            'publish_date',
         ],
     ]); ?>
     <?php Pjax::end(); ?>

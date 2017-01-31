@@ -47,6 +47,14 @@ class AdSearch extends Ad
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => [
+                    'publish_date' => SORT_DESC
+                ]
+            ],
+            'pagination' => [
+                'pageSize' => 6,
+            ],
         ]);
 
         $this->load($params);
