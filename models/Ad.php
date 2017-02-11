@@ -21,7 +21,6 @@ use Yii;
  * @property integer $ad_type
  * @property integer $words
  * @property integer $letters
- * @property string $image
  * @property integer $discount
  * @property integer $price
  * @property string $publish_date
@@ -59,7 +58,7 @@ class Ad extends \yii\db\ActiveRecord
             [['office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'price', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'motto'], 'string'],
             [['invoice_date', 'settle_date'], 'safe'],
-            [['image', 'publish_date'], 'string', 'max' => 255],
+            [['publish_date'], 'string', 'max' => 255],
             [['ad_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdType::className(), 'targetAttribute' => ['ad_type_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
@@ -95,7 +94,6 @@ class Ad extends \yii\db\ActiveRecord
             'ad_type_id' => Yii::t('app', 'Ad Type'),
             'words' => Yii::t('app', 'Words'),
             'letters' => Yii::t('app', 'Letters'),
-            'image' => Yii::t('app', 'Image'),
             'discount' => Yii::t('app', 'Discount'),
             'price' => Yii::t('app', 'Price'),
             'publish_date' => Yii::t('app', 'Publish Date'),

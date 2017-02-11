@@ -27,14 +27,6 @@ use app\models\PaymentMethod;
         <div class="col-md-6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
         </div>
-        <div class="col-md-2">
-            <?= $form->field($model, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
-        </div>
-        <div class="col-md-2">
-            <?= $form->field($model, 'payment_deadline')->textInput(['maxlength' => 255, 'value' => $model->isNewRecord?"8":$model->payment_deadline]) ?>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-1">
             <?= $form->field($model, 'pcode')->textInput(['maxlength' => 255]) ?>
         </div>
@@ -44,38 +36,54 @@ use app\models\PaymentMethod;
         <div class="col-md-3">
             <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
         </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'regnumber')->textInput(['maxlength' => 255]) ?>
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'taxnumber')->textInput(['maxlength' => 255]) ?>
-        </div>
     </div>
     <div class="row">
         <div class="col-md-2">
-            <?= $form->field($model, 'contact_name')->textInput(['maxlength' => 255]) ?>
-        </div>
-        <div class="col-md-2">
-            <?= $form->field($model, 'contact_phone')->textInput(['maxlength' => 255]) ?>
-        </div>
-        <div class="col-md-2">
-            <?= $form->field($model, 'user_id')->dropDownList( ArrayHelper::map( User::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'web')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'business')->checkBox(['class'=>'client-business-switch']) ?>
         </div>
     </div>
-    <hr>
-    <p><?=\Yii::t('app','post_address_if')?></p>
-    <div class="row">
-        <div class="col-md-1">
-            <?= $form->field($model, 'post_pcode')->textInput(['maxlength' => 255]) ?>
+
+    <div class="client-business-block">
+        <div class="row">
+            <div class="col-md-2">
+                <?= $form->field($model, 'payment_method_id')->dropDownList( ArrayHelper::map( PaymentMethod::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($model, 'payment_deadline')->textInput(['maxlength' => 255, 'value' => $model->isNewRecord?"8":$model->payment_deadline]) ?>
+            </div>
+            <div class="col-md-3">
+                <?= $form->field($model, 'regnumber')->textInput(['maxlength' => 255]) ?>
+            </div>
+            <div class="col-md-3">
+                <?= $form->field($model, 'taxnumber')->textInput(['maxlength' => 255]) ?>
+            </div>
         </div>
-        <div class="col-md-2">
-            <?= $form->field($model, 'post_city')->textInput(['maxlength' => 255]) ?>
+        <div class="row">
+            <div class="col-md-2">
+                <?= $form->field($model, 'contact_name')->textInput(['maxlength' => 255]) ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($model, 'contact_phone')->textInput(['maxlength' => 255]) ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($model, 'user_id')->dropDownList( ArrayHelper::map( User::find()->all(), 'id', 'name' ), ['prompt' => '']  ) ?>
+            </div>
+            <div class="col-md-3">
+                <?= $form->field($model, 'web')->textInput(['maxlength' => 255]) ?>
+            </div>
         </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'post_address')->textInput(['maxlength' => 255]) ?>
+        <hr>
+        <p><?=\Yii::t('app','post_address_if')?></p>
+        <div class="row">
+            <div class="col-md-1">
+                <?= $form->field($model, 'post_pcode')->textInput(['maxlength' => 255]) ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($model, 'post_city')->textInput(['maxlength' => 255]) ?>
+            </div>
+            <div class="col-md-3">
+                <?= $form->field($model, 'post_address')->textInput(['maxlength' => 255]) ?>
+            </div>
         </div>
     </div>
 
@@ -95,45 +103,49 @@ use app\models\PaymentMethod;
     </div>
 </div>
 
-<?php if (isset($model->id)): ?>
+<div class="client-business-block">
+    <?php if (isset($model->id)): ?>
 
-<h3><?=\Yii::t('app','Client companies')?></h3>
+        <h3><?=\Yii::t('app','Client companies')?></h3>
 
-<?php if (count($model->clientCompanies)): ?>
-    <?= GridView::widget([
-        'tableOptions'=>['class'=>'table table-simple table-bordered'],
-        'dataProvider'  => $companiesDataProvider,
-        'layout'        => '{items}',
-        'columns' => [
-                'company_name',
-                'company_pcode',
-                'company_city',
-                'company_address',
-                'company_phone',
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template'=>'{update} {delete}',
-                    'buttons' =>
+        <?php if (count($model->clientCompanies)): ?>
+            <?= GridView::widget([
+                'tableOptions'=>['class'=>'table table-simple table-bordered'],
+                'dataProvider'  => $companiesDataProvider,
+                'layout'        => '{items}',
+                'columns' => [
+                        'company_name',
+                        'company_pcode',
+                        'company_city',
+                        'company_address',
+                        'company_phone',
                         [
-                            'update' => function ($url, $model, $key) {
-                                return Html::a( Yii::t('app','Update'), Url::to(['clientcompany/update','id'=>$model->id]));
-                            },
-                            'delete' => function ($url, $model, $key) {
-                                return Html::a( Yii::t('app','Delete'), Url::to(['clientcompany/delete','id'=>$model->id]), ['data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),]);
-                            },
+                            'class' => 'yii\grid\ActionColumn',
+                            'template'=>'{update} {delete}',
+                            'buttons' =>
+                                [
+                                    'update' => function ($url, $model, $key) {
+                                        return Html::a( Yii::t('app','Update'), Url::to(['clientcompany/update','id'=>$model->id]));
+                                    },
+                                    'delete' => function ($url, $model, $key) {
+                                        return Html::a( Yii::t('app','Delete'), Url::to(['clientcompany/delete','id'=>$model->id]), ['data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),]);
+                                    },
+                                ],
                         ],
-                ],
-            ]
-        ]
-    ); ?>
-<?php endif; ?>
+                    ]
+                ]
+            ); ?>
+        <?php endif; ?>
 
-<p><strong><?=Yii::t('app','Add')?></strong></p>
-<?= $this->render('/clientcompany/_form', [
-        'model' => $model,
-        'companymodel' => $companymodel,
-    ]) ?>
+        <p><strong><?=Yii::t('app','Add')?></strong></p>
+        <?= $this->render('/clientcompany/_form', [
+            'model' => $model,
+            'companymodel' => $companymodel,
+        ]) ?>
 
+    <?php endif; ?>
+</div>
 
-
-<?php endif; ?>
+<script type="text/javascript">
+    clientBusinessSwitch();
+</script>

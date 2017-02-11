@@ -19,7 +19,7 @@ class AdSearch extends Ad
     {
         return [
             [['id', 'office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'price', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['description', 'motto', 'image', 'publish_date', 'invoice_date', 'settle_date'], 'safe'],
+            [['description', 'motto', 'publish_date', 'invoice_date', 'settle_date'], 'safe'],
         ];
     }
 
@@ -90,7 +90,6 @@ class AdSearch extends Ad
 
         $query->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'motto', $this->motto])
-            ->andFilterWhere(['like', 'image', $this->image])
             ->andFilterWhere(['like', 'publish_date', $this->publish_date]);
 
         return $dataProvider;

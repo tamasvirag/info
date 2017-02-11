@@ -70,6 +70,7 @@ class ClientController extends BaseController
             if (Yii::$app->request->isAjax) {
                 $data = [
                     'data'      => 'success',
+                    'status'    => 'added',
                     'clientId'  => $model->id,
                     'clientNameWithAddress'  => $model->nameWithAddress,
                 ];
@@ -109,7 +110,23 @@ class ClientController extends BaseController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+            if (Yii::$app->request->isAjax) {
+                $data = [
+                    'data'      => 'success',
+                    'status'    => 'updated',
+                    'clientId'  => $model->id,
+                    'clientNameWithAddress'  => $model->nameWithAddress,
+                ];
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return $data;
+            }
             return $this->redirect(['update','id'=>$model->id]);
+        } elseif (Yii::$app->request->isAjax) {
+            return $this->renderAjax('_form', [
+                'model' => $model,
+                'companymodel' => $companymodel,
+                'companiesDataProvider' => $companiesDataProvider,
+            ]);
         } else {
             return $this->render('update', [
                 'model' => $model,

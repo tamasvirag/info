@@ -15,8 +15,9 @@ class Client extends \yii\db\ActiveRecord
     {
         return [
             [['name'],'required'],
-            [['user_id', 'payment_method_id', 'payment_deadline'], 'integer'],
-            [['name', 'pcode', 'city', 'address', 'post_pcode', 'post_city', 'post_address', 'web', 'regnumber', 'taxnumber', 'contact_name', 'contact_phone'], 'string', 'max' => 255]
+            [['user_id', 'payment_method_id', 'payment_deadline', 'discount', 'payment_period', 'balance', 'business'], 'integer'],
+            [['name', 'pcode', 'city', 'address', 'post_address', 'web', 'regnumber', 'taxnumber', 'contact_name', 'contact_phone', 'post_pcode', 'post_city', 'currency'], 'string', 'max' => 255],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -39,12 +40,22 @@ class Client extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'payment_method_id' => Yii::t('app', 'Payment Method'),
             'payment_deadline' => Yii::t('app', 'Payment Deadline'),
+            'currency' => Yii::t('app', 'Currency'),
+            'discount' => Yii::t('app', 'Discount'),
+            'payment_period' => Yii::t('app', 'Payment Period'),
+            'balance' => Yii::t('app', 'Balance'),
+            'business' => Yii::t('app', 'Business Client'),
         ];
     }
 
     public function getNameWithAddress()
     {
         return $this->name." - ".$this->pcode." ".$this->city." ".$this->address;
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     public function getUserLabel()
@@ -58,20 +69,14 @@ class Client extends \yii\db\ActiveRecord
         }
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getNews()
     {
         return $this->hasMany(News::className(), ['client_id' => 'id']);
+    }
+
+    public function getAds()
+    {
+        return $this->hasMany(Ad::className(), ['client_id' => 'id']);
     }
 
     public function getPaymentMethod()

@@ -26,7 +26,7 @@ use yii\helpers\StringHelper;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="well">
+    <div class="well ad-client-select-well">
         <div class="row">
             <div class="col-md-6">
                 <?= $form->field($model, 'client_id')->widget( Select2::classname(), [
@@ -37,6 +37,18 @@ use yii\helpers\StringHelper;
                         'allowClear' => true
                     ],
                 ]); ?>
+            </div>
+            <div class="col-md-2">
+                <?= Html::button(
+                    Yii::t('app','Update client'),
+                    [
+                        'value' => Url::to(['client/update','id'=>2]),
+                        'title' => Yii::t('app','Update client'),
+                        'class' => 'showModalButton btn btn-primary mt-21',
+                        'id'    => 'client-update-button',
+                        //'style' => 'display:none',
+                    ]
+                ); ?>
             </div>
             <div class="col-md-2">
                 <?= Html::button(
@@ -53,8 +65,7 @@ use yii\helpers\StringHelper;
     <?php ActiveForm::end(); ?>
 
 
-
-    <?php Pjax::begin(['options'=>['id'=>'client-ads-pjax']]); ?>
+    <?php Pjax::begin(['options'=>['id'=>'client-ads-pjax', 'style' => 'display:none']]); ?>
     <?= GridView::widget([
         'tableOptions'=>['class'=>'table table-simple table-bordered'],
         'dataProvider' => $dataProvider,
@@ -126,6 +137,9 @@ use yii\helpers\StringHelper;
     ]); ?>
     <?php Pjax::end(); ?>
 
+
+
+    <div id="ad-form" style="display:none">
     <?php $form = ActiveForm::begin(); ?>
     <div class="well" id="ad-details">
         <div class="row">
@@ -186,8 +200,6 @@ use yii\helpers\StringHelper;
             </div>
         </div>
 
-        <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
-
         <?php if ( !$model->isNewRecord ): ?>
             <div class="row">
                 <div class="col-md-2">
@@ -208,5 +220,6 @@ use yii\helpers\StringHelper;
     </div>
 
     <?php ActiveForm::end(); ?>
+    </div>
 
 </div>

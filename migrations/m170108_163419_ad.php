@@ -14,7 +14,7 @@ class m170108_163419_ad extends Migration
             'client_id'         => Schema::TYPE_INTEGER,    // Partner
             'category_id'       => Schema::TYPE_INTEGER,    // Rovat kategória
             'description'       => Schema::TYPE_TEXT,       // Hirdetés szövege
-            'highlight_type_id' => Schema::TYPE_INTEGER,    // Kiemelés típusa: vastag, piros keret, sárga háttér
+            'highlight_type_id' => Schema::TYPE_INTEGER,    // Kiemelés típusa: vastag, piros keret, sárga háttér, foto, inverz
             'motto'             => Schema::TYPE_TEXT,       // Jelige
             'business'          => Schema::TYPE_INTEGER,    // Közület: minden, ami nem magán akkor 2x annyiba kerül, keresztnél érkezőnél van használva
                                                             // helyi ar nem kell, a közület kell
@@ -22,7 +22,6 @@ class m170108_163419_ad extends Migration
             'ad_type_id'        => Schema::TYPE_INTEGER,    // Hirdetes tipusa: apro, keretes kereszt
             'words'             => Schema::TYPE_INTEGER,    // szavak, Szó
             'letters'           => Schema::TYPE_INTEGER,    // karakterek, Kar.
-            'image'             => Schema::TYPE_STRING,
 
             'discount'          => Schema::TYPE_INTEGER,
             'price'             => Schema::TYPE_INTEGER,
@@ -52,7 +51,7 @@ class m170108_163419_ad extends Migration
         $this->addColumn( 'client', 'discount', Schema::TYPE_INTEGER );         // kedvezmény
         $this->addColumn( 'client', 'payment_period', Schema::TYPE_INTEGER );   // fizetési határidő
         $this->addColumn( 'client', 'balance', Schema::TYPE_INTEGER );          // egyenleg, manual
-        $this->addColumn( 'client', 'personal', Schema::TYPE_INTEGER );         // lakossági, automatikus manual aprónál felvitelnél, csak név, cím
+        $this->addColumn( 'client', 'business', Schema::TYPE_INTEGER );         // üzleti, teljes form - különben lakossági, automatikus manual aprónál felvitelnél, csak név, cím
 
         $this->createTable( 'ad_type', [
             'id'                => 'pk',
@@ -92,28 +91,9 @@ class m170108_163419_ad extends Migration
         $this->insert('highlight_type',['name'=>'vastagon szedve +20%']);
         $this->insert('highlight_type',['name'=>'piros keret +500 Ft']);
         $this->insert('highlight_type',['name'=>'sárga háttér +500 Ft']);
+        $this->insert('highlight_type',['name'=>'inverz +500 Ft']);
+        $this->insert('highlight_type',['name'=>'fotós +3350 Ft']);
 
-        $this->createTable( 'ad_publish', [
-            'id' => 'pk',
-            'ad_id'             => Schema::TYPE_INTEGER,
-            'client_id'         => Schema::TYPE_INTEGER,    // Partner
-            'category_id'       => Schema::TYPE_INTEGER,    // Rovat kategória
-            'description'       => Schema::TYPE_TEXT,       // Hirdetés szövege
-            'highlight_type_id' => Schema::TYPE_INTEGER,    // Kiemelés típusa: vastag, piros keret, sárga háttér
-            'motto'             => Schema::TYPE_TEXT,       // Jelige
-            'business'          => Schema::TYPE_INTEGER,    // Közület: minden, ami nem magán akkor 2x annyiba kerül, keresztnél érkezőnél van használva
-                                                            // helyi ar nem kell, a közület kell
-
-            'ad_type_id'        => Schema::TYPE_INTEGER,    // Hirdetes tipusa: apro, keretes kereszt
-            'words'             => Schema::TYPE_INTEGER,    // szavak, Szó
-            'letters'           => Schema::TYPE_INTEGER,    // karakterek, Kar.
-            'image'             => Schema::TYPE_STRING,
-
-            'created_at'        => Schema::TYPE_INTEGER,
-            'updated_at'        => Schema::TYPE_INTEGER,
-            'created_by'        => Schema::TYPE_INTEGER,
-            'updated_by'        => Schema::TYPE_INTEGER,
-        ]);
     }
 
     public function down()
@@ -133,7 +113,7 @@ class m170108_163419_ad extends Migration
         $this->dropColumn( 'client', 'discount' );         // kedvezmény
         $this->dropColumn( 'client', 'payment_period' );   // fizetési határidő
         $this->dropColumn( 'client', 'balance' );          // egyenleg, manual
-        $this->dropColumn( 'client', 'personal' );         // lakossági, automatikus manual aprónál felvitelnél, csak név, cím
+        $this->dropColumn( 'client', 'business' );         // lakossági, automatikus manual aprónál felvitelnél, csak név, cím
     }
 
     /*
