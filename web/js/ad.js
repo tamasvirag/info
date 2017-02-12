@@ -80,6 +80,11 @@ var clientIsSelectedSwitch = function () {
                             updateClientSelect('#ad-client_id', newClientData, response.status); // added / updated
                             $('#ad-client_id').val(response.clientId).change();
                             $('#modal').modal('hide');
+
+                            // ha nincs hirdetése a partnernek, akkor ne jelenjen meg a lista sem
+                            if ( response.adsCount == 0 ) {
+                                $("#client-ads-pjax").hide();
+                            }
                         }
                     }
                 });
@@ -88,18 +93,18 @@ var clientIsSelectedSwitch = function () {
         });
 
         function updateClientSelect( input, data, status) {
+            // szerkesztett elem eltávolítása
             if (status == 'updated') {
                 $(input+" option[value='"+data[0].id+"']").remove();
             }
-            //if (status == 'added') {
-                for (var key in data) {
-                    var $option = $('<option />')
-                        .prop('value', data[key]['id'])
-                        .text(data[key]['text'])
-                    ;
-                    $(input).append($option);
-                }
-            //}
+            // új elem hozzáadása
+            for (var key in data) {
+                var $option = $('<option />')
+                    .prop('value', data[key]['id'])
+                    .text(data[key]['text'])
+                ;
+                $(input).append($option);
+            }
             $(input).trigger('change');
         }
 

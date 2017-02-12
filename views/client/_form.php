@@ -146,6 +146,8 @@ use app\models\PaymentMethod;
     <?php endif; ?>
 </div>
 
+<?php if (Yii::$app->request->isAjax): ?>
 <script type="text/javascript">
     clientBusinessSwitch();
 </script>
+<?php endif; ?>

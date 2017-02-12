@@ -66,18 +66,19 @@ class ClientController extends BaseController
         $model = new Client();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
             if (Yii::$app->request->isAjax) {
                 $data = [
                     'data'      => 'success',
                     'status'    => 'added',
                     'clientId'  => $model->id,
                     'clientNameWithAddress'  => $model->nameWithAddress,
+                    'adsCount'  => 0,
                 ];
                 Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return $data;
             }
             else {
+                Yii::$app->session->setFlash('success', Yii::t('app','success_create'));
                 return $this->redirect(['update','id'=>$model->id]);
             }
         } elseif (Yii::$app->request->isAjax) {
@@ -109,18 +110,21 @@ class ClientController extends BaseController
         ]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
             if (Yii::$app->request->isAjax) {
                 $data = [
                     'data'      => 'success',
                     'status'    => 'updated',
                     'clientId'  => $model->id,
                     'clientNameWithAddress'  => $model->nameWithAddress,
+                    'adsCount'  => count($model->ads),
                 ];
                 Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return $data;
             }
-            return $this->redirect(['update','id'=>$model->id]);
+            else {
+                Yii::$app->session->setFlash('success', Yii::t('app','success_save'));
+                return $this->redirect(['update','id'=>$model->id]);
+            }
         } elseif (Yii::$app->request->isAjax) {
             return $this->renderAjax('_form', [
                 'model' => $model,
