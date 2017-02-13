@@ -18,7 +18,7 @@ class AdSearch extends Ad
     public function rules()
     {
         return [
-            [['id', 'office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'price', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['id', 'office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'net_price', 'gross_price', 'vat_price', 'vat', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'motto', 'publish_date', 'invoice_date', 'settle_date'], 'safe'],
         ];
     }
@@ -78,7 +78,10 @@ class AdSearch extends Ad
             'words' => $this->words,
             'letters' => $this->letters,
             'discount' => $this->discount,
-            'price' => $this->price,
+            'net_price' => $this->net_price,
+            'gross_price' => $this->gross_price,
+            'vat_price' => $this->vat_price,
+            'vat' => $this->vat,
             'status_id' => $this->status_id,
             'invoice_date' => $this->invoice_date,
             'settle_date' => $this->settle_date,

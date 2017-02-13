@@ -127,9 +127,9 @@ use yii\helpers\StringHelper;
             ],
             'description:ntext',
             [
-                'attribute' => 'price',
+                'attribute' => 'net_price',
                 'format'    => 'raw',
-                'value'     => 'price',
+                'value'     => 'net_price',
                 'filter'    => false
             ],
             'publish_date',

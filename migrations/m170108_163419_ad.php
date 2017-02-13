@@ -17,14 +17,17 @@ class m170108_163419_ad extends Migration
             'highlight_type_id' => Schema::TYPE_INTEGER,    // Kiemelés típusa: vastag, piros keret, sárga háttér, foto, inverz
             'motto'             => Schema::TYPE_TEXT,       // Jelige
             'business'          => Schema::TYPE_INTEGER,    // Közület: minden, ami nem magán akkor 2x annyiba kerül, keresztnél érkezőnél van használva
-                                                            // helyi ar nem kell, a közület kell
 
             'ad_type_id'        => Schema::TYPE_INTEGER,    // Hirdetes tipusa: apro, keretes kereszt
             'words'             => Schema::TYPE_INTEGER,    // szavak, Szó
             'letters'           => Schema::TYPE_INTEGER,    // karakterek, Kar.
 
             'discount'          => Schema::TYPE_INTEGER,
-            'price'             => Schema::TYPE_INTEGER,
+
+            'net_price'         => Schema::TYPE_INTEGER,
+            'gross_price'       => Schema::TYPE_INTEGER,
+            'vat_price'         => Schema::TYPE_INTEGER,
+            'vat'               => Schema::TYPE_INTEGER,
 
             'publish_date'      => Schema::TYPE_STRING,
             'status_id'         => Schema::TYPE_INTEGER,

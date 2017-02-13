@@ -22,7 +22,10 @@ use Yii;
  * @property integer $words
  * @property integer $letters
  * @property integer $discount
- * @property integer $price
+ * @property integer $net_price
+ * @property integer $gross_price
+ * @property integer $vat_price
+ * @property integer $vat
  * @property string $publish_date
  * @property integer $status_id
  * @property string $invoice_date
@@ -55,7 +58,7 @@ class Ad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'price', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['office_id', 'user_id', 'client_id', 'category_id', 'highlight_type_id', 'business', 'ad_type_id', 'words', 'letters', 'discount', 'net_price', 'gross_price', 'vat_price', 'vat', 'status_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'motto'], 'string'],
             [['invoice_date', 'settle_date'], 'safe'],
             [['publish_date'], 'string', 'max' => 255],
@@ -95,7 +98,10 @@ class Ad extends \yii\db\ActiveRecord
             'words' => Yii::t('app', 'Words'),
             'letters' => Yii::t('app', 'Letters'),
             'discount' => Yii::t('app', 'Discount'),
-            'price' => Yii::t('app', 'Price'),
+            'net_price' => Yii::t('app', 'Net Price'),
+            'gross_price' => Yii::t('app', 'Gross Price'),
+            'vat_price' => Yii::t('app', 'Vat Price'),
+            'vat' => Yii::t('app', 'Vat'),
             'publish_date' => Yii::t('app', 'Publish Date'),
             'status_id' => Yii::t('app', 'Status ID'),
             'invoice_date' => Yii::t('app', 'Invoice Date'),
