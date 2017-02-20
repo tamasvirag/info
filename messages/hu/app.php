@@ -216,6 +216,7 @@ return [
     'confirm_storno' => 'Biztos benne, hogy stornozni szeretné és storno számlát nyomtatni?',
     'create' => 'Mentés',
     'create_from_this' => 'Új ebből',
+    'create_ad_from_this' => 'Új ebből',
     'deleted' => 'Inaktív',
     'distribution_date_abb' => 'Terjesztés',
     'districts' => 'Terjesztési körzetek',

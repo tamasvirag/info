@@ -28,7 +28,8 @@ class HighlightType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string', 'max' => 255],
+            [['name','type'], 'string', 'max' => 255],
+            [['amount'], 'integer'],
         ];
     }
 
@@ -40,6 +41,8 @@ class HighlightType extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
+            'amount' => Yii::t('app', 'Amount'),
+            'type' => Yii::t('app', 'Type'),
         ];
     }
 

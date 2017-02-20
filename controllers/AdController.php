@@ -8,6 +8,7 @@ use app\models\AdSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * AdController implements the CRUD actions for Ad model.
@@ -42,6 +43,18 @@ class AdController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    /**
+     * Returns a single Ad model json.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionGet($id)
+    {
+        $model = Ad::find()->where(['id' => $id])->asArray()->one();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $model;
     }
 
     /**

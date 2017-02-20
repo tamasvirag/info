@@ -15,11 +15,33 @@ use kartik\select2\Select2;
 use yii\widgets\Pjax;
 use yii\grid\GridView;
 use yii\helpers\StringHelper;
+use app\assets\ClientAsset;
+use app\assets\AdAsset;
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ad */
 /* @var $form yii\widgets\ActiveForm */
+?>
+
+<?php
+
+/*
+ * highlight types for js
+ */
+$highlightTypes = HighlightType::find()->all();
+$type = [];
+foreach ($highlightTypes as $ht) {
+    $types[] = $ht->id." :{
+                id      : ".$ht->id.",
+                name    : '".$ht->name."',
+                amount  : ".$ht->amount.",
+                type    : '".$ht->type."',
+               }";
+}
+$this->registerJs('var highlightTypes = {'.implode(",", $types)."};", $this::POS_HEAD, 'my-inline-js');
+ClientAsset::register($this);
+AdAsset::register($this);
 ?>
 
 <div class="ad-form">
@@ -132,7 +154,20 @@ use yii\helpers\StringHelper;
                 'value'     => 'net_price',
                 'filter'    => false
             ],
+            [
+                'attribute' => 'gross_price',
+                'format'    => 'raw',
+                'value'     => 'gross_price',
+                'filter'    => false
+            ],
             'publish_date',
+            [
+                'attribute' => null,
+                'format'    => 'raw',
+                'value'     => function( $model ) {
+                    return HTML::a( HTML::encode( Yii::t('app','create_ad_from_this') ),['get','id'=>$model->id], ['data-ad_id'=>$model->id, 'class'=>'create-ad-from-this'] );
+                }
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
@@ -140,7 +175,9 @@ use yii\helpers\StringHelper;
 
 
     <div id="ad-form" style="display:none">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+            'id' => 'new-ad-form'
+        ]); ?>
     <div class="well" id="ad-details">
         <div class="row">
             <div class="col-md-2">

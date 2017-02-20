@@ -7,10 +7,15 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\User;
 use app\models\PaymentMethod;
+use app\assets\ClientAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Client */
 /* @var $form yii\widgets\ActiveForm */
+?>
+
+<?php
+ClientAsset::register($this);
 ?>
 
 <div class="client-form">
@@ -148,6 +153,7 @@ use app\models\PaymentMethod;
 
 <?php if (Yii::$app->request->isAjax): ?>
 <script type="text/javascript">
-    clientBusinessSwitch();
+    //$("#client-name").focus();
+    client.clientBusinessSwitch();
 </script>
 <?php endif; ?>

@@ -64,6 +64,8 @@ class m170108_163419_ad extends Migration
         $this->createTable( 'highlight_type', [
             'id'                => 'pk',
             'name'              => Schema::TYPE_STRING,
+            'amount'            => Schema::TYPE_INTEGER,
+            'type'              => Schema::TYPE_STRING,
         ]);
 
         $this->addForeignKey( 'fk_ad_ad_type_id', 'ad', 'ad_type_id', 'ad_type', 'id', 'SET NULL', 'SET NULL' );
@@ -91,11 +93,11 @@ class m170108_163419_ad extends Migration
         $this->insert('ad_type',['name'=>'Keretes']);
         $this->insert('ad_type',['name'=>'Kereszt']);
 
-        $this->insert('highlight_type',['name'=>'vastagon szedve +20%']);
-        $this->insert('highlight_type',['name'=>'piros keret +500 Ft']);
-        $this->insert('highlight_type',['name'=>'sárga háttér +500 Ft']);
-        $this->insert('highlight_type',['name'=>'inverz +500 Ft']);
-        $this->insert('highlight_type',['name'=>'fotós +3350 Ft']);
+        $this->insert('highlight_type',['name'=>'vastagon szedve +20%','amount'=>'20','type'=>'%']);
+        $this->insert('highlight_type',['name'=>'piros keret +500 Ft','amount'=>'500','type'=>'Ft']);
+        $this->insert('highlight_type',['name'=>'sárga háttér +500 Ft','amount'=>'500','type'=>'Ft']);
+        $this->insert('highlight_type',['name'=>'inverz +500 Ft','amount'=>'500','type'=>'Ft']);
+        $this->insert('highlight_type',['name'=>'fotós +3350 Ft','amount'=>'3350','type'=>'Ft']);
 
     }
 
