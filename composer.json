@@ -22,7 +22,8 @@
         "2amigos/yii2-date-picker-widget" : "*",
         "kartik-v/yii2-widget-select2": "*",
         "kartik-v/yii2-mpdf": "*",
-        "xj/yii2-bootbox-widget": "*"
+        "xj/yii2-bootbox-widget": "*",
+        //"fxp/composer-asset-plugin": "~1.0"
     },
     "require-dev": {
         "codeception/codeception": "*",

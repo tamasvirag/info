@@ -57,6 +57,105 @@ var ad = {
         else {
             $(formId + ' #ad-business').prop('checked',false);
         }
+    },
+
+    /*
+     * karakter és szószám
+     */
+    countWords : function ( field ) {
+        var charCount = field.value.length;
+        var fullStr = field.value + " ";
+
+        fullStr = fullStr.replace( /([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+/g,'email' );
+        fullStr = fullStr.replace( /(([a-zA-Z0-9_\.\-])+\.)+([a-zA-Z0-9]{2,4})+/g,'domain' );
+
+        var initial_whitespace_rExp = /^[^A-ZÉÁŰŐÚÖÜÓÍa-záéűőúöüóí0-9@/_-]+/gi;
+        var left_trimmedStr = fullStr.replace(initial_whitespace_rExp, "");
+        var non_alphanumerics_rExp = rExp = /[^A-ZÉÁŰŐÚÖÜÓÍa-záéűőúöüóí0-9@/_-]+/gi;
+        var cleanedStr = left_trimmedStr.replace(non_alphanumerics_rExp, " ");
+        var splitString = cleanedStr.split(" ");
+        var wordCount = splitString.length -1;
+        if (fullStr.length <2) {
+            wordCount = 0;
+        }
+        return wordCount;
+    },
+
+    /*
+     *
+     */
+    calculatePrices : function () {
+        var hossz = szoszam(document.hirdetesform.tartalom, false, false);
+
+        $("#szoszam").val(hossz);
+
+        if ( hossz < 10 ) {
+            hossz = 10;
+        }
+
+        var hirdetesenkenti_ar  = 0;
+        var teljes_ar           = 0;
+        var jelige_felar        = 0;
+        var kep_felar           = 0;
+        var kiemeles_felar      = 0;
+        var szoar               = szo_ar;
+        var per_alkalom         = 0;
+
+        if ($("#jelige_valaszto").prop('checked') == true) {
+            jelige_felar        = jelige_ar;
+        }
+
+        if ($("#kep_valaszto").prop('checked') == true) {
+            kep_felar           = kep_ar;
+        }
+
+        var megjelenesek_szama  = $("#megjelenesek_szama").val();
+        hirdetesenkenti_ar = (szoar * hossz) + (jelige_felar + kep_felar);
+        per_alkalom = (szoar * hossz);
+
+        if ($("#kiemeles").prop('checked') == true) {
+            switch( $("input[name='kiemeles_type']:checked").val() )
+            {
+                case '1':
+                hirdetesenkenti_ar = hirdetesenkenti_ar * kiemelt_szorzo;
+                kiemeles_felar = Math.round( per_alkalom * (kiemelt_szorzo - 1) );
+                break;
+
+                case '2':
+                hirdetesenkenti_ar = hirdetesenkenti_ar + 305;
+                kiemeles_felar = 305;
+                break;
+
+                case '3':
+                hirdetesenkenti_ar = hirdetesenkenti_ar + 500;
+                kiemeles_felar = 500;
+                break;
+
+                case '4':
+                hirdetesenkenti_ar = hirdetesenkenti_ar + 405;
+                kiemeles_felar = 405;
+                break;
+
+                case '5':
+                hirdetesenkenti_ar = hirdetesenkenti_ar + 500;
+                kiemeles_felar = 500;
+                break;
+            }
+        }
+
+        if ( $("#akcio").is(':checked') ) {
+            teljes_ar = 3 * hirdetesenkenti_ar;
+        }
+        else {
+            teljes_ar = megjelenesek_szama * hirdetesenkenti_ar;
+        }
+
+        $("#alkalmak").val(megjelenesek_szama);
+        $("#per_alkalom").val(per_alkalom);
+        $("#jelige_felar").val(jelige_felar);
+        $("#kep_felar").val(kep_felar);
+        $("#kiemeles_felar").val(kiemeles_felar);
+        $("#szumma").val(teljes_ar);
     }
 
 };
